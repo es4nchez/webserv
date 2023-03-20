@@ -1,8 +1,7 @@
 #include "../includes/webserv.hpp"
 
-void    mainParsing(char *buffer, s_request *requestData)
+void    mainParsing(c_webserv *data, std::string request, s_request *requestData)
 {
-    std::string request(buffer);
 
     std::size_t space_pos = request.find(' ');
 
@@ -16,6 +15,28 @@ void    mainParsing(char *buffer, s_request *requestData)
     
     std::cout << "Method: " << requestData->methd << std::endl;
     std::cout << "Requested Address: " << requestData->addr << std::endl;
+
+    if (!requestData->addr.compare("/favicon.ico"))
+    {
+        std::cout << " FAAAV !" << std::endl;
+
+        std::ifstream   fav("favicon.ico");
+        std::stringstream   buff;
+        std::string response;
+
+        buff << fav.rdbuf();
+        std::string base = "HTTP/1.1 200 OK\n\n";
+        response = base + buff.str();
+
+        send(data->client_sockfd, response.c_str(), response.size(), 0);
+        std::cout << "omg, its a favicon" << std::endl;
+    }
+    else
+    {
+        const char* response = "HTTP/1.1 200 OK\nContent-Type: text/html\n\nHello World!";
+        send(data->client_sockfd, response, strlen(response), 0);
+    }
+
 
 
 }

@@ -4,6 +4,8 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <cstring>
+#include <sstream>
 #include <cmath>
 #include <fstream>
 #include <fstream>
@@ -19,7 +21,15 @@ struct s_request {
 
 };
 
-void    handleRequest(char *buffer);
-void    mainParsing(char *buffer, s_request *requestData);
+
+class c_webserv
+{
+    public:
+
+    int client_sockfd;
+};
+
+void    handleRequest(c_webserv *data, std::string buffer);
+void    mainParsing(c_webserv *data, std::string request, s_request *requestData);
 
 #endif

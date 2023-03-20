@@ -2,6 +2,7 @@
 
 int main()
 {
+    c_webserv data;
     // Create a socket
     int sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd < 0) {
@@ -25,19 +26,18 @@ int main()
     // Accept incoming connections
     sockaddr_in client_addr;
     socklen_t client_len = sizeof(client_addr);
-    int client_sockfd;
 
     std::cout << std::endl << "Webserv launching... start logs :" << std::endl;
     while (true) {
-        client_sockfd = accept(sockfd, (sockaddr*) &client_addr, &client_len);
-        if (client_sockfd < 0) {
+        data.client_sockfd = accept(sockfd, (sockaddr*) &client_addr, &client_len);
+        if (data.client_sockfd < 0) {
             std::cerr << "Error accepting connection" << std::endl;
             continue;
         }
 
         // Receive data from the client
         char buffer[1024];
-        int bytes_received = recv(client_sockfd, buffer, sizeof(buffer), 0);
+        int bytes_received = recv(data.client_sockfd, buffer, sizeof(buffer), 0);
         if (bytes_received < 0) {
             std::cerr << "Error receiving data" << std::endl;
             continue;
@@ -46,14 +46,14 @@ int main()
         // Print the received data
         std::cout << "Received data from " << inet_ntoa(client_addr.sin_addr) << ":" << ntohs(client_addr.sin_port) << std::endl;
         
-        handleRequest(buffer);
+        handleRequest(&data, buffer);
 
         // Send a response to the client
-        const char* response = "HTTP/1.1 404 NOT FOUND\nContent-Type: text/html\n\nHello World!";
-        send(client_sockfd, response, strlen(response), 0);
+        // const char* response = "HTTP/1.1 200 OK\nContent-Type: text/html\n\nHello World!";
+        // send(client_sockfd, response, strlen(response), 0);
 
         // Close the connection
-        close(client_sockfd);
+        close(data.client_sockfd);
     }
     close(sockfd);
     return (0);
