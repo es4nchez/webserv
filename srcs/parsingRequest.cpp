@@ -1,8 +1,7 @@
 #include "../includes/webserv.hpp"
 
-void    mainParsing(char *buffer, s_request *requestData)
+void    mainParsing(c_webserv *data, std::string request, s_request *requestData)
 {
-    std::string request(buffer);
 
     std::size_t space_pos = request.find(' ');
 
@@ -15,7 +14,10 @@ void    mainParsing(char *buffer, s_request *requestData)
     }
     
     std::cout << "Method: " << requestData->methd << std::endl;
-    std::cout << "Requested Address: " << requestData->addr << std::endl;
+    std::cout << "Requested Address: " << requestData->addr << std::endl << std::endl;
+
+
+    sendResponse(data, requestData);
 
 
 }
