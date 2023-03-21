@@ -1,4 +1,4 @@
-SRCS	= srcs/main.cpp srcs/handleRequest.cpp srcs/parsingRequest.cpp
+SRCS	= srcs/main.cpp srcs/handleRequest.cpp srcs/parsingRequest.cpp srcs/sendResponse.cpp
 NAME 	= webserv
 COMP 	= c++
 CXXFLAGS 	= -Wall -Wextra -Werror -std=c++98
