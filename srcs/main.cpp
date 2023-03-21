@@ -3,6 +3,7 @@
 int main()
 {
     c_webserv data;
+
     // Create a socket
     int sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd < 0) {
@@ -27,18 +28,20 @@ int main()
     sockaddr_in client_addr;
     socklen_t client_len = sizeof(client_addr);
 
-    std::cout << std::endl << "Webserv launching... start logs :" << std::endl;
-    while (true) {
-        data.client_sockfd = accept(sockfd, (sockaddr*) &client_addr, &client_len);
-        if (data.client_sockfd < 0) {
-            std::cerr << "Error accepting connection" << std::endl;
-            continue;
+    std::cout << std::endl << "Webserv launching... start logs :" << std::endl << std::endl;
+    while (true)
+        {
+            data.client_sockfd = accept(sockfd, (sockaddr*) &client_addr, &client_len);
+            if (data.client_sockfd < 0) {
+                std::cerr << "Error accepting connection" << std::endl;
+                continue;
         }
 
         // Receive data from the client
         char buffer[1024];
         int bytes_received = recv(data.client_sockfd, buffer, sizeof(buffer), 0);
-        if (bytes_received < 0) {
+        if (bytes_received < 0)
+        {
             std::cerr << "Error receiving data" << std::endl;
             continue;
         }
