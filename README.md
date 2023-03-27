@@ -1,16 +1,17 @@
 # webserv
 HTTP server in C++ 98
 
-Première ébauche de plan :
+Roadmap :
 
-- Regarder commment gérer les socket en cpp98 et regarder ce qu'on peut utiliser
+- Create a function that creates a socket and binds it to a specific port. The function will wait for incoming connections. DONE
+    - specify the port to bind ( now its 8080 by default)
 
-- Créer une fonction qui crée un socket et le bind sur un port spécifique. La fonction attendra des connexions entrantes.
+- Create a function that takes incoming connections and reads the data from the socket. It parses the HTTP request and determines the appropriate response DONE
 
-- Créer une fonction qui prends les connections entrantes et lis les data de la socket. Elle parse la requête HTTP et détermine la réponse appropriée
+- Create a function that sends the response to the client, with the correct HEADERS and BODY of response. DONE
 
-- Créer une fonction qui envoi la réponse au client, avec les corrects HEADERS et le BODY de réponse.
-
-- Le tout dans une boucle while qui attends les connections pour y répondre
+- All this in a while loop that waits for connections to respond DONE
 
 - Time to testing
+
+Translated with www.DeepL.com/Translator (free version)
