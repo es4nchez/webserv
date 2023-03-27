@@ -39,15 +39,15 @@
 ## Testing
 
 ### From Navigator
-    - localhost:8080
-    - localhost:8080/
-    - localhost:8080/index.html
-    - localhost:8080/wkfnewjnf
+    localhost:8080
+    localhost:8080/
+    localhost:8080/index.html
+    localhost:8080/wkfnewjnf
 
 ### From command line
-    - curl -X GET localhost:8080
-    - curl -X DELETE localhost:8080
-    - curl -X PATCH localhost:8080
-    - curl -X ADJASID localhost:8080
+    curl -X GET localhost:8080
+    curl -X DELETE localhost:8080
+    curl -X PATCH localhost:8080
+    curl -X ADJASID localhost:8080
 
-    - curl --resolve example.com:80:127.0.0.1 http://example.com/
+    curl --resolve example.com:80:127.0.0.1 http://example.com/
