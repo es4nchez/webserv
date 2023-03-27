@@ -4,6 +4,9 @@ int main()
 {
     c_webserv data;
 
+    // Init
+    data.index = "42lWatch.html";
+
     // Create a socket
     int sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd < 0) {

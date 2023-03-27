@@ -28,12 +28,21 @@ class c_webserv
 
     int client_sockfd;
     std::string request;
+    std::string index;
 
 };
 
+// handleRequest.cpp
 void    handleRequest(c_webserv *data, std::string buffer);
+
+// parsingRequest.cpp
 void    mainParsing(c_webserv *data, std::string request, s_request *requestData);
+
+// sendResponse.cpp
 void    sendResponse(c_webserv *data, s_request *requestData);
+void    sendIndex(c_webserv *data);
+
+// errorResponses.cpp
 void    notFound(c_webserv *data);
 
 #endif

@@ -19,3 +19,18 @@ void sendResponse(c_webserv *data, s_request *requestData)
                 send(data->client_sockfd, response.c_str(), response.size(), 0);
         }
 }
+
+
+void sendIndex(c_webserv *data)
+{
+
+        std::ifstream   file(data->index);
+        std::stringstream   buff;
+        std::string response;
+
+        buff << file.rdbuf();
+        std::string base = "HTTP/1.1 200 OK\n\n";
+        response = base + buff.str();
+
+        send(data->client_sockfd, response.c_str(), response.size(), 0);
+}
