@@ -39,6 +39,7 @@ class c_webserv
 
     // Config file related
     std::string configPath;
+    int         port;
 
 };
 

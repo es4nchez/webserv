@@ -8,7 +8,8 @@ int main(int ac, char **av)
     if (args(&data, ac, av))
         return (1);
 
-    // Init settings
+    // HARDCODE CONFIG
+    data.port = 8080;
     data.index = "42lWatch.html";
     data.rootPath = "www/";
 
