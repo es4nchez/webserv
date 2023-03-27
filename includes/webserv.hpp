@@ -26,15 +26,19 @@ class c_webserv
 {
     public:
 
+    // Socket related
     int         sockfd;
     int         client_sockfd;
     sockaddr_in client_addr;
     socklen_t   client_len;
 
-
+    // Request and serving file related
     std::string request;
     std::string index;
     std::string rootPath;
+
+    // Config file related
+    std::string configPath;
 
 };
 
@@ -52,6 +56,9 @@ void    sendIndex(c_webserv *data);
 void    notFound(c_webserv *data);
 
 // manageSockets.cpp
-int socketBinding(c_webserv *data);
+int     socketBinding(c_webserv *data);
+
+// args.cpp
+int     args(c_webserv *data, int ac, char **av);
 
 #endif

@@ -1,12 +1,20 @@
 #include "../includes/webserv.hpp"
 
-int main()
+int main(int ac, char **av)
 {
     c_webserv data;
+
+    // Init args
+    if (args(&data, ac, av))
+        return (1);
 
     // Init settings
     data.index = "42lWatch.html";
     data.rootPath = "www/";
+
+    // Parsing config file
+  
+
 
     if (socketBinding(&data))
         return (1);
