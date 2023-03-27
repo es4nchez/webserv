@@ -1,8 +1,6 @@
-# webserv
+# webserv => HTTP server in C++ 98
 
-## HTTP server in C++ 98
-
-### Roadmap :
+## Roadmap :
 
 * [x] Create a function that creates a socket and binds it to a specific port. The function will wait for incoming connections.
     * [ ] Specify the port to bind ( now its 8080 by default)
@@ -38,15 +36,15 @@
 
 * [ ] Time to testing
 
-### Testing
+## Testing
 
-#### From Navigator
+### From Navigator
     - localhost:8080
     - localhost:8080/
     - localhost:8080/index.html
     - localhost:8080/wkfnewjnf
 
-#### From command line
+### From command line
     - curl -X GET localhost:8080
     - curl -X DELETE localhost:8080
     - curl -X PATCH localhost:8080
