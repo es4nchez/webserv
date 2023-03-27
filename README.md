@@ -13,5 +13,3 @@ Roadmap :
 - All this in a while loop that waits for connections to respond DONE
 
 - Time to testing
-
-Translated with www.DeepL.com/Translator (free version)
