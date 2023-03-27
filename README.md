@@ -1,15 +1,19 @@
 # webserv
-HTTP server in C++ 98
 
-Roadmap :
+## HTTP server in C++ 98
 
-- Create a function that creates a socket and binds it to a specific port. The function will wait for incoming connections. DONE
-    - specify the port to bind ( now its 8080 by default)
+### Roadmap :
 
-- Create a function that takes incoming connections and reads the data from the socket. It parses the HTTP request and determines the appropriate response DONE
+* [x] Create a function that creates a socket and binds it to a specific port. The function will wait for incoming connections.
+    * [ ] specify the port to bind ( now its 8080 by default)
 
-- Create a function that sends the response to the client, with the correct HEADERS and BODY of response. DONE
+* [x] Create a function that takes incoming connections and reads the data from the socket. It parses the HTTP request and determines the appropriate response.
+    * [ ] Handle differents http errors codes
 
-- All this in a while loop that waits for connections to respond DONE
+* [x] Create a function that sends the response to the client, with the correct HEADERS and BODY of response.
 
-- Time to testing
+* [x] All this in a while loop that waits for connections to respond
+
+* [ ] Parse a config file
+
+* [ ] Time to testing
