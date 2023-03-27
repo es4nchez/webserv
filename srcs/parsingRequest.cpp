@@ -14,7 +14,7 @@ void    mainParsing(c_webserv *data, std::string request, s_request *requestData
     }
     
     std::cout << "Method: " << requestData->methd << std::endl;
-    std::cout << "Requested Address: " << requestData->addr << std::endl << std::endl;
+    std::cout << "Requested Address: " << requestData->addr << std::endl;
 
 
     sendResponse(data, requestData);

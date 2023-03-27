@@ -34,5 +34,6 @@ class c_webserv
 void    handleRequest(c_webserv *data, std::string buffer);
 void    mainParsing(c_webserv *data, std::string request, s_request *requestData);
 void    sendResponse(c_webserv *data, s_request *requestData);
+void    notFound(c_webserv *data);
 
 #endif
