@@ -28,6 +28,8 @@
     * [ ] CGI
     * [ ] ???
 
+* [ ] Put settings into a containers ( map ?) and change all files ( damn )
+
 * [ ] ???
 
 * [ ] WE SHOULD NEVER DIE
