@@ -2,11 +2,12 @@
 
 void sendResponse(c_webserv *data, s_request *requestData)
 {
-
-        std::ifstream   file(requestData->addr.substr(1, requestData->addr.size()));
+        std::string path = data->rootPath + requestData->addr.substr(1, requestData->addr.size());
+        std::ifstream   file(path);
         std::stringstream   buff;
         std::string response;
 
+        // Try to open the requested file, if it doesnt exist ( empty = 0), send 404
         buff << file.rdbuf();
         std::cout << "size : " <<  buff.str().size() << std::endl << std::endl;
         if (!buff.str().size())
@@ -20,11 +21,11 @@ void sendResponse(c_webserv *data, s_request *requestData)
         }
 }
 
-
+// Generic index sending
 void sendIndex(c_webserv *data)
 {
-
-        std::ifstream   file(data->index);
+        std::string path = data->rootPath + data->index;
+        std::ifstream   file(path);
         std::stringstream   buff;
         std::string response;
 
