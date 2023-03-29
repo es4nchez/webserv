@@ -7,12 +7,16 @@
 #include <cstring>
 #include <sstream>
 #include <cmath>
+#include <vector>
 #include <fstream>
 #include <fstream>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <unistd.h>
+
+// For dev
+#include <signal.h>
 
 struct s_request {
 
@@ -39,7 +43,7 @@ class c_webserv
 
     // Config file related
     std::string configPath;
-    int         port;
+    std::vector<int>        ports;
 
 };
 
@@ -55,6 +59,7 @@ void    sendIndex(c_webserv *data);
 
 // errorResponses.cpp
 void    notFound(c_webserv *data);
+void    badMethod(c_webserv *data);
 
 // manageSockets.cpp
 int     socketBinding(c_webserv *data);
@@ -62,4 +67,9 @@ int     socketBinding(c_webserv *data);
 // args.cpp
 int     args(c_webserv *data, int ac, char **av);
 
-#endif
+
+// For dev
+void HARDCODE_INIT(c_webserv *data);
+void signal_callback_handler(int signum);
+
+#endif 

@@ -19,9 +19,24 @@ void    mainParsing(c_webserv *data, std::string request, s_request *requestData
     std::cout << "Requested Address: " << requestData->addr << std::endl;
 
     // If request contain only '/', send index, if else, send file
-    if (requestData->addr.size() == 1)
-        sendIndex(data);
+    if (!requestData->methd.compare("GET"))
+    {  
+        if (requestData->addr.size() == 1)
+            sendIndex(data);
+        else
+            sendResponse(data, requestData);
+    }
+    else if (!requestData->methd.compare("POST"))
+    {
+        //
+    }
+    else if (!requestData->methd.compare("DELETE"))
+    {
+        //
+    }
     else
-        sendResponse(data, requestData);
+    {
+        badMethod(data);
+    }
 
 }

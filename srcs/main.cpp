@@ -4,27 +4,30 @@ int main(int ac, char **av)
 {
     c_webserv data;
 
+    // For dev
+    signal(SIGINT, signal_callback_handler);
+
     // Init args
     if (args(&data, ac, av))
         return (1);
 
     // HARDCODE CONFIG
-    data.port = 8080;
-    data.index = "42lWatch.html";
-    data.rootPath = "www/";
+    HARDCODE_INIT(&data);
 
     // Parsing config file
-  
+        // To do
 
 
     if (socketBinding(&data))
         return (1);
 
     std::cout << std::endl << "Webserv launching... start logs :" << std::endl << std::endl;
+
     while (true)
+    {
+        data.client_sockfd = accept(data.sockfd, (sockaddr*) &data.client_addr, &data.client_len);
+        if (data.client_sockfd < 0)
         {
-            data.client_sockfd = accept(data.sockfd, (sockaddr*) &data.client_addr, &data.client_len);
-            if (data.client_sockfd < 0) {
                 std::cerr << "Error accepting connection" << std::endl;
                 continue;
         }
