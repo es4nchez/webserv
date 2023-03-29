@@ -31,7 +31,7 @@ class c_webserv
     public:
 
     // Socket related
-    int         sockfd;
+    int         sockfd[2];   //----------------------- << HARCOOOODE
     int         client_sockfd;
     sockaddr_in client_addr;
     socklen_t   client_len;
