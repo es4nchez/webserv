@@ -29,6 +29,8 @@
 
 * [ ] Put settings into a containers ( map ?) and change all files ( damn )
 
+* [ ] Really use a cpp webserv class ( only one ? or one for every server ?) and not a kind of struct
+
 * [ ] ???
 
 * [ ] WE SHOULD NEVER DIE
