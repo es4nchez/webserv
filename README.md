@@ -5,7 +5,7 @@
 * [x] Create a function that creates a socket and binds it to a specific port. The function will wait for incoming connections.
     * [ ] Specify the port to bind ( now its 8080 by default)
     * [ ] Listen to multiple servers and ports ?
-        *[x] Ports seems kind of ok, but not really :)
+        * [x] Ports seems kind of ok, but not really :)
 
 * [x] Create a function that takes incoming connections and reads the data from the socket. It parses the HTTP request and determines the appropriate response.
     * [ ] Handle differents http errors codes
