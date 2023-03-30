@@ -1,4 +1,4 @@
-#include "../includes/webserv.hpp"
+#include "webserv.hpp"
 
 int main(int ac, char **av)
 {
@@ -32,7 +32,7 @@ int main(int ac, char **av)
                     continue;
             }
 
-            // Receive ws from the client
+            // Receive data from the client
             char buffer[1024];
             int bytes_received = recv(ws.client_sockfd[i], buffer, sizeof(buffer), 0);
             if (bytes_received < 0)
@@ -41,7 +41,7 @@ int main(int ac, char **av)
                 continue;
             }
 
-            // Print the received ws
+            // Print the received data
             std::cout << "Received ws from " << inet_ntoa(ws.client_addr.sin_addr) << ":" << ntohs(ws.client_addr.sin_port) << std::endl;
             
             // Handle request

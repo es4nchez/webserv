@@ -1,4 +1,4 @@
-#include "../includes/webserv.hpp"
+#include "webserv.hpp"
 
 void    Webserv::mainParsing(std::string request, s_request *requestData, int fd)
 {

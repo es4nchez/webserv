@@ -1,4 +1,4 @@
-#include "../includes/webserv.hpp"
+#include "webserv.hpp"
 
 void Webserv::sendResponse(s_request *requestData, int fd)
 {
