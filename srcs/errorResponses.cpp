@@ -1,6 +1,6 @@
 #include "../includes/webserv.hpp"
 
-void    notFound(c_webserv *data)
+void    Webserv::notFound(int fd)
 {
 
     std::string base = "HTTP/1.1 404 Not Found\n\n";
@@ -10,10 +10,10 @@ void    notFound(c_webserv *data)
     buff << file.rdbuf();
     std::cout << buff << std::endl;
     std::string response = base + buff.str();
-    send(data->client_sockfd, response.c_str(), response.size(), 0);
+    send(this->client_sockfd[fd], response.c_str(), response.size(), 0);
 }
 
-void    badMethod(c_webserv *data)
+void    Webserv::badMethod(int fd)
 {
 
     std::string base = "HTTP/1.1 405 Method Not Allowed\n\n";
@@ -23,5 +23,5 @@ void    badMethod(c_webserv *data)
     buff << file.rdbuf();
     std::cout << buff << std::endl;
     std::string response = base + buff.str();
-    send(data->client_sockfd, response.c_str(), response.size(), 0);
+    send(this->client_sockfd[fd], response.c_str(), response.size(), 0);
 }

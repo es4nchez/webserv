@@ -1,12 +1,12 @@
 #include "../includes/webserv.hpp"
 
-void HARDCODE_INIT(c_webserv *data)
+void Webserv::HARDCODE_INIT(void)
 {
-    data->index = "42lWatch.html";
-    data->rootPath = "www/";
+    this->index = "42lWatch.html";
+    this->rootPath = "www/";
 
-    data->ports.push_back(8080);
-    data->ports.push_back(8181);
+    this->ports.push_back(8080);
+    this->ports.push_back(8181);
 
     
 }

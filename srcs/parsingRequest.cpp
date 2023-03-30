@@ -1,6 +1,6 @@
 #include "../includes/webserv.hpp"
 
-void    mainParsing(c_webserv *data, std::string request, s_request *requestData)
+void    Webserv::mainParsing(std::string request, s_request *requestData, int fd)
 {
 
     std::size_t space_pos = request.find(' ');
@@ -22,9 +22,9 @@ void    mainParsing(c_webserv *data, std::string request, s_request *requestData
     if (!requestData->methd.compare("GET"))
     {  
         if (requestData->addr.size() == 1)
-            sendIndex(data);
+            sendIndex(fd);
         else
-            sendResponse(data, requestData);
+            sendResponse(requestData, fd);
     }
     else if (!requestData->methd.compare("POST"))
     {
@@ -36,7 +36,7 @@ void    mainParsing(c_webserv *data, std::string request, s_request *requestData
     }
     else
     {
-        badMethod(data);
+        badMethod(fd);
     }
 
 }

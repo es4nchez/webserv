@@ -26,13 +26,16 @@ struct s_request {
 };
 
 
-class c_webserv
+class Webserv
 {
     public:
 
+    Webserv();
+    ~Webserv();
+
     // Socket related
     int         sockfd[2];   //----------------------- << HARCOOOODE
-    int         client_sockfd;
+    int         client_sockfd[2]; //----------------------- << HARCOOOODE
     sockaddr_in client_addr;
     socklen_t   client_len;
 
@@ -45,31 +48,51 @@ class c_webserv
     std::string configPath;
     std::vector<int>        ports;
 
+
+
+
+    // For dev
+    void HARDCODE_INIT(void);
+
+    // manageSockets.cpp
+    int     socketBinding(void);
+
+    // handleRequest.cpp
+    void    handleRequest(std::string buffer, int fd);
+
+    // args.cpp
+    int     args(int ac, char **av);
+
+    // parsingRequest.cpp
+    void    mainParsing(std::string request, s_request *requestData, int fd);
+
+    // sendResponse.cpp
+    void    sendResponse(s_request *requestData, int fd);
+    void    sendIndex(int fd);
+
+    // errorResponses.cpp
+    void    notFound(int fd);
+    void    badMethod(int fd);
+
 };
 
-// handleRequest.cpp
-void    handleRequest(c_webserv *data, std::string buffer);
 
-// parsingRequest.cpp
-void    mainParsing(c_webserv *data, std::string request, s_request *requestData);
+// // parsingRequest.cpp
+// void    mainParsing(c_webserv *data, std::string request, s_request *requestData, int fd);
 
-// sendResponse.cpp
-void    sendResponse(c_webserv *data, s_request *requestData);
-void    sendIndex(c_webserv *data);
+// // sendResponse.cpp
+// void    sendResponse(c_webserv *data, s_request *requestData, int fd);
+// void    sendIndex(c_webserv *data, int fd);
 
-// errorResponses.cpp
-void    notFound(c_webserv *data);
-void    badMethod(c_webserv *data);
+// // errorResponses.cpp
+// void    notFound(c_webserv *data, int fd);
+// void    badMethod(c_webserv *data, int fd);
 
-// manageSockets.cpp
-int     socketBinding(c_webserv *data);
-
-// args.cpp
-int     args(c_webserv *data, int ac, char **av);
+// // manageSockets.cpp
+// int     socketBinding(c_webserv *data);
 
 
 // For dev
-void HARDCODE_INIT(c_webserv *data);
 void signal_callback_handler(int signum);
 
 #endif 

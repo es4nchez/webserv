@@ -1,8 +1,8 @@
 #include "../includes/webserv.hpp"
 
-void sendResponse(c_webserv *data, s_request *requestData)
+void Webserv::sendResponse(s_request *requestData, int fd)
 {
-        std::string path = data->rootPath + requestData->addr.substr(1, requestData->addr.size());
+        std::string path = this->rootPath + requestData->addr.substr(1, requestData->addr.size());
         std::ifstream   file(path);
         std::stringstream   buff;
         std::string response;
@@ -11,20 +11,20 @@ void sendResponse(c_webserv *data, s_request *requestData)
         buff << file.rdbuf();
         std::cout << "size : " <<  buff.str().size() << std::endl << std::endl;
         if (!buff.str().size())
-                notFound(data);
+                notFound(fd);
         else
         {
                 std::string base = "HTTP/1.1 200 OK\n\n";
                 response = base + buff.str();
 
-                send(data->client_sockfd, response.c_str(), response.size(), 0);
+                send(this->client_sockfd[fd], response.c_str(), response.size(), 0);
         }
 }
 
 // Generic index sending
-void sendIndex(c_webserv *data)
+void Webserv::sendIndex(int fd)
 {
-        std::string path = data->rootPath + data->index;
+        std::string path = this->rootPath + this->index;
         std::ifstream   file(path);
         std::stringstream   buff;
         std::string response;
@@ -33,5 +33,5 @@ void sendIndex(c_webserv *data)
         std::string base = "HTTP/1.1 200 OK\n\n";
         response = base + buff.str();
 
-        send(data->client_sockfd, response.c_str(), response.size(), 0);
+        send(this->client_sockfd[fd], response.c_str(), response.size(), 0);
 }
