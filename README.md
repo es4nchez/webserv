@@ -29,8 +29,9 @@
 
 * [ ] Put settings into a containers ( map ?) and change all files ( damn )
 
-* [x] Really use a cpp webserv class ( only one ? or one for every server ?) and not a kind of struct
-    * [ ] More class ?
+* [x] Really use a cpp webserv class ( only one ? ) and not a kind of struct
+    * [x] basic webserv class
+    * [ ] More class ? For socket, response, errors, parsing ?
 
 * [ ] ???
 
