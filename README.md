@@ -59,4 +59,4 @@
    
    
    
-   <iframe src="https://giphy.com/embed/3oKHW5ygEPHUNrb1SM" width="480" height="360" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/spongebob-spongebob-squarepants-episode-1-3oKHW5ygEPHUNrb1SM">via GIPHY</a></p>
+![](https://giphy.com/gifs/spongebob-spongebob-squarepants-episode-1-3oKHW5ygEPHUNrb1SM)
