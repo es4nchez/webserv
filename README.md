@@ -4,7 +4,7 @@
 
 * [x] Create a function that creates a socket and binds it to a specific port. The function will wait for incoming connections.
     * [ ] Specify the port to bind ( now its 8080 by default)
-    * [x] Listen to ports ?
+    * [x] Listen to differents ports ?
         * [x] Ports
 
 * [x] Create a function that takes incoming connections and reads the data from the socket. It parses the HTTP request and determines the appropriate response.
@@ -15,7 +15,8 @@
     * [ ] DELETE
 
 * [x] Create a function that sends the response to the client, with the correct HEADERS and BODY of response.
-    * [ ] Upload files
+
+* [ ] Upload files
 
 * [x] All this in a while loop that waits for connections to respond
 
