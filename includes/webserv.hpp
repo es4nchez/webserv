@@ -15,6 +15,8 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 
+#define MAX_CONNECTIONS 10
+
 // For dev
 #include <signal.h>
 
@@ -34,10 +36,12 @@ class Webserv
     ~Webserv();
 
     // Socket related
-    int         sockfd[2];   //----------------------- << HARCOOOODE
-    int         client_sockfd[2]; //----------------------- << HARCOOOODE
-    sockaddr_in client_addr;
-    socklen_t   client_len;
+    int                 sockfd[2];   //----------------------- << HARCOOOODE
+    int                 client_sockfd[2]; //----------------------- << HARCOOOODE
+    sockaddr_in         client_addr[2];
+    socklen_t           client_len[2];
+    fd_set              fds;
+    int                 max_fd;
 
     // Request and serving file related
     std::string request;

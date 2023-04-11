@@ -22,7 +22,7 @@ int Webserv::socketBinding(void)
         //  sin_addr.s_addr specifies the IP address to bind to (in this case, INADDR_ANY indicates that the socket
         // should listen on all available network interfaces)
         
-        //sin_port specifies the port number to bind to (which is taken from the ports vector).
+        //sin_port specifies the port number to bind to (which is taken from the ports).
 
         // The bind() system call is then used to associate the socket file descriptor with the server address. 
         sockaddr_in server_addr;
@@ -45,9 +45,19 @@ int Webserv::socketBinding(void)
         // The client_len variable is also initialized to the size of the client_addr structure,
         // which will be used to store client connection information.
         listen(this->sockfd[i], 5);
-        this->client_len = sizeof(this->client_addr);
+        this->client_len[i] = sizeof(this->client_addr[i]);
 
     }
 
+    // create a set of file descriptors to monitor for activity
+    this->max_fd = -1;
+    for (unsigned int i = 0; i < this->ports.size(); i++)
+    {
+        FD_SET(this->sockfd[i], &this->fds);
+        this->max_fd = std::max(this->max_fd, this->sockfd[i]);
+    }
+
+
     return (0);
 }
+

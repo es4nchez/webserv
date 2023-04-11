@@ -13,9 +13,10 @@ void Webserv::HARDCODE_INIT(void)
 
 void signal_callback_handler(int signum)
 {
-    std::cout << "Caught signal, detach-socket" << signum << std::endl;
+    std::cout << "Caught signal, detach-sockets" << std::endl;
     
     // Terminate program
     close(3);
+    close(4);
     exit(signum);
 }
