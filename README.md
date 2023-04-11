@@ -59,4 +59,4 @@
    
    
    
-![](https://images.lecho.be/view?iid=Elvis:1gnss1X2afnBK747iR0dzK&context=ONLINE&ratio=16/9&width=1280&u=1648135001000)
+![](https://images.lecho.be/view?iid=Elvis:1gnss1X2afnBK747iR0dzK&context=ONLINE&ratio=16/9&width=1280&u=1648135001000](https://github.com/es4nchez/webserv/blob/main/view.gif)
