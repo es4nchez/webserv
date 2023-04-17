@@ -55,3 +55,8 @@
     curl -X ADJASID localhost:8080
 
     curl --resolve example.com:80:127.0.0.1 http://example.com/
+   
+   
+   
+   
+![](https://github.com/es4nchez/webserv/blob/main/view.gif)
