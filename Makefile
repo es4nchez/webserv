@@ -6,7 +6,7 @@ PRP = \033[35m
 RED = \033[91m
 BPRP = \033[135m
 
-SRCS	= srcs/dev.cpp srcs/main.cpp srcs/handleRequest.cpp srcs/parsingRequest.cpp srcs/sendResponse.cpp srcs/errorResponses.cpp srcs/manageSockets.cpp srcs/args.cpp srcs/Webserv.cpp
+SRCS	= srcs/dev.cpp srcs/main.cpp srcs/handleRequest.cpp srcs/parsingRequest.cpp srcs/sendResponse.cpp srcs/errorResponses.cpp srcs/manageSockets.cpp srcs/args.cpp srcs/Webserv.cpp srcs/cgi.cpp
 NAME 	= webserv
 COMP 	= c++
 CXXFLAGS 	= -Wall -Wextra -Werror -std=c++98 -I include/
