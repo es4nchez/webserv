@@ -20,8 +20,10 @@ void    Webserv::mainParsing(std::string request, s_request *requestData, int fd
 
     // If request contain only '/', send index, if else, send file
     if (!requestData->methd.compare("GET"))
-    {  
-        if (requestData->addr.size() == 1)
+    {
+        if (is_cgi_request(requestData->addr))
+            handle_cgi_request(fd, requestData->addr);
+        else if (requestData->addr.size() == 1)
             sendIndex(fd);
         else
             sendResponse(requestData, fd);

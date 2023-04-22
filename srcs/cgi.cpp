@@ -16,7 +16,7 @@ void Webserv::handle_cgi_request(int sockfd, const std::string& query_string)
         close(STDOUT_FILENO);
         dup2(sockfd, STDIN_FILENO);
         dup2(sockfd, STDOUT_FILENO);
-        system(cmd);
+    //    execve(cmd, CGI_PATH);
         exit(0);
     }
     else if (pid > 0)

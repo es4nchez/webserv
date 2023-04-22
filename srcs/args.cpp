@@ -1,6 +1,6 @@
 #include "webserv.hpp"
 
-int Webserv::args(int ac, char **av)
+int Webserv::args(int ac, char **av, char **envp)
 {
     if (ac > 2)
     {
@@ -17,5 +17,6 @@ int Webserv::args(int ac, char **av)
         std::cout << std::endl << "Loading config file : " << av[1] << std::endl;
         this->configPath = av[1];
     }
+    (void) envp;
     return (0);
 }
