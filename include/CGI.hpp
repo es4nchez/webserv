@@ -27,14 +27,11 @@ class CGI
     CGI();
     ~CGI();
 
-    // Socket related
+
+    void handle_cgi_request(int sockfd, const std::string& query_string, char **wenvp);
+    bool is_cgi_request(const std::string& request_path);
 
 
-
-
-    // cgi.cpp
-    void    handle_cgi_request(int sockfd, const std::string& query_string);
-    bool    is_cgi_request(const std::string& request_path);
-
+};
 
 #endif 

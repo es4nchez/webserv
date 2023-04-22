@@ -1,7 +1,17 @@
 #include "webserv.hpp"
 #include "CGI.hpp"
 
-void Webserv::handle_cgi_request(int sockfd, const std::string& query_string)
+CGI::CGI()
+{
+    return;
+}
+
+CGI::~CGI()
+{
+    return;
+}
+
+void CGI::handle_cgi_request(int sockfd, const std::string& query_string, char **wenvp)
 {
     (void) query_string;
     // Construct the command line to execute the Python script
@@ -31,7 +41,7 @@ void Webserv::handle_cgi_request(int sockfd, const std::string& query_string)
 }
 
 
-bool Webserv::is_cgi_request(const std::string& request_path)
+bool CGI::is_cgi_request(const std::string& request_path)
 {
     if (request_path.size() <= 1)
         return false; 
