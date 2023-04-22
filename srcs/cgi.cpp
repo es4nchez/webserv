@@ -1,10 +1,12 @@
 #include "webserv.hpp"
+#include "CGI.hpp"
 
 void Webserv::handle_cgi_request(int sockfd, const std::string& query_string)
 {
     (void) query_string;
     // Construct the command line to execute the Python script
     char cmd[1024];
+    char *args[] = { const_cast<char*>(CGI_PATH), nullptr };
     snprintf(cmd, sizeof(cmd), "python3 %s", CGI_PATH);
     std::cout << "OK CMD : " << cmd << std::endl;
     // Spawn a new process to execute the command
@@ -16,7 +18,7 @@ void Webserv::handle_cgi_request(int sockfd, const std::string& query_string)
         close(STDOUT_FILENO);
         dup2(sockfd, STDIN_FILENO);
         dup2(sockfd, STDOUT_FILENO);
-    //    execve(cmd, CGI_PATH);
+        execve(cmd, args, wenvp);
         exit(0);
     }
     else if (pid > 0)
@@ -25,10 +27,7 @@ void Webserv::handle_cgi_request(int sockfd, const std::string& query_string)
         waitpid(pid, &status, 0);
     }
     else
-    {
-
         perror("fork");
-    }
 }
 
 

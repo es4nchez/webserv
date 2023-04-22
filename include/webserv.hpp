@@ -55,6 +55,7 @@ class Webserv
     // Config file related
     std::string configPath;
     std::vector<int>        ports;
+    char                    **wenvp;
     std::map<std::string, std::string> env;
 
 

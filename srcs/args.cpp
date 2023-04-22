@@ -19,7 +19,7 @@ int Webserv::args(int ac, char **av, char **envp)
         std::cout << std::endl << "Loading config file : " << av[1] << std::endl;
         this->configPath = av[1];
     }
-    
+    wenvp = envp;
     for (int i = 0; envp[i] != NULL; i++) {
         char *equals = strchr(envp[i], '=');
         if (equals != NULL) {
@@ -28,6 +28,12 @@ int Webserv::args(int ac, char **av, char **envp)
             env[key] = value;
         }
     }
+
+    // ---------  For printing the env map ---------------
+    // std::map<std::string, std::string>::iterator it;
+    // for (it = env.begin(); it != env.end(); ++it) {
+    //     std::cout << it->first << ": " << it->second << std::endl;
+    // }
 
     return (0);
 }
