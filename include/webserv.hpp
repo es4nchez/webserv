@@ -8,14 +8,19 @@
 #include <sstream>
 #include <cmath>
 #include <vector>
+#include <map>
 #include <fstream>
 #include <fstream>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <unistd.h>
+#include "CGI.hpp"
 
 #define MAX_CONNECTIONS 10
+
+// CGI
+#define CGI_PATH "/Users/esanchez/Projects/webserv/CGI/cgi.py"
 
 // For dev
 #include <signal.h>
@@ -51,6 +56,8 @@ class Webserv
     // Config file related
     std::string configPath;
     std::vector<int>        ports;
+    char                    **wenvp;
+    std::map<std::string, std::string> env;
 
 
 
@@ -65,7 +72,7 @@ class Webserv
     void    handleRequest(std::string buffer, int fd);
 
     // args.cpp
-    int     args(int ac, char **av);
+    int     args(int ac, char **av, char **envp);
 
     // parsingRequest.cpp
     void    mainParsing(std::string request, s_request *requestData, int fd);
@@ -73,6 +80,10 @@ class Webserv
     // sendResponse.cpp
     void    sendResponse(s_request *requestData, int fd);
     void    sendIndex(int fd);
+
+    // // cgi.cpp
+    // void    handle_cgi_request(int sockfd, const std::string& query_string);
+    // bool    is_cgi_request(const std::string& request_path);
 
     // errorResponses.cpp
     void    notFound(int fd);

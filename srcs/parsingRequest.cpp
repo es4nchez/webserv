@@ -1,4 +1,5 @@
 #include "webserv.hpp"
+#include "CGI.hpp"
 
 void    Webserv::mainParsing(std::string request, s_request *requestData, int fd)
 {
@@ -20,8 +21,11 @@ void    Webserv::mainParsing(std::string request, s_request *requestData, int fd
 
     // If request contain only '/', send index, if else, send file
     if (!requestData->methd.compare("GET"))
-    {  
-        if (requestData->addr.size() == 1)
+    {
+        CGI cgi;
+        if (cgi.is_cgi_request(requestData->addr))
+            cgi.handle_cgi_request(fd, requestData->addr, wenvp);
+        else if (requestData->addr.size() == 1)
             sendIndex(fd);
         else
             sendResponse(requestData, fd);
