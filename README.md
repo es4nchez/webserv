@@ -59,4 +59,4 @@
    
    
    
-![](https://github.com/es4nchez/webserv/blob/main/view.gif)
+![](https://github.com/es4nchez/webserv/blob/main/Diagram%20Webserv.drawio.png)
