@@ -20,6 +20,7 @@
 #define MAX_CONNECTIONS 10
 
 // CGI
+#define PYTHON "/usr/bin/python3"
 #define CGI_PATH "/Users/esanchez/Projects/webserv/CGI/cgi.py"
 
 // For dev
