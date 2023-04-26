@@ -15,7 +15,7 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <unistd.h>
-#include "CGI.hpp"
+#include "cgi.hpp"
 
 #define MAX_CONNECTIONS 10
 
