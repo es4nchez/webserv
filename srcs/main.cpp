@@ -16,7 +16,7 @@ int main(int ac, char **av, char **envp)
 
     // Parsing config file
         // To do
-    
+
     if (ws.socketBinding())
         return (1);
     std::cout << std::endl << "Webserv launching... start logs :" << std::endl << std::endl;

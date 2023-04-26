@@ -16,10 +16,6 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 
-
-// CGI
-#define CGI_PATH "/Users/esanchez/Projects/webserv/CGI/cgi.py"
-
 class CGI
 {
     public:
@@ -34,4 +30,4 @@ class CGI
 
 };
 
-#endif 
+#endif
