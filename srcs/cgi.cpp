@@ -1,5 +1,5 @@
 #include "webserv.hpp"
-#include "CGI.hpp"
+#include "cgi.hpp"
 
 CGI::CGI()
 {
