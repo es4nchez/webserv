@@ -1,5 +1,5 @@
 #include "webserv.hpp"
-#include "CGI.hpp"
+#include "cgi.hpp"
 
 void    Webserv::mainParsing(std::string request, s_request *requestData, int fd)
 {

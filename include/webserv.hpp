@@ -82,6 +82,9 @@ class Webserv
     void    sendResponse(s_request *requestData, int fd);
     void    sendIndex(int fd);
 
+    // postRequest.cpp
+    void    parsePostRequest(std::string request, int fd);
+
     // // cgi.cpp
     // void    handle_cgi_request(int sockfd, const std::string& query_string);
     // bool    is_cgi_request(const std::string& request_path);
