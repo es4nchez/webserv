@@ -13,9 +13,7 @@ CGI::~CGI()
 
 void CGI::handle_cgi_request(int sockfd, const std::string& query_string, char **wenvp)
 {
-    (void) query_string;
     int pipefd[2];
-
     if (pipe(pipefd) == -1) {
         std::cerr << "Error creating pipe: " << strerror(errno) << std::endl;
         return;

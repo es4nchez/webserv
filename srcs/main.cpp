@@ -53,7 +53,7 @@ int main(int ac, char **av, char **envp)
                 }
 
                 // print a message indicating that the program has received data from the client
-                std::cout << "Received data from " << inet_ntoa(ws.client_addr[i].sin_addr) << ":" << ntohs(ws.client_addr[i].sin_port) << std::endl;
+                std::cout << std::endl << "Received data from " << inet_ntoa(ws.client_addr[i].sin_addr) << ":" << ntohs(ws.client_addr[i].sin_port) << std::endl;
 
                 // handle the request
                 ws.handleRequest(buffer, i);

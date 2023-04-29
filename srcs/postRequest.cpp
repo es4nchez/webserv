@@ -4,5 +4,7 @@ void    Webserv::parsePostRequest(std::string request, int fd)
 {
     (void) fd;
 
-    std::cout << "POST : " << request << std::endl;
-}
+    std::string request_body = request.substr(request.find("\r\n\r\n") + 4);
+
+    std::cout << "Post data : " << request_body << std::endl;
+}   

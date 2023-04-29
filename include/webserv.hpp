@@ -21,7 +21,6 @@
 
 // CGI
 #define PYTHON "/usr/bin/python3"
-#define CGI_PATH "/Users/esanchez/Projects/webserv/CGI/cgi.py"
 
 // For dev
 #include <signal.h>
@@ -30,6 +29,7 @@ struct s_request {
 
     std::string methd;
     std::string addr;
+    std::map<std::string, std::string> data;
 
 };
 
@@ -77,6 +77,7 @@ class Webserv
 
     // parsingRequest.cpp
     void    mainParsing(std::string request, s_request *requestData, int fd);
+    void    getAddrMethodData(std:: string request, s_request *requestData);
 
     // sendResponse.cpp
     void    sendResponse(s_request *requestData, int fd);
