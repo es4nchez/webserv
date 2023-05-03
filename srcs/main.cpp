@@ -25,7 +25,7 @@ int main(int ac, char **av, char **envp)
     {
         // wait for activity on the file descriptors using select()
         fd_set temp_fds = ws.fds;
-        int ret = select(ws.max_fd + 1, &temp_fds, nullptr, nullptr, nullptr);
+        int ret = select(ws.max_fd + 1, &temp_fds, NULL, NULL, NULL);
         if (ret == -1)
         {
             std::cerr << "Error in select()" << std::endl;
@@ -53,7 +53,7 @@ int main(int ac, char **av, char **envp)
                 }
 
                 // print a message indicating that the program has received data from the client
-                std::cout << "Received data from " << inet_ntoa(ws.client_addr[i].sin_addr) << ":" << ntohs(ws.client_addr[i].sin_port) << std::endl;
+                std::cout << std::endl << "Received data from " << inet_ntoa(ws.client_addr[i].sin_addr) << ":" << ntohs(ws.client_addr[i].sin_port) << std::endl;
 
                 // handle the request
                 ws.handleRequest(buffer, i);
