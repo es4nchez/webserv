@@ -25,7 +25,7 @@ int main(int ac, char **av, char **envp)
     {
         // wait for activity on the file descriptors using select()
         fd_set temp_fds = ws.fds;
-        int ret = select(ws.max_fd + 1, &temp_fds, nullptr, nullptr, nullptr);
+        int ret = select(ws.max_fd + 1, &temp_fds, NULL, NULL, NULL);
         if (ret == -1)
         {
             std::cerr << "Error in select()" << std::endl;
