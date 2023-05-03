@@ -60,8 +60,8 @@ class Webserv
     char                    **wenvp;
     std::map<std::string, std::string> env;
 
-
-
+    // POST Data
+    std::string query_string;
 
     // For dev
     void HARDCODE_INIT(void);

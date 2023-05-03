@@ -33,40 +33,23 @@ void    Webserv::getAddrMethodData(std:: string request, s_request *requestData)
 
     if (requestData->methd == "POST")
     {
-        std::string request_body = request.substr(request.find("\r\n\r\n") + 4);
-        std::string::size_type pos1 = 0;
-        std::string::size_type pos2 = 0;
-
-        while (pos1 != std::string::npos)
-        {
-            pos2 = request_body.find_first_of("=", pos1);
-            if (pos2 != std::string::npos) {
-                std::string key = request_body.substr(pos1, pos2 - pos1);
-                std::string::size_type pos3 = request_body.find_first_of("&", pos2 + 1);
-                std::string value;
-                if (pos3 != std::string::npos) {
-                    value = request_body.substr(pos2 + 1, pos3 - pos2 - 1);
-                } else {
-                    value = request_body.substr(pos2 + 1);
-                }
-                requestData->data[key] = url_decode(value);
-            }
-            pos1 = request_body.find_first_of("&", pos1 + 1);
-        }
-
+        std::string query_string = request.substr(request.find("\r\n\r\n") + 4);
+        std::cout << "query_string : " << query_string << std::endl;
     }
 
 }
 
 void    Webserv::mainParsing(std::string request, s_request *requestData, int fd)
 {
+    // std::cout << "FULL REQUEST : " << request << std::endl;
+
     getAddrMethodData(request, requestData);
     std::cout << "Method: " << requestData->methd << std::endl;
     std::cout << "Requested Address: " << requestData->addr << std::endl;
+    
     // Print the Data map
     for (std::map<std::string, std::string>::iterator it = requestData->data.begin(); it != requestData->data.end(); ++it)
         std::cout << it->first << " = " << it->second << std::endl;
-
 
     // If request contain only '/', send index, if else, send file
     if (!requestData->methd.compare("GET"))
