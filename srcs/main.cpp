@@ -7,6 +7,23 @@ int main(int ac, char **av, char **envp)
 {
     Webserv ws;
 
+
+		try {
+			parse_server_configuration("./config/test.json");
+			std::cout << "Parsing done" << std::endl;
+    }
+		catch(const char *err)
+		{
+			std::cerr << "parse_server_configuration_err" <<std::endl;
+			std::cerr << err << std::endl;
+		}
+		catch(std::exception &e)
+		{
+			std::cerr << "parse_server_configuration" << std::endl;
+			std::cerr << e.what() << std::endl;
+		}
+		return (0);
+
     // Init args
     if (ws.args(ac, av, envp))
         return (1);
@@ -14,8 +31,6 @@ int main(int ac, char **av, char **envp)
     // HARDCODE CONFIG
     ws.HARDCODE_INIT();
 
-    // Parsing config file
-        // To do
 
     if (ws.socketBinding())
         return (1);

@@ -21,8 +21,9 @@ SRCS	= 	srcs/dev.cpp \
 			srcs/directoryListing.cpp \
 			srcs/deleteRequest.cpp \
 			srcs/redirect.cpp \
-			srcs/parsingRequestUtils.cpp
-
+			srcs/parsingRequestUtils.cpp \
+			srcs/parsingConf.cpp \
+			srcs/readFileHelper.cpp
 NAME 	= webserv
 COMP 	= c++
 CXXFLAGS 	= -Wall -Wextra -Werror -std=c++98 -I include/

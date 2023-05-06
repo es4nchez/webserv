@@ -27,6 +27,9 @@
 // For dev
 #include <signal.h>
 
+//parser
+#include "server_conf.hpp"
+
 struct s_request {
 
     std::string methd;
@@ -34,7 +37,6 @@ struct s_request {
     std::map<std::string, std::string> data;
 
 };
-
 
 class Webserv
 {
