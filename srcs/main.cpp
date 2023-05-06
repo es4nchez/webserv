@@ -1,10 +1,14 @@
 #include "webserv.hpp"
 
+// For Dev
+Webserv *g_webserv = nullptr;
+
 int main(int ac, char **av, char **envp)
 {
     Webserv ws;
 
     // For dev
+    g_webserv = &ws;
     signal(SIGINT, signal_callback_handler);
 
     // Init args
@@ -45,9 +49,12 @@ int main(int ac, char **av, char **envp)
                 }
 
                 // receive data from the client on the i-th connection
-                char buffer[1024];
-                int bytes_received = recv(ws.client_sockfd[i], buffer, sizeof(buffer), 0);
-                if (bytes_received < 0) {
+                char buffer[1024] = {0}; // Initialize buffer with zeros
+                int bytes_received = recv(ws.client_sockfd[i], buffer, sizeof(buffer) - 1, 0); // Leave room for a null character
+                if (bytes_received >= 0)
+                    buffer[bytes_received] = '\0'; // Terminate the buffer with a null character
+                else
+                {
                     std::cerr << "Error receiving data" << std::endl;
                     continue;
                 }

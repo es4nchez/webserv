@@ -78,6 +78,7 @@ class Webserv
     // parsingRequest.cpp
     void    mainParsing(std::string request, s_request *requestData, int fd);
     void    getAddrMethodData(std:: string request, s_request *requestData);
+    void    addQueryEnv(std::string str);
 
     // sendResponse.cpp
     void    sendResponse(s_request *requestData, int fd);
@@ -114,5 +115,6 @@ class Webserv
 
 // For dev
 void signal_callback_handler(int signum);
+extern Webserv *g_webserv;
 
 #endif
