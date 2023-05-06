@@ -32,8 +32,7 @@ void CGI::handle_cgi_request(int sockfd, const std::string& cgi_path, char **wen
         close(pipefd[0]);
         close(pipefd[1]);
 
-
-        char* args[] = { const_cast<char*>(PYTHON), const_cast<char*>(cgi_path.c_str()), nullptr };
+        char* args[] = { const_cast<char*>(PYTHON), const_cast<char*>(cgi_path.c_str()), NULL};
         execve(PYTHON, args, wenvp);
         std::cerr << "Error executing CGI program: " << strerror(errno) << std::endl;
         exit(EXIT_FAILURE);
