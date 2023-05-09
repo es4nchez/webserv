@@ -1,5 +1,5 @@
 #include "webserv.hpp"
-#include "CGI.hpp"
+#include "cgi.hpp"
 
 void    Webserv::mainParsing(std::string request, s_request *requestData, int fd)
 {
@@ -23,9 +23,9 @@ void    Webserv::mainParsing(std::string request, s_request *requestData, int fd
     if (!requestData->methd.compare("GET"))
     {
         CGI cgi;
-        if (cgi.is_cgi_request(requestData->addr))
-            cgi.handle_cgi_request(client_sockfd[fd], (rootPath + requestData->addr), wenvp);
-        else if (requestData->addr.size() == 1)
+        // if (cgi.is_cgi_request(requestData->addr))
+        //     cgi.handle_cgi_request(client_sockfd[fd], (rootPath + requestData->addr), wenvp);
+       if (requestData->addr.size() == 1)
             sendIndex(fd);
         else
             sendResponse(requestData, fd);
@@ -40,6 +40,6 @@ void    Webserv::mainParsing(std::string request, s_request *requestData, int fd
     }
     else
     {
-        badMethod(fd);
+        code_error(fd,405);
     }
 }

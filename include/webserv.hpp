@@ -87,7 +87,7 @@ class Webserv
     // bool    is_cgi_request(const std::string& request_path);
 
     // errorResponses.cpp
-    void    notFound(int fd);
+    void    code_error(int fd, int error_code);
     void    badMethod(int fd);
 
 };
