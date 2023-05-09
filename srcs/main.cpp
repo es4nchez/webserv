@@ -1,10 +1,14 @@
 #include "webserv.hpp"
 
+// For Dev
+Webserv *g_webserv = nullptr;
+
 int main(int ac, char **av, char **envp)
 {
     Webserv ws;
 
     // For dev
+    g_webserv = &ws;
     signal(SIGINT, signal_callback_handler);
 
     // Init args
@@ -25,7 +29,7 @@ int main(int ac, char **av, char **envp)
     {
         // wait for activity on the file descriptors using select()
         fd_set temp_fds = ws.fds;
-        int ret = select(ws.max_fd + 1, &temp_fds, nullptr, nullptr, nullptr);
+        int ret = select(ws.max_fd + 1, &temp_fds, NULL, NULL, NULL);
         if (ret == -1)
         {
             std::cerr << "Error in select()" << std::endl;
@@ -43,27 +47,17 @@ int main(int ac, char **av, char **envp)
                     std::cerr << "Error accepting connection" << std::endl;
                     continue;
                 }
-
-                // receive data from the client on the i-th connection
-                char buffer[1024];
-                int bytes_received = recv(ws.client_sockfd[i], buffer, sizeof(buffer), 0);
-                if (bytes_received < 0) {
-                    std::cerr << "Error receiving data" << std::endl;
-                    continue;
-                }
-
-                // print a message indicating that the program has received data from the client
-                std::cout << "Received data from " << inet_ntoa(ws.client_addr[i].sin_addr) << ":" << ntohs(ws.client_addr[i].sin_port) << std::endl;
+  
+                std::string request = ws.receive(i);
 
                 // handle the request
-                ws.handleRequest(buffer, i);
+                ws.handleRequest(request.c_str(), i);
 
                 // close the connection
                 close(ws.client_sockfd[i]);
             }
         }
     }
-
 
     for (unsigned int i = 0; i < ws.ports.size(); i++)
         close(ws.sockfd[i]);

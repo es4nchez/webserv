@@ -1,9 +1,60 @@
 #include "webserv.hpp"
 #include "cgi.hpp"
 
-void    Webserv::mainParsing(std::string request, s_request *requestData, int fd)
-{
+std::string url_decode(const std::string& str) {
+    std::string result;
+    char ch;
+    size_t i, j;
+    for (i = 0; i < str.length(); i++) {
+        if (str[i] == '%') {
+            sscanf(str.substr(i + 1, 2).c_str(), "%lx", &j);
+            ch = static_cast<char>(j);
+            result += ch;
+            i += 2;
+        } else {
+            result += str[i];
+        }
+    }
+    return result;
+}
 
+void Webserv::addQueryEnv(std::string str) {
+    int size = 0;
+    bool queryStringExists = false;
+
+    str = "QUERY_STRING=" + str;
+
+    if (wenvp != NULL) {
+        while (wenvp[size] != NULL) {
+            if (strncmp(wenvp[size], "QUERY_STRING=", 13) == 0) {
+                queryStringExists = true;
+                delete[] wenvp[size];
+                char *newStr = new char[str.size() + 1];
+                std::copy(str.begin(), str.end(), newStr);
+                newStr[str.size()] = '\0';
+                wenvp[size] = newStr;
+            }
+            size++;
+        }
+    }
+    if (!queryStringExists) {
+        char** newEnvTab = new char*[size + 2];
+        for (int i = 0; i < size; i++) {
+            newEnvTab[i] = wenvp[i];
+        }
+        char *newStr = new char[str.size() + 1];
+        std::copy(str.begin(), str.end(), newStr);
+        newStr[str.size()] = '\0';
+        newEnvTab[size] = newStr;
+        newEnvTab[size + 1] = NULL;
+        
+        wenvp = newEnvTab;
+    }
+}
+
+
+void    Webserv::getAddrMethodData(std:: string request, s_request *requestData)
+{
     std::size_t space_pos = request.find(' ');
 
     // Find the method and the address in the request 
@@ -14,10 +65,30 @@ void    Webserv::mainParsing(std::string request, s_request *requestData, int fd
             requestData->addr = request.substr(space_pos + 1, next_space_pos - space_pos - 1);
         }
     }
+
+    if (requestData->methd == "POST")
+    {
+        std::string query_string = request.substr(request.find("\r\n\r\n") + 4);
+   //     std::cout << "query_string : " << query_string << std::endl;
+
+        addQueryEnv(query_string);
+
+    }
     
-    // Print method and requested address
+
+}
+
+void    Webserv::mainParsing(std::string request, s_request *requestData, int fd)
+{
+    // std::cout << "FULL REQUEST : " << request << std::endl;
+
+    getAddrMethodData(request, requestData);
     std::cout << "Method: " << requestData->methd << std::endl;
     std::cout << "Requested Address: " << requestData->addr << std::endl;
+    
+    // Print the Data map
+    for (std::map<std::string, std::string>::iterator it = requestData->data.begin(); it != requestData->data.end(); ++it)
+        std::cout << it->first << " = " << it->second << std::endl;
 
     // If request contain only '/', send index, if else, send file
     if (!requestData->methd.compare("GET"))
@@ -32,7 +103,11 @@ void    Webserv::mainParsing(std::string request, s_request *requestData, int fd
     }
     else if (!requestData->methd.compare("POST"))
     {
-        //
+        CGI cgi;
+        if (cgi.is_cgi_request(requestData->addr))
+            cgi.handle_cgi_request(client_sockfd[fd], (rootPath + requestData->addr), wenvp);
+        else
+            parsePostRequest(request, client_sockfd[fd]);
     }
     else if (!requestData->methd.compare("DELETE"))
     {

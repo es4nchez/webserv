@@ -3,7 +3,7 @@
 void Webserv::sendResponse(s_request *requestData, int fd)
 {
         std::string path = this->rootPath + requestData->addr.substr(1, requestData->addr.size());
-        std::ifstream   file(path);
+        std::ifstream   file(path.c_str());
         std::stringstream   buff;
         std::string response;
 
@@ -25,7 +25,7 @@ void Webserv::sendResponse(s_request *requestData, int fd)
 void Webserv::sendIndex(int fd)
 {
         std::string path = this->rootPath + this->index;
-        std::ifstream   file(path);
+        std::ifstream   file(path.c_str());
         std::stringstream   buff;
         std::string response;
 
