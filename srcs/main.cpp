@@ -47,30 +47,17 @@ int main(int ac, char **av, char **envp)
                     std::cerr << "Error accepting connection" << std::endl;
                     continue;
                 }
-
-                // receive data from the client on the i-th connection
-                char buffer[1024] = {0}; // Initialize buffer with zeros
-                int bytes_received = recv(ws.client_sockfd[i], buffer, sizeof(buffer) - 1, 0); // Leave room for a null character
-                if (bytes_received >= 0)
-                    buffer[bytes_received] = '\0'; // Terminate the buffer with a null character
-                else
-                {
-                    std::cerr << "Error receiving data" << std::endl;
-                    continue;
-                }
-
-                // print a message indicating that the program has received data from the client
-                std::cout << std::endl << "Received data from " << inet_ntoa(ws.client_addr[i].sin_addr) << ":" << ntohs(ws.client_addr[i].sin_port) << std::endl;
+  
+                std::string request = ws.receive(i);
 
                 // handle the request
-                ws.handleRequest(buffer, i);
+                ws.handleRequest(request.c_str(), i);
 
                 // close the connection
                 close(ws.client_sockfd[i]);
             }
         }
     }
-
 
     for (unsigned int i = 0; i < ws.ports.size(); i++)
         close(ws.sockfd[i]);
