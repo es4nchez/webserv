@@ -16,6 +16,12 @@ int Webserv::socketBinding(void)
             return 1;
         }
 
+        int enable = 1;
+        if (setsockopt(this->sockfd[i], SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int)) < 0)
+        {
+            perror("setsockopt(SO_REUSEADDR) failed");
+        }
+        
         // This sets up the server address structure, server_addr, which will be used to bind the socket to a specific port. 
 
         // The sin_family member specifies the address family

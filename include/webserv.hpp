@@ -78,13 +78,21 @@ class Webserv
     // parsingRequest.cpp
     void    mainParsing(std::string request, s_request *requestData, int fd);
     void    getAddrMethodData(std:: string request, s_request *requestData);
+    void    addQueryEnv(std::string str);
 
     // sendResponse.cpp
     void    sendResponse(s_request *requestData, int fd);
     void    sendIndex(int fd);
 
     // postRequest.cpp
-    void    parsePostRequest(std::string request, int fd);
+    void            parsePostRequest(std::string request, int fd);
+    std::string     parseBody(std::string request_body);
+    std::string     getFilename(std::string request_data);
+
+    // receive.cpp
+    std::string receive(int i);
+    std::string getRequestMethod(const std::string& headers);
+    int         getContentLengthFromHeaders(const std::string& headers);
 
     // // cgi.cpp
     // void    handle_cgi_request(int sockfd, const std::string& query_string);
@@ -114,5 +122,6 @@ class Webserv
 
 // For dev
 void signal_callback_handler(int signum);
+extern Webserv *g_webserv;
 
 #endif

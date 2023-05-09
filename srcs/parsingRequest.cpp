@@ -18,6 +18,41 @@ std::string url_decode(const std::string& str) {
     return result;
 }
 
+void Webserv::addQueryEnv(std::string str) {
+    int size = 0;
+    bool queryStringExists = false;
+
+    str = "QUERY_STRING=" + str;
+
+    if (wenvp != NULL) {
+        while (wenvp[size] != NULL) {
+            if (strncmp(wenvp[size], "QUERY_STRING=", 13) == 0) {
+                queryStringExists = true;
+                delete[] wenvp[size];
+                char *newStr = new char[str.size() + 1];
+                std::copy(str.begin(), str.end(), newStr);
+                newStr[str.size()] = '\0';
+                wenvp[size] = newStr;
+            }
+            size++;
+        }
+    }
+    if (!queryStringExists) {
+        char** newEnvTab = new char*[size + 2];
+        for (int i = 0; i < size; i++) {
+            newEnvTab[i] = wenvp[i];
+        }
+        char *newStr = new char[str.size() + 1];
+        std::copy(str.begin(), str.end(), newStr);
+        newStr[str.size()] = '\0';
+        newEnvTab[size] = newStr;
+        newEnvTab[size + 1] = NULL;
+        
+        wenvp = newEnvTab;
+    }
+}
+
+
 void    Webserv::getAddrMethodData(std:: string request, s_request *requestData)
 {
     std::size_t space_pos = request.find(' ');
@@ -34,8 +69,12 @@ void    Webserv::getAddrMethodData(std:: string request, s_request *requestData)
     if (requestData->methd == "POST")
     {
         std::string query_string = request.substr(request.find("\r\n\r\n") + 4);
-        std::cout << "query_string : " << query_string << std::endl;
+   //     std::cout << "query_string : " << query_string << std::endl;
+
+        addQueryEnv(query_string);
+
     }
+    
 
 }
 

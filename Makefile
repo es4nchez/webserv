@@ -16,7 +16,8 @@ SRCS	= 	srcs/dev.cpp \
 			srcs/args.cpp \
 			srcs/Webserv.cpp \
 			srcs/cgi.cpp \
-			srcs/postRequest.cpp
+			srcs/postRequest.cpp \
+			srcs/receive.cpp
 
 NAME 	= webserv
 COMP 	= c++

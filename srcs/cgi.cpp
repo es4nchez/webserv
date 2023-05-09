@@ -32,17 +32,15 @@ void CGI::handle_cgi_request(int sockfd, const std::string& cgi_path, char **wen
         close(pipefd[0]);
         close(pipefd[1]);
 
-<<<<<<< HEAD
-
-        char* args[] = { const_cast<char*>(PYTHON), const_cast<char*>(cgi_path.c_str()), nullptr };
-=======
-        char* args[] = { const_cast<char*>(PYTHON), const_cast<char*>(query_string.c_str()), NULL};
->>>>>>> 5aeb455 (change for linux)
+        char* args[] = { const_cast<char*>(PYTHON), const_cast<char*>(cgi_path.c_str()), NULL};
         execve(PYTHON, args, wenvp);
         std::cerr << "Error executing CGI program: " << strerror(errno) << std::endl;
         exit(EXIT_FAILURE);
     }
     close(pipefd[1]);
+
+    std::string status = "HTTP/1.1 200 OK\n\n";
+    write(sockfd, status.c_str(), status.size());
 
     char buffer[1024];
     int bytes_read;
@@ -56,14 +54,26 @@ void CGI::handle_cgi_request(int sockfd, const std::string& cgi_path, char **wen
 
 }
 
+#include <algorithm>
+#include <vector>
+
 bool CGI::is_cgi_request(const std::string& request_path)
 {
     if (request_path.size() <= 1)
-        return false; 
-    const std::string py_extension = ".py";
-    const std::string& ext = request_path.substr(request_path.find_last_of('.'));
-    if (ext == py_extension) {
-        return true;
-    }
-    return false;
+        return false;
+
+    std::vector<std::string> cgi_extensions;
+    cgi_extensions.push_back(".py");
+    cgi_extensions.push_back(".cgi");
+
+    size_t dot_pos = request_path.find_last_of('.');
+    if (dot_pos == std::string::npos)
+        return false;
+
+    std::string ext = request_path.substr(dot_pos);
+
+
+    std::transform(ext.begin(), ext.end(), ext.begin(), ::tolower);
+
+    return std::find(cgi_extensions.begin(), cgi_extensions.end(), ext) != cgi_extensions.end();
 }
