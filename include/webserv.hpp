@@ -17,6 +17,8 @@
 #include <unistd.h>
 #include "cgi.hpp"
 
+#include <dirent.h>
+
 #define MAX_CONNECTIONS 10
 
 // CGI
@@ -93,6 +95,10 @@ class Webserv
     std::string receive(int i);
     std::string getRequestMethod(const std::string& headers);
     int         getContentLengthFromHeaders(const std::string& headers);
+
+    // directoryListing.cpp
+    void        directoryListing(s_request *requestData, int fd);
+    std::string listFilesInDirectory(const std::string& directoryPath);
 
     // // cgi.cpp
     // void    handle_cgi_request(int sockfd, const std::string& query_string);
