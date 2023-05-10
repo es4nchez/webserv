@@ -9,11 +9,26 @@ std::string Webserv::listFilesInDirectory(const std::string& directoryPath)
     }
 
     std::string html = "<html>\n<head><title>Directory Listing</title></head>\n<body>\n<h1>Directory Listing for " + directoryPath + "</h1>\n<ul>\n";
+
+    // Add the ".." entry
+    html += "<li><a href=\"..\">..</a></li>\n";
+
     struct dirent* entry;
     while ((entry = readdir(dir)) != NULL) {
+        std::string entryName = std::string(entry->d_name);
+
         // Skip the special entries "." and "..".
-        if (std::string(entry->d_name) != "." && std::string(entry->d_name) != "..") {
-            html += "<li><a href=\"" + std::string(entry->d_name) + "\">" + std::string(entry->d_name) + "</a></li>\n";
+        if (entryName != "." && entryName != "..") {
+            // Check if the entry is a directory.
+            std::string fullPath = directoryPath + "/" + entryName;
+            DIR* entryDir = opendir(fullPath.c_str());
+            if (entryDir != NULL) {
+                // If the entry is a directory, add a trailing slash to the name.
+                entryName += "/";
+                closedir(entryDir);
+            }
+
+            html += "<li><a href=\"" + entryName + "\">" + entryName + "</a></li>\n";
         }
     }
 
@@ -22,6 +37,8 @@ std::string Webserv::listFilesInDirectory(const std::string& directoryPath)
     closedir(dir);
     return html;
 }
+
+
 
 
 void Webserv::directoryListing(s_request *requestData, int fd)
