@@ -61,6 +61,7 @@ class Webserv
     std::vector<int>        ports;
     char                    **wenvp;
     std::map<std::string, std::string> env;
+    bool                    directory_listing;
 
     // POST Data
     std::string query_string;

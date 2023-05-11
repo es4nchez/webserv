@@ -8,7 +8,7 @@ void Webserv::HARDCODE_INIT(void)
     this->ports.push_back(8080);
     this->ports.push_back(8181);
 
-    
+    directory_listing = false;
 }
 
 void signal_callback_handler(int signum) {

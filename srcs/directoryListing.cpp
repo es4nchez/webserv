@@ -9,8 +9,6 @@ std::string Webserv::listFilesInDirectory(const std::string& directoryPath)
     }
 
     std::string html = "<html>\n<head><title>Directory Listing</title></head>\n<body>\n<h1>Directory Listing for " + directoryPath + "</h1>\n<ul>\n";
-
-    // Add the ".." entry
     html += "<li><a href=\"..\">..</a></li>\n";
 
     struct dirent* entry;
@@ -23,7 +21,6 @@ std::string Webserv::listFilesInDirectory(const std::string& directoryPath)
             std::string fullPath = directoryPath + "/" + entryName;
             DIR* entryDir = opendir(fullPath.c_str());
             if (entryDir != NULL) {
-                // If the entry is a directory, add a trailing slash to the name.
                 entryName += "/";
                 closedir(entryDir);
             }

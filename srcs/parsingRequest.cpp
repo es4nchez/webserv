@@ -96,17 +96,17 @@ void    Webserv::mainParsing(std::string request, s_request *requestData, int fd
         CGI cgi;
         if (cgi.is_cgi_request(requestData->addr))
             cgi.handle_cgi_request(client_sockfd[fd], (rootPath + requestData->addr), wenvp);
-        else if (requestData->addr.size() == 1)
-        {
-            if (1)
-                directoryListing(requestData, fd);
-            else
-                sendIndex(fd);
-        }
         else
         {
-            if (1)
+            std::string fullPath = rootPath + requestData->addr;
+            DIR* dir = opendir(fullPath.c_str());
+            if (dir != NULL && directory_listing)
+            {
+                closedir(dir);
                 directoryListing(requestData, fd);
+            } 
+            else if (requestData->addr.size() == 1)
+                sendIndex(fd);
             else
                 sendResponse(requestData, fd);
         }
