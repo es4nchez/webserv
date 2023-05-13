@@ -92,6 +92,9 @@ class Webserv
     std::string     parseBody(std::string request_body);
     std::string     getFilename(std::string request_data);
 
+    // deleteRequest.cpp
+    void            deleteRequest(s_request *requestData, int fd);
+
     // receive.cpp
     std::string receive(int i);
     std::string getRequestMethod(const std::string& headers);

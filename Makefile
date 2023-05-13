@@ -18,7 +18,8 @@ SRCS	= 	srcs/dev.cpp \
 			srcs/cgi.cpp \
 			srcs/postRequest.cpp \
 			srcs/receive.cpp \
-			srcs/directoryListing.cpp
+			srcs/directoryListing.cpp \
+			srcs/deleteRequest.cpp
 
 NAME 	= webserv
 COMP 	= c++
