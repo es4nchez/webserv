@@ -46,13 +46,13 @@ void    Webserv::parsePostRequest(std::string request, int fd)
     std::string request_body = request.substr(request.find("\r\n\r\n") + 4);
 
     std::string request_data = parseBody(request_body);
-    // std::string filename = getFilename(request_data);
+    std::string filename = getFilename(request_body);
 
     // std::cout << "Request : <<" << request << ">>" << std::endl;
     // std::cout << "Post data : <<" << request_body << ">>" << std::endl;
 
-    std::string path = "www/upload";
-    std::ofstream file("www/upload/log2cdn.txt", std::ios::binary);
+    std::string path = "www/upload/";
+    std::ofstream file(path + filename, std::ios::binary);
 
 
     file.write(request_data.c_str(), request_data.size());
