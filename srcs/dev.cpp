@@ -2,28 +2,13 @@
 
 void Webserv::HARDCODE_INIT(void)
 {
-    this->index = "42lWatch.html";
-    this->rootPath = "www/";
+    _index = "42lWatch.html";
+    _rootpath = "www/";
 
-    this->ports.push_back(8080);
-    this->ports.push_back(8181);
+    _ports.push_back(8080);
+    _ports.push_back(8181);
 
-    
-}
+    _dirListing = false;
 
-void signal_callback_handler(int signum) {
-    std::cout << "Caught signal, detaching sockets" << std::endl;
-
-    for (unsigned int i = 0; i < g_webserv->ports.size(); i++) 
-        close(g_webserv->sockfd[i]);
-
-   for (unsigned int i = 0; i < g_webserv->ports.size(); i++)
-   {
-        if (g_webserv->client_sockfd[i] != -1)
-            close(g_webserv->client_sockfd[i]);
-    }  
-
-
-    // Terminate program
-    exit(signum);
+    _redirects["www/redir.html"] = "http://localhost:8080/42lWatch.html";
 }

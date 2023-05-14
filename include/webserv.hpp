@@ -17,6 +17,8 @@
 #include <unistd.h>
 #include "cgi.hpp"
 
+#include <dirent.h>
+
 #define MAX_CONNECTIONS 10
 
 // CGI
@@ -42,26 +44,25 @@ class Webserv
     ~Webserv();
 
     // Socket related
-    int                 sockfd[2];   //----------------------- << HARCOOOODE
-    int                 client_sockfd[2]; //----------------------- << HARCOOOODE
-    sockaddr_in         client_addr[2];
-    socklen_t           client_len[2];
-    fd_set              fds;
-    int                 max_fd;
+    int                 _sockfd[2];   //----------------------- << HARCOOOODE
+    int                 _client_sockfd[2]; //----------------------- << HARCOOOODE
+    sockaddr_in         _client_addr[2];
+    socklen_t           _client_len[2];
+    fd_set              _fds;
+    int                 _max_fd;
 
     // Request and serving file related
-    std::string request;
-    std::string index;
-    std::string rootPath;
+    std::string _index;
+    std::string _rootpath;
 
     // Config file related
-    std::string configPath;
-    std::vector<int>        ports;
-    char                    **wenvp;
-    std::map<std::string, std::string> env;
+    std::string             _configPath;
+    std::vector<int>        _ports;
+    char                    **_wenvp;
+    bool                    _dirListing;
+    std::map<std::string, std::string> _redirects;
 
     // POST Data
-    std::string query_string;
 
     // For dev
     void HARDCODE_INIT(void);
@@ -89,39 +90,26 @@ class Webserv
     std::string     parseBody(std::string request_body);
     std::string     getFilename(std::string request_data);
 
+    // deleteRequest.cpp
+    void            deleteRequest(s_request *requestData, int fd);
+
     // receive.cpp
     std::string receive(int i);
     std::string getRequestMethod(const std::string& headers);
     int         getContentLengthFromHeaders(const std::string& headers);
 
-    // // cgi.cpp
-    // void    handle_cgi_request(int sockfd, const std::string& query_string);
-    // bool    is_cgi_request(const std::string& request_path);
+    // directoryListing.cpp
+    void        directoryListing(s_request *requestData, int fd);
+    std::string listFilesInDirectory(const std::string& directoryPath);
+
+    // redirects.cpp
+    bool        isRedirect(std::string path);
+    void        redirectURL(std::string path, int fd);
 
     // errorResponses.cpp
     void    code_error(int fd, int error_code);
     void    badMethod(int fd);
 
 };
-
-
-// // parsingRequest.cpp
-// void    mainParsing(c_webserv *data, std::string request, s_request *requestData, int fd);
-
-// // sendResponse.cpp
-// void    sendResponse(c_webserv *data, s_request *requestData, int fd);
-// void    sendIndex(c_webserv *data, int fd);
-
-// // errorResponses.cpp
-// void    notFound(c_webserv *data, int fd);
-// void    badMethod(c_webserv *data, int fd);
-
-// // manageSockets.cpp
-// int     socketBinding(c_webserv *data);
-
-
-// For dev
-void signal_callback_handler(int signum);
-extern Webserv *g_webserv;
 
 #endif

@@ -20,5 +20,5 @@ void    Webserv::code_error(int fd, int error_code)
     buff << file.rdbuf();
     std::cout << buff << std::endl;
     std::string response = base + buff.str();
-    send(this->client_sockfd[fd], response.c_str(), response.size(), 0);
+    send(_client_sockfd[fd], response.c_str(), response.size(), 0);
 }
