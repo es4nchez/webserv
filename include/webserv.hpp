@@ -44,16 +44,17 @@ class Webserv
     ~Webserv();
 
     // Socket related
-    int                 _sockfd[2];   //----------------------- << HARCOOOODE
-    int                 _client_sockfd[2]; //----------------------- << HARCOOOODE
-    sockaddr_in         _client_addr[2];
-    socklen_t           _client_len[2];
-    fd_set              _fds;
-    int                 _max_fd;
+    std::vector<int>            _sockfd;
+    std::vector<int>            _client_sockfd;
+    std::vector<sockaddr_in>    _client_addr;
+    std::vector<socklen_t>      _client_len;
+    fd_set                      _fds;
+    int                         _max_fd;
 
     // Request and serving file related
     std::string _index;
     std::string _rootpath;
+    size_t      _maxBodySize;
 
     // Config file related
     std::string             _configPath;
