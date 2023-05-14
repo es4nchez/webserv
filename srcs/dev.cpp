@@ -16,5 +16,6 @@ void Webserv::HARDCODE_INIT(void)
 
 
     _client_addr.reserve(_ports.size());
+    _client_sockfd.reserve(_ports.size());
 
 }
