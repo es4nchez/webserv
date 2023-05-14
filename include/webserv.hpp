@@ -105,6 +105,7 @@ class Webserv
 
     // redirects.cpp
     bool        isRedirect(std::string path);
+    void        redirectURL(std::string path, int fd);
 
     // // cgi.cpp
     // void    handle_cgi_request(int sockfd, const std::string& query_string);
