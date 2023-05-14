@@ -94,8 +94,10 @@ void    Webserv::mainParsing(std::string request, s_request *requestData, int fd
     if (!requestData->methd.compare("GET"))
     {
         CGI cgi;
-        if (cgi.is_cgi_request(requestData->addr))
-            cgi.handle_cgi_request(_client_sockfd[fd], (_rootpath + requestData->addr), _wenvp);
+        // if (cgi.is_cgi_request(requestData->addr))
+        //     cgi.handle_cgi_request(client_sockfd[fd], (rootPath + requestData->addr), wenvp);
+       if (requestData->addr.size() == 1)
+            sendIndex(fd);
         else
         {
             std::string fullPath = _rootpath + requestData->addr;
@@ -125,6 +127,6 @@ void    Webserv::mainParsing(std::string request, s_request *requestData, int fd
     }
     else
     {
-        badMethod(fd);
+        code_error(fd,405);
     }
 }

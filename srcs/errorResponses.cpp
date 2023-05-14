@@ -1,24 +1,21 @@
 #include "webserv.hpp"
 
-void    Webserv::notFound(int fd)
+void    Webserv::code_error(int fd, int error_code)
 {
-
-    std::string base = "HTTP/1.1 404 Not Found\n\n";
-    std::ifstream   file("errors/404.html");
+	std::string base = "";
+    std::string name = "";
+	if (error_code == 404)
+	{
+		base = "HTTP/1.1 404 Not Found\n\n";
+		name = "www/errors/404.html";
+	}
+	else if (error_code == 405)
+	{
+		base = "HTTP/1.1 405 Method Not Allowed\n\n";
+    	name = "www/errors/405.html";
+	}
     std::stringstream   buff;
-
-    buff << file.rdbuf();
-    std::cout << buff << std::endl;
-    std::string response = base + buff.str();
-    send(_client_sockfd[fd], response.c_str(), response.size(), 0);
-}
-
-void    Webserv::badMethod(int fd)
-{
-
-    std::string base = "HTTP/1.1 405 Method Not Allowed\n\n";
-    std::ifstream   file("errors/405.html");
-    std::stringstream   buff;
+	std::ifstream file(name);
 
     buff << file.rdbuf();
     std::cout << buff << std::endl;

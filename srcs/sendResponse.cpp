@@ -18,7 +18,7 @@ void Webserv::sendResponse(s_request *requestData, int fd)
         buff << file.rdbuf();
         std::cout << "size : " <<  buff.str().size() << std::endl << std::endl;
         if (!buff.str().size())
-                notFound(fd);
+                code_error(fd, 404);
         else
         {
                 std::string base = "HTTP/1.1 200 OK\n\n";

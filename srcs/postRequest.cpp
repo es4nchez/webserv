@@ -8,7 +8,6 @@ std::string     Webserv::parseBody(std::string request_body)
         std::cerr << "Invalid multipart/form-data request body: no blank line found" << std::endl;
         return "";
     }
-
     std::string fileData = request_body.substr(data_start_pos + 4);
     return fileData;
 }
@@ -45,17 +44,21 @@ void    Webserv::parsePostRequest(std::string request, int fd)
     std::cout << std::endl << request << std::endl;
     std::string request_body = request.substr(request.find("\r\n\r\n") + 4);
 
+
     std::string request_data = parseBody(request_body);
-    std::string filename = getFilename(request_body);
+	  std::string boundary = request.substr(request.find("boundary") + 11, 55);
+	  std::cout << "BOUND : " << "<<" << boundary << boundary.size() << ">>" << std::endl;
+	  std::string file_data = request_data.substr(0, (request_data.size() - boundary.size()) - 8);
+    std::string filename = getFilename(request);
+	  std::cout << "FILENAME : " << filename << std::endl;
+    std::cout << "file DATA : <<" << file_data << ">>" << std::endl;
 
-    // std::cout << "Request : <<" << request << ">>" << std::endl;
-    // std::cout << "Post data : <<" << request_body << ">>" << std::endl;
-
-    std::string path = "www/upload/";
-    std::ofstream file(path + filename, std::ios::binary);
+    std::string path = "www/upload/" + filename;
+    std::ofstream file(path, std::ios::binary);
 
 
-    file.write(request_data.c_str(), request_data.size());
+
+    file.write(file_data.c_str(), file_data.size());
     file.close();
 
-}   
+}
