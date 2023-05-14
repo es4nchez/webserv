@@ -38,7 +38,7 @@ int main(int ac, char **av, char **envp)
             if (FD_ISSET(ws._sockfd[i], &temp__fds))
             {
                 // accept the incoming connection
-                ws._client_sockfd.push_back(accept(ws._sockfd[i], (sockaddr*) &ws._client_addr[i], &ws._client_len[i]));
+                ws._client_sockfd[i] = accept(ws._sockfd[i], (sockaddr*) &ws._client_addr[i], &ws._client_len[i]);
                 if (ws._client_sockfd[i] < 0) {
                     std::cerr << "Error accepting connection" << std::endl;
                     continue;
