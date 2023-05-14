@@ -7,17 +7,17 @@ int Webserv::socketBinding(void)
     // The first argument AF_INET specifies the address family (in this case, IPv4)
     // The second argument SOCK_STREAM specifies the socket type (in this case, a TCP stream socket)
     // The third argument 0 indicates that the protocol should be chosen automatically.
-    for (unsigned int i = 0; i < this->ports.size(); i++)
+    for (unsigned int i = 0; i < ports.size(); i++)
     {
-        this->sockfd[i] = socket(AF_INET, SOCK_STREAM, 0);
-        if (this->sockfd[i] < 0)
+        sockfd[i] = socket(AF_INET, SOCK_STREAM, 0);
+        if (sockfd[i] < 0)
         {
             std::cerr << "Error creating socket" << std::endl;
             return 1;
         }
 
         int enable = 1;
-        if (setsockopt(this->sockfd[i], SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int)) < 0)
+        if (setsockopt(sockfd[i], SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int)) < 0)
         {
             perror("setsockopt(SO_REUSEADDR) failed");
         }
@@ -34,13 +34,13 @@ int Webserv::socketBinding(void)
         sockaddr_in server_addr;
         server_addr.sin_family = AF_INET;
         server_addr.sin_addr.s_addr = INADDR_ANY;
-        server_addr.sin_port = htons(this->ports[i]);
-        if (bind(this->sockfd[i], (sockaddr*) &server_addr, sizeof(server_addr)) < 0)
+        server_addr.sin_port = htons(ports[i]);
+        if (bind(sockfd[i], (sockaddr*) &server_addr, sizeof(server_addr)) < 0)
         {
-                std::cerr << "Error binding socket : " << this->sockfd[i] << std::endl;
+                std::cerr << "Error binding socket : " << sockfd[i] << std::endl;
                 return (1);
         }
-        std::cout << "Socket '" << this->sockfd[i] << "' binded" << " to port " << this->ports[i] << std::endl;
+        std::cout << "Socket '" << sockfd[i] << "' binded" << " to port " << ports[i] << std::endl;
 
 
         // Set the socket to listen for incoming connections.
@@ -50,17 +50,17 @@ int Webserv::socketBinding(void)
         // In this case, the backlog is set to 5. 
         // The client_len variable is also initialized to the size of the client_addr structure,
         // which will be used to store client connection information.
-        listen(this->sockfd[i], 5);
-        this->client_len[i] = sizeof(this->client_addr[i]);
+        listen(sockfd[i], 5);
+        client_len[i] = sizeof(client_addr[i]);
 
     }
 
     // create a set of file descriptors to monitor for activity
-    this->max_fd = -1;
-    for (unsigned int i = 0; i < this->ports.size(); i++)
+    max_fd = -1;
+    for (unsigned int i = 0; i < ports.size(); i++)
     {
-        FD_SET(this->sockfd[i], &this->fds);
-        this->max_fd = std::max(this->max_fd, this->sockfd[i]);
+        FD_SET(sockfd[i], &fds);
+        max_fd = std::max(max_fd, sockfd[i]);
     }
 
 

@@ -61,7 +61,7 @@ class Webserv
     char                    **_wenvp;
     std::map<std::string, std::string> env;
     bool                    _dirListing;
-    std::vector<std::string> _redirect;
+    std::map<std::string, std::string> _redirects;
 
     // POST Data
 
@@ -105,6 +105,7 @@ class Webserv
 
     // redirects.cpp
     bool        isRedirect(std::string path);
+    void        redirectURL(std::string path, int fd);
 
     // // cgi.cpp
     // void    handle_cgi_request(int sockfd, const std::string& query_string);

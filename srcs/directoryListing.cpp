@@ -41,7 +41,7 @@ std::string Webserv::listFilesInDirectory(const std::string& directoryPath)
 void Webserv::directoryListing(s_request *requestData, int fd)
 {
     (void)fd;
-    std::string dirPath = this->_rootpath + requestData->addr.substr(1, requestData->addr.size());
+    std::string dirPath = _rootpath + requestData->addr.substr(1, requestData->addr.size());
 
     std::string list = listFilesInDirectory(dirPath); 
     // std::cout << response << std::endl;
