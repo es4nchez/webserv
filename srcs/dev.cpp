@@ -9,6 +9,8 @@ void Webserv::HARDCODE_INIT(void)
     this->ports.push_back(8181);
 
     directory_listing = false;
+
+    redirect.push_back("www/redir.html");
 }
 
 void signal_callback_handler(int signum) {

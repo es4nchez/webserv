@@ -62,6 +62,7 @@ class Webserv
     char                    **wenvp;
     std::map<std::string, std::string> env;
     bool                    directory_listing;
+    std::vector<std::string> redirect;
 
     // POST Data
     std::string query_string;
@@ -92,6 +93,9 @@ class Webserv
     std::string     parseBody(std::string request_body);
     std::string     getFilename(std::string request_data);
 
+    // deleteRequest.cpp
+    void            deleteRequest(s_request *requestData, int fd);
+
     // receive.cpp
     std::string receive(int i);
     std::string getRequestMethod(const std::string& headers);
@@ -100,6 +104,9 @@ class Webserv
     // directoryListing.cpp
     void        directoryListing(s_request *requestData, int fd);
     std::string listFilesInDirectory(const std::string& directoryPath);
+
+    // redirect.cpp
+    bool        isRedirect(std::string path);
 
     // // cgi.cpp
     // void    handle_cgi_request(int sockfd, const std::string& query_string);
