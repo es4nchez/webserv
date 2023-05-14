@@ -121,7 +121,7 @@ void    Webserv::mainParsing(std::string request, s_request *requestData, int fd
     }
     else if (!requestData->methd.compare("DELETE"))
     {
-    
+        deleteRequest(requestData, fd);
     }
     else
     {
