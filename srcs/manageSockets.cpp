@@ -9,7 +9,7 @@ int Webserv::socketBinding(void)
     // The third argument 0 indicates that the protocol should be chosen automatically.
     for (unsigned int i = 0; i < _ports.size(); i++)
     {
-        _sockfd[i] = socket(AF_INET, SOCK_STREAM, 0);
+        _sockfd.push_back(socket(AF_INET, SOCK_STREAM, 0));
         if (_sockfd[i] < 0)
         {
             std::cerr << "Error creating socket" << std::endl;
@@ -51,7 +51,7 @@ int Webserv::socketBinding(void)
         // The _client_len variable is also initialized to the size of the _client_addr structure,
         // which will be used to store client connection information.
         listen(_sockfd[i], 5);
-        _client_len[i] = sizeof(_client_addr[i]);
+        _client_len.push_back(sizeof(_client_addr[i]));
 
     }
 

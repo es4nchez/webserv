@@ -11,4 +11,10 @@ void Webserv::HARDCODE_INIT(void)
     _dirListing = false;
 
     _redirects["www/redir.html"] = "http://localhost:8080/42lWatch.html";
+
+    _maxBodySize = 10000;
+
+
+    _client_addr.reserve(_ports.size());
+
 }
