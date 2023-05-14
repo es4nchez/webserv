@@ -2,11 +2,11 @@
 
 void Webserv::HARDCODE_INIT(void)
 {
-    this->_index = "42lWatch.html";
-    this->_rootpath = "www/";
+    _index = "42lWatch.html";
+    _rootpath = "www/";
 
-    this->ports.push_back(8080);
-    this->ports.push_back(8181);
+    ports.push_back(8080);
+    ports.push_back(8181);
 
     _dirListing = false;
 
