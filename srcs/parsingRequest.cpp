@@ -24,15 +24,15 @@ void Webserv::addQueryEnv(std::string str) {
 
     str = "QUERY_STRING=" + str;
 
-    if (wenvp != NULL) {
-        while (wenvp[size] != NULL) {
-            if (strncmp(wenvp[size], "QUERY_STRING=", 13) == 0) {
+    if (_wenvp != NULL) {
+        while (_wenvp[size] != NULL) {
+            if (strncmp(_wenvp[size], "QUERY_STRING=", 13) == 0) {
                 queryStringExists = true;
-                delete[] wenvp[size];
+                delete[] _wenvp[size];
                 char *newStr = new char[str.size() + 1];
                 std::copy(str.begin(), str.end(), newStr);
                 newStr[str.size()] = '\0';
-                wenvp[size] = newStr;
+                _wenvp[size] = newStr;
             }
             size++;
         }
@@ -40,7 +40,7 @@ void Webserv::addQueryEnv(std::string str) {
     if (!queryStringExists) {
         char** newEnvTab = new char*[size + 2];
         for (int i = 0; i < size; i++) {
-            newEnvTab[i] = wenvp[i];
+            newEnvTab[i] = _wenvp[i];
         }
         char *newStr = new char[str.size() + 1];
         std::copy(str.begin(), str.end(), newStr);
@@ -48,7 +48,7 @@ void Webserv::addQueryEnv(std::string str) {
         newEnvTab[size] = newStr;
         newEnvTab[size + 1] = NULL;
         
-        wenvp = newEnvTab;
+        _wenvp = newEnvTab;
     }
 }
 
@@ -95,12 +95,12 @@ void    Webserv::mainParsing(std::string request, s_request *requestData, int fd
     {
         CGI cgi;
         if (cgi.is_cgi_request(requestData->addr))
-            cgi.handle_cgi_request(client_sockfd[fd], (rootPath + requestData->addr), wenvp);
+            cgi.handle_cgi_request(client_sockfd[fd], (_rootpath + requestData->addr), _wenvp);
         else
         {
-            std::string fullPath = rootPath + requestData->addr;
+            std::string fullPath = _rootpath + requestData->addr;
             DIR* dir = opendir(fullPath.c_str());
-            if (dir != NULL && directory_listing)
+            if (dir != NULL && _dirListing)
             {
                 closedir(dir);
                 directoryListing(requestData, fd);
@@ -115,7 +115,7 @@ void    Webserv::mainParsing(std::string request, s_request *requestData, int fd
     {
         CGI cgi;
         if (cgi.is_cgi_request(requestData->addr))
-            cgi.handle_cgi_request(client_sockfd[fd], (rootPath + requestData->addr), wenvp);
+            cgi.handle_cgi_request(client_sockfd[fd], (_rootpath + requestData->addr), _wenvp);
         else
             parsePostRequest(request, client_sockfd[fd]);
     }

@@ -16,7 +16,7 @@ bool isValidPath(const std::string& path)
 
 void Webserv::deleteRequest(s_request *requestData, int fd)
 {
-    std::string fullPath = rootPath + requestData->addr;
+    std::string fullPath = _rootpath + requestData->addr;
     if (!isValidPath(requestData->addr))
         notFound(fd);
     else if (std::remove(fullPath.c_str()) == 0)

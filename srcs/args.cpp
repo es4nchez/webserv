@@ -12,14 +12,14 @@ int Webserv::args(int ac, char **av, char **envp)
     else if (ac == 1)
     {
         std::cout << std::endl <<  "Loading default config file : config/default.conf" << std::endl;
-        this->configPath = "config/default.conf";
+        _configPath = "config/default.conf";
     }
     else
     {
         std::cout << std::endl << "Loading config file : " << av[1] << std::endl;
-        this->configPath = av[1];
+        _configPath = av[1];
     }
-    wenvp = envp;
+    _wenvp = envp;
     for (int i = 0; envp[i] != NULL; i++) {
         char *equals = strchr(envp[i], '=');
         if (equals != NULL) {
