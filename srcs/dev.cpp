@@ -2,15 +2,15 @@
 
 void Webserv::HARDCODE_INIT(void)
 {
-    this->index = "42lWatch.html";
-    this->rootPath = "www/";
+    this->_index = "42lWatch.html";
+    this->_rootpath = "www/";
 
     this->ports.push_back(8080);
     this->ports.push_back(8181);
 
-    directory_listing = false;
+    _dirListing = false;
 
-    redirect.push_back("www/redir.html");
+    _redirect.push_back("www/redir.html");
 }
 
 void signal_callback_handler(int signum) {

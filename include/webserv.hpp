@@ -52,20 +52,18 @@ class Webserv
     int                 max_fd;
 
     // Request and serving file related
-    std::string request;
-    std::string index;
-    std::string rootPath;
+    std::string _index;
+    std::string _rootpath;
 
     // Config file related
-    std::string configPath;
+    std::string             _configPath;
     std::vector<int>        ports;
-    char                    **wenvp;
+    char                    **_wenvp;
     std::map<std::string, std::string> env;
-    bool                    directory_listing;
-    std::vector<std::string> redirect;
+    bool                    _dirListing;
+    std::vector<std::string> _redirect;
 
     // POST Data
-    std::string query_string;
 
     // For dev
     void HARDCODE_INIT(void);
@@ -105,7 +103,7 @@ class Webserv
     void        directoryListing(s_request *requestData, int fd);
     std::string listFilesInDirectory(const std::string& directoryPath);
 
-    // redirect.cpp
+    // redirects.cpp
     bool        isRedirect(std::string path);
 
     // // cgi.cpp
