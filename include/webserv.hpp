@@ -61,7 +61,7 @@ class Webserv
     char                    **_wenvp;
     std::map<std::string, std::string> env;
     bool                    _dirListing;
-    std::vector<std::string> _redirect;
+    std::map<std::string, std::string> _redirects;
 
     // POST Data
 

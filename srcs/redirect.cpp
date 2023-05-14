@@ -2,7 +2,7 @@
 
 bool Webserv::isRedirect(std::string path)
 {
-    if (std::find(_redirect.begin(), _redirect.end(), path) != _redirect.end())
+    if (_redirects.find(path) != _redirects.end())
         return true;
     else
         return false;

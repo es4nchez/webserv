@@ -10,7 +10,7 @@ void Webserv::HARDCODE_INIT(void)
 
     _dirListing = false;
 
-    _redirect.push_back("www/redir.html");
+    _redirects["www/redir.html"] = "http://localhost:8080/42lWatch.html";
 }
 
 void signal_callback_handler(int signum) {

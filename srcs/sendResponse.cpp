@@ -11,9 +11,8 @@ void Webserv::sendResponse(s_request *requestData, int fd)
         
         if (isRedirect(path))
         {
-                std::string location = "http://localhost:8080/42lWatch.html";
                 std::string base = "HTTP/1.1 301 Moved Permanently\n";
-                std::string body = "Location: " + location + "\r\n";
+                std::string body = "Location: " + _redirects[path] + "\r\n";
                 send(client_sockfd[fd], (base + body).c_str(), (base + body).size(), 0);
                 return;
         }
