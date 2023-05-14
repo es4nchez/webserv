@@ -95,7 +95,7 @@ void    Webserv::mainParsing(std::string request, s_request *requestData, int fd
     {
         CGI cgi;
         if (cgi.is_cgi_request(requestData->addr))
-            cgi.handle_cgi_request(client_sockfd[fd], (_rootpath + requestData->addr), _wenvp);
+            cgi.handle_cgi_request(_client_sockfd[fd], (_rootpath + requestData->addr), _wenvp);
         else
         {
             std::string fullPath = _rootpath + requestData->addr;
@@ -115,9 +115,9 @@ void    Webserv::mainParsing(std::string request, s_request *requestData, int fd
     {
         CGI cgi;
         if (cgi.is_cgi_request(requestData->addr))
-            cgi.handle_cgi_request(client_sockfd[fd], (_rootpath + requestData->addr), _wenvp);
+            cgi.handle_cgi_request(_client_sockfd[fd], (_rootpath + requestData->addr), _wenvp);
         else
-            parsePostRequest(request, client_sockfd[fd]);
+            parsePostRequest(request, _client_sockfd[fd]);
     }
     else if (!requestData->methd.compare("DELETE"))
     {

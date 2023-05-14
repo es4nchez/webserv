@@ -44,12 +44,12 @@ class Webserv
     ~Webserv();
 
     // Socket related
-    int                 sockfd[2];   //----------------------- << HARCOOOODE
-    int                 client_sockfd[2]; //----------------------- << HARCOOOODE
-    sockaddr_in         client_addr[2];
-    socklen_t           client_len[2];
-    fd_set              fds;
-    int                 max_fd;
+    int                 _sockfd[2];   //----------------------- << HARCOOOODE
+    int                 _client_sockfd[2]; //----------------------- << HARCOOOODE
+    sockaddr_in         _client_addr[2];
+    socklen_t           _client_len[2];
+    fd_set              _fds;
+    int                 _max_fd;
 
     // Request and serving file related
     std::string _index;
@@ -57,9 +57,8 @@ class Webserv
 
     // Config file related
     std::string             _configPath;
-    std::vector<int>        ports;
+    std::vector<int>        _ports;
     char                    **_wenvp;
-    std::map<std::string, std::string> env;
     bool                    _dirListing;
     std::map<std::string, std::string> _redirects;
 
@@ -107,34 +106,10 @@ class Webserv
     bool        isRedirect(std::string path);
     void        redirectURL(std::string path, int fd);
 
-    // // cgi.cpp
-    // void    handle_cgi_request(int sockfd, const std::string& query_string);
-    // bool    is_cgi_request(const std::string& request_path);
-
     // errorResponses.cpp
     void    notFound(int fd);
     void    badMethod(int fd);
 
 };
-
-
-// // parsingRequest.cpp
-// void    mainParsing(c_webserv *data, std::string request, s_request *requestData, int fd);
-
-// // sendResponse.cpp
-// void    sendResponse(c_webserv *data, s_request *requestData, int fd);
-// void    sendIndex(c_webserv *data, int fd);
-
-// // errorResponses.cpp
-// void    notFound(c_webserv *data, int fd);
-// void    badMethod(c_webserv *data, int fd);
-
-// // manageSockets.cpp
-// int     socketBinding(c_webserv *data);
-
-
-// For dev
-void signal_callback_handler(int signum);
-extern Webserv *g_webserv;
 
 #endif

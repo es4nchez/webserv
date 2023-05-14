@@ -49,5 +49,5 @@ void Webserv::directoryListing(s_request *requestData, int fd)
     std::string base = "HTTP/1.1 200 OK\n\n";
     std::string response = base + list;
 
-    send(client_sockfd[fd], response.c_str(), response.size(), 0);
+    send(_client_sockfd[fd], response.c_str(), response.size(), 0);
 }

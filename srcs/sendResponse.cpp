@@ -24,7 +24,7 @@ void Webserv::sendResponse(s_request *requestData, int fd)
                 std::string base = "HTTP/1.1 200 OK\n\n";
                 response = base + buff.str();
 
-                send(client_sockfd[fd], response.c_str(), response.size(), 0);
+                send(_client_sockfd[fd], response.c_str(), response.size(), 0);
         }
 }
 
@@ -40,5 +40,5 @@ void Webserv::sendIndex(int fd)
         std::string base = "HTTP/1.1 200 OK\n\n";
         response = base + buff.str();
 
-        send(client_sockfd[fd], response.c_str(), response.size(), 0);
+        send(_client_sockfd[fd], response.c_str(), response.size(), 0);
 }

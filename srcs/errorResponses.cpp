@@ -10,7 +10,7 @@ void    Webserv::notFound(int fd)
     buff << file.rdbuf();
     std::cout << buff << std::endl;
     std::string response = base + buff.str();
-    send(client_sockfd[fd], response.c_str(), response.size(), 0);
+    send(_client_sockfd[fd], response.c_str(), response.size(), 0);
 }
 
 void    Webserv::badMethod(int fd)
@@ -23,5 +23,5 @@ void    Webserv::badMethod(int fd)
     buff << file.rdbuf();
     std::cout << buff << std::endl;
     std::string response = base + buff.str();
-    send(client_sockfd[fd], response.c_str(), response.size(), 0);
+    send(_client_sockfd[fd], response.c_str(), response.size(), 0);
 }
