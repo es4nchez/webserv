@@ -107,7 +107,7 @@ class Webserv
     void        redirectURL(std::string path, int fd);
 
     // errorResponses.cpp
-    void    notFound(int fd);
+    void    code_error(int fd, int error_code);
     void    badMethod(int fd);
 
 };
