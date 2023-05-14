@@ -7,10 +7,6 @@ int main(int ac, char **av, char **envp)
 {
     Webserv ws;
 
-    // For dev
-    g_webserv = &ws;
-    signal(SIGINT, signal_callback_handler);
-
     // Init args
     if (ws.args(ac, av, envp))
         return (1);
@@ -28,8 +24,8 @@ int main(int ac, char **av, char **envp)
     while (true)
     {
         // wait for activity on the file descriptors using select()
-        fd_set temp_fds = ws.fds;
-        int ret = select(ws.max_fd + 1, &temp_fds, NULL, NULL, NULL);
+        fd_set temp__fds = ws._fds;
+        int ret = select(ws._max_fd + 1, &temp__fds, NULL, NULL, NULL);
         if (ret == -1)
         {
             std::cerr << "Error in select()" << std::endl;
@@ -37,13 +33,13 @@ int main(int ac, char **av, char **envp)
         }
 
         // iterate over the file descriptors to check for activity
-        for (unsigned int i = 0; i < ws.ports.size(); i++)
+        for (unsigned int i = 0; i < ws._ports.size(); i++)
         {
-            if (FD_ISSET(ws.sockfd[i], &temp_fds))
+            if (FD_ISSET(ws._sockfd[i], &temp__fds))
             {
                 // accept the incoming connection
-                ws.client_sockfd[i] = accept(ws.sockfd[i], (sockaddr*) &ws.client_addr[i], &ws.client_len[i]);
-                if (ws.client_sockfd[i] < 0) {
+                ws._client_sockfd[i] = accept(ws._sockfd[i], (sockaddr*) &ws._client_addr[i], &ws._client_len[i]);
+                if (ws._client_sockfd[i] < 0) {
                     std::cerr << "Error accepting connection" << std::endl;
                     continue;
                 }
@@ -54,12 +50,12 @@ int main(int ac, char **av, char **envp)
                 ws.handleRequest(request.c_str(), i);
 
                 // close the connection
-                close(ws.client_sockfd[i]);
+                close(ws._client_sockfd[i]);
             }
         }
     }
 
-    for (unsigned int i = 0; i < ws.ports.size(); i++)
-        close(ws.sockfd[i]);
+    for (unsigned int i = 0; i < ws._ports.size(); i++)
+        close(ws._sockfd[i]);
     return (0);
 }

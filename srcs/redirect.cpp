@@ -12,6 +12,6 @@ void Webserv::redirectURL(std::string path, int fd)
 {
     std::string base = "HTTP/1.1 301 Moved Permanently\n";
     std::string body = "Location: " + _redirects[path] + "\r\n";
-    send(client_sockfd[fd], (base + body).c_str(), (base + body).size(), 0);
+    send(_client_sockfd[fd], (base + body).c_str(), (base + body).size(), 0);
     return;
 }

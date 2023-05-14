@@ -20,20 +20,6 @@ int Webserv::args(int ac, char **av, char **envp)
         _configPath = av[1];
     }
     _wenvp = envp;
-    for (int i = 0; envp[i] != NULL; i++) {
-        char *equals = strchr(envp[i], '=');
-        if (equals != NULL) {
-            std::string key(envp[i], equals - envp[i]);
-            std::string value(equals + 1);
-            env[key] = value;
-        }
-    }
-
-    // ---------  For printing the env map ---------------
-    // std::map<std::string, std::string>::iterator it;
-    // for (it = env.begin(); it != env.end(); ++it) {
-    //     std::cout << it->first << ": " << it->second << std::endl;
-    // }
 
     return (0);
 }
