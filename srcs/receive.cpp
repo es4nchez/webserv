@@ -36,7 +36,7 @@ std::string Webserv::receive(int i)
     std::string buffer;
     while (true)
     {
-        char temp_buffer[1024] = {0};
+        char temp_buffer[1000000] = {0};
         int bytes_received = recv(_client_sockfd[i], temp_buffer, sizeof(temp_buffer) - 1, 0);
         if (bytes_received <= 0)
         {
@@ -67,7 +67,7 @@ std::string Webserv::receive(int i)
     }
 
     std::cout << "Data total received : " << buffer.size() << " bytes" << std::endl;
-    //std::cout << "Data received : --\"" << buffer << "\"--" << std::endl; 
+    // std::cout << "Data received : --\"" << buffer << "\"--" << std::endl; 
     std::cout << "Received data from " << inet_ntoa(_client_addr[i].sin_addr) << ":" << ntohs(_client_addr[i].sin_port) << std::endl;
 
     return buffer;

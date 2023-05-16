@@ -19,10 +19,11 @@ void Webserv::deleteRequest(s_request *requestData, int fd)
     std::string fullPath = _rootpath + requestData->addr;
     if (!isValidPath(requestData->addr))
         code_error(fd, 404);
-    else if (std::remove(fullPath.c_str()) == 0)
+    // else if (std::remove(fullPath.c_str()) == 0)
+    else if (1)
     {
         std::string response = "HTTP/1.1 202 Accepted\r\nContent-Type: text/plain\r\nContent-Length: 0\r\nConnection: close\r\n\r\n";
-        send(fd, response.c_str(), response.size(), 0);
+        send(_client_sockfd[fd], response.c_str(), response.size(), 0);
     }
     else
         code_error(fd, 404);

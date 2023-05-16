@@ -79,8 +79,14 @@ class Webserv
 
     // parsingRequest.cpp
     void    mainParsing(std::string request, s_request *requestData, int fd);
-    void    getAddrMethodData(std:: string request, s_request *requestData);
-    void    addQueryEnv(std::string str);
+    void    handleGET(s_request *requestData, int fd);
+    void    handlePOST(std::string request, s_request *requestData, int fd);
+    void    handleDELETE(s_request *requestData, int fd);
+
+    // parsingRequestUtils.cpp
+    void        getAddrMethodData(std:: string request, s_request *requestData);
+    void        addQueryEnv(std::string str);
+    std::string url_decode(const std::string& str);
 
     // sendResponse.cpp
     void    sendResponse(s_request *requestData, int fd);
