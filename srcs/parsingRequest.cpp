@@ -4,17 +4,19 @@
 void Webserv::handleGET(s_request *requestData, int fd)
 {
     CGI cgi;
-    if (requestData->addr.size() == 1) {
+    if (requestData->addr.size() == 1)
         sendIndex(fd);
-    } else {
+    else
+    {
         std::string fullPath = _rootpath + requestData->addr;
         DIR* dir = opendir(fullPath.c_str());
-        if (dir != NULL && _dirListing) {
+        if (dir != NULL && _dirListing)
+        {
             closedir(dir);
             directoryListing(requestData, fd);
-        } else {
-            sendResponse(requestData, fd);
         }
+        else
+            sendResponse(requestData, fd);
     }
 }
 
@@ -43,13 +45,12 @@ void Webserv::mainParsing(std::string request, s_request *requestData, int fd)
         std::cout << it->first << " = " << it->second << std::endl;
 
     // Handle different request types
-    if (!requestData->methd.compare("GET")) {
+    if (!requestData->methd.compare("GET"))
         handleGET(requestData, fd);
-    } else if (!requestData->methd.compare("POST")) {
+    else if (!requestData->methd.compare("POST"))
         handlePOST(request, requestData, fd);
-    } else if (!requestData->methd.compare("DELETE")) {
+    else if (!requestData->methd.compare("DELETE"))
         handleDELETE(requestData, fd);
-    } else {
+    else
         code_error(fd, 405);
-    }
 }
