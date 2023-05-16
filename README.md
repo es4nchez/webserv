@@ -58,7 +58,7 @@
     python3 testing/tester.py
 
 ### Siege stress test
-    siege 0.0.0.0:8080 -t1
+    siege -t1 -f testing/siege.txt
     ( dont forget to brew install siege before)
    
    
