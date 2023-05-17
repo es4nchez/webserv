@@ -47,7 +47,7 @@ int main(int ac, char **av, char **envp)
                 std::string request = ws.receive(i);
 
                 // handle the request
-                ws.handleRequest(request.c_str(), i);
+                ws.handleRequest(request, i);
 
                 // close the connection
                 close(ws._client_sockfd[i]);

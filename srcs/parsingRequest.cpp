@@ -110,7 +110,7 @@ void    Webserv::mainParsing(std::string request, s_request *requestData, int fd
             else if (requestData->addr.size() == 1)
                 sendIndex(fd);
             else
-                sendResponse(requestData, fd);
+                sendResponse(requestData, fd, 200);
         }
     }
     else if (!requestData->methd.compare("POST"))

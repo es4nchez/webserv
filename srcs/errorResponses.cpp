@@ -2,23 +2,24 @@
 
 void    Webserv::code_error(int fd, int error_code)
 {
-	std::string base = "";
-    std::string name = "";
-	if (error_code == 404)
-	{
-		base = "HTTP/1.1 404 Not Found\n\n";
-		name = "www/errors/404.html";
-	}
-	else if (error_code == 405)
-	{
-		base = "HTTP/1.1 405 Method Not Allowed\n\n";
-    	name = "www/errors/405.html";
-	}
-    std::stringstream   buff;
-	std::ifstream file(name);
+	const std::string errorCodes[] = {"404 Not Found", "405 Method Not Allowed", "413 Content Too Large"};
+    const std::string errorFiles[] = {"www/errors/404.html", "www/errors/405.html", "www/errors/413.html"};
+    const int errors[] = {404, 405, 413};
+    const int size = sizeof(errors) / sizeof(errors[0]);
 
+    std::string base, name;
+    for (int i = 0; i < size; ++i) {
+        if (error_code == errors[i]) {
+            base = "HTTP/1.1 " + errorCodes[i] + "\n\n";
+            name = errorFiles[i];
+            break;
+        }
+    }
+
+    std::ifstream file(name.c_str());
+    std::stringstream buff;
     buff << file.rdbuf();
-    std::cout << buff << std::endl;
+
     std::string response = base + buff.str();
     send(_client_sockfd[fd], response.c_str(), response.size(), 0);
 }
