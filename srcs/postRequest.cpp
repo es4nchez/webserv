@@ -40,14 +40,17 @@ std::string     Webserv::getFilename(std::string request_data)
 
 void Webserv::parsePostRequest(std::string request, int fd)
 {
-	(void) fd;
-
     std::string request_body = request.substr(request.find("\r\n\r\n") + 4);
 
-	std::cout << "REQUEST : " << request_body << std::endl;
+	if (request_body.size() > _maxBodySize )
+	{
+		code_error(fd, 413);
+		return ;
+	}
+	//std::cout << "REQUEST : " << request_body << std::endl;
     std::string request_data = parseBody(request_body);
 	std::string boundary = request.substr(request.find("boundary") + 11, 55);
-	std::cout << "BOUND : " << "<<" << boundary << boundary.size() << ">>" << std::endl;
+	//std::cout << "BOUND : " << "<<" << boundary << boundary.size() << ">>" << std::endl;
 	std::string filename = getFilename(request);
 	std::string file_data = request_data.substr(0, (request_data.size() - boundary.size()) - 10);
 	//std::cout << "FILENAME : " << filename << std::endl;

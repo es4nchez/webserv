@@ -16,7 +16,7 @@ void Webserv::handleGET(s_request *requestData, int fd)
             directoryListing(requestData, fd);
         }
         else
-            sendResponse(requestData, fd);
+            sendResponse(requestData, fd, 200);
     }
 }
 
@@ -26,7 +26,7 @@ void Webserv::handlePOST(std::string request, s_request *requestData, int fd)
     if (cgi.is_cgi_request(requestData->addr))
         cgi.handle_cgi_request(_client_sockfd[fd], (_rootpath + requestData->addr), _wenvp);
     else
-        parsePostRequest(request, _client_sockfd[fd]);
+        parsePostRequest(request, fd);
 }
 
 void Webserv::handleDELETE(s_request *requestData, int fd)
