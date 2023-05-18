@@ -40,21 +40,26 @@ std::string     Webserv::getFilename(std::string request_data)
 
 void Webserv::parsePostRequest(std::string request, int fd)
 {
-    (void)fd;
+	(void) fd;
+
     std::string request_body = request.substr(request.find("\r\n\r\n") + 4);
 
+	std::cout << "REQUEST : " << request_body << std::endl;
     std::string request_data = parseBody(request_body);
-    std::string boundary = request.substr(request.find("boundary") + 11, 55);
-    // std::cout << "BOUND : " << "<<" << boundary << boundary.size() << ">>" << std::endl;
-    std::string file_data = request_data.substr(0, (request_data.size() - boundary.size()) - 7);
-    std::string filename = getFilename(request);
-    // std::cout << "FILENAME : " << filename << std::endl;
-   // std::cout << "file DATA : <<" << file_data << ">>" << std::endl;
-  //  std::cout << "file DATA : " << std::endl;
+	std::string boundary = request.substr(request.find("boundary") + 11, 55);
+	std::cout << "BOUND : " << "<<" << boundary << boundary.size() << ">>" << std::endl;
+	std::string filename = getFilename(request);
+	std::string file_data = request_data.substr(0, (request_data.size() - boundary.size()) - 10);
+	//std::cout << "FILENAME : " << filename << std::endl;
+   	//std::cout << "file DATA : <<" << file_data << ">>" << std::endl;
 
     std::string path = "www/upload/" + filename;
     std::ofstream file(path, std::ios::binary);
 
-    file.write(file_data.data(), file_data.size());
-    file.close();
+   	file.write(file_data.data(), file_data.size());
+	if (file.good()) 
+	{
+		file.close();
+		sendResponse(NULL, fd, 201);
+	}
 }

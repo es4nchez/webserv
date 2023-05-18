@@ -89,7 +89,7 @@ class Webserv
     std::string url_decode(const std::string& str);
 
     // sendResponse.cpp
-    void    sendResponse(s_request *requestData, int fd);
+    void    sendResponse(s_request *requestData, int fd, int success_code);
     void    sendIndex(int fd);
 
     // postRequest.cpp
