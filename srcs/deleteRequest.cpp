@@ -4,13 +4,10 @@ bool isValidPath(const std::string& path)
 {
     if (path.find("..") != std::string::npos)
         return false;
-
     std::string invalidChars = "*:?|<>\"";
-    for (std::size_t i = 0; i < path.length(); ++i)
-    {
-        if (invalidChars.find(path[i]) != std::string::npos)
-            return false;
-    }
+    if (path.find_first_of(invalidChars) != std::string::npos)
+        return false;
+
     return true;
 }
 

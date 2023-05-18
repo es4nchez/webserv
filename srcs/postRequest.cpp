@@ -8,6 +8,7 @@ std::string     Webserv::parseBody(std::string request_body)
         std::cerr << "Invalid multipart/form-data request body: no blank line found" << std::endl;
         return "";
     }
+
     std::string fileData = request_body.substr(data_start_pos + 4);
     return fileData;
 }
@@ -37,7 +38,7 @@ std::string     Webserv::getFilename(std::string request_data)
 
 
 
-void    Webserv::parsePostRequest(std::string request, int fd)
+void Webserv::parsePostRequest(std::string request, int fd)
 {
 	(void) fd;
 

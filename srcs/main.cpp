@@ -44,7 +44,7 @@ int main(int ac, char **av, char **envp)
                     continue;
                 }
   
-                std::string request = ws.receive(i);
+                std::string request = ws.receive(i);\
 
                 // handle the request
                 ws.handleRequest(request, i);

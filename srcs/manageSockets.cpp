@@ -9,7 +9,7 @@ int Webserv::socketBinding(void)
     // The third argument 0 indicates that the protocol should be chosen automatically.
     for (unsigned int i = 0; i < _ports.size(); i++)
     {
-        _sockfd[i] = socket(AF_INET, SOCK_STREAM, 0);
+        _sockfd.push_back(socket(AF_INET, SOCK_STREAM, 0));
         if (_sockfd[i] < 0)
         {
             std::cerr << "Error creating socket" << std::endl;
@@ -47,11 +47,11 @@ int Webserv::socketBinding(void)
         // The second argument to the listen() call specifies the size of the backlog queue,
         // which is the number of incoming connections that can be queued up before the system starts rejecting them. 
 
-        // In this case, the backlog is set to 5. 
+        // In this case, the backlog is set to 64. 
         // The _client_len variable is also initialized to the size of the _client_addr structure,
         // which will be used to store client connection information.
-        listen(_sockfd[i], 5);
-        _client_len[i] = sizeof(_client_addr[i]);
+        listen(_sockfd[i], 64);
+        _client_len.push_back(sizeof(_client_addr[i]));
 
     }
 
