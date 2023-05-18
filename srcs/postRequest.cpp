@@ -43,7 +43,7 @@ void    Webserv::parsePostRequest(std::string request, int fd)
 
     std::string request_body = request.substr(request.find("\r\n\r\n") + 4);
 
-	//std::cout << "REQUEST : " << request_body << std::endl;
+	std::cout << "REQUEST : " << request_body << std::endl;
     std::string request_data = parseBody(request_body);
 	std::string boundary = request.substr(request.find("boundary") + 11, 55);
 	std::cout << "BOUND : " << "<<" << boundary << boundary.size() << ">>" << std::endl;
