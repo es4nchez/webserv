@@ -23,16 +23,18 @@ void Webserv::sendResponse(s_request *requestData, int fd, int success_code)
 				code_error(fd, 404);
 		}
 		else
-			buff << "";
+		{
+			name = "www/success/201.html";
+			std::ifstream file(name.c_str());
+    		buff << file.rdbuf();
+		}
         // Try to open the requested file, if it doesnt exist ( empty = 0), send 404
      	for (int i = 0; i < size; ++i) {
 			if (success_code == success[i]) {
 				base = "HTTP/1.1 " + successCodes[i] + "\n\n";
-				break;
 			}
 		}
 		response = base + buff.str();
-		std::cout << response << std::endl;
         send(_client_sockfd[fd], response.c_str(), response.size(), 0);
 }
 
