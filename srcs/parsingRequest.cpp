@@ -16,7 +16,7 @@ void Webserv::handleGET(s_request *requestData, int fd)
             directoryListing(requestData, fd);
         }
         else
-            sendResponse(requestData, fd);
+            sendResponse(requestData, fd, 200);
     }
 }
 
