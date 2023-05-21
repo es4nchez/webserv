@@ -1,6 +1,7 @@
 #include <fstream>
 #include <map>
 #include <set>
+#include <stack>
 #include "ParserJSON.hpp"
 
 ParserJSON::ParserJSON(std::string const &src) : _raw(src)
@@ -25,7 +26,6 @@ void ParserJSON::parse()
 std::string ParserJSON::toString() const
 {
 	std::string s;
-
 	for (std::vector<ParserJSON::t_lexem>::const_iterator it = _lexems.begin(); it != this->_lexems.end(); ++it)
 	{
 		if (it->lexem & ParserJSON::VALUE)
@@ -33,42 +33,57 @@ std::string ParserJSON::toString() const
 		else
 			s += '\n' + it->value;
 	}
-
 	return (s);
 }
 
-// CHECK KEYS
+bool ParserJSON::key(std::string const &key, std::vector<ParserJSON::t_lexem>::const_iterator &dst) const
+{
+	return this->key(key, dst, this->_lexems.begin());
+}
 
+bool ParserJSON::key(std::string const &key, std::vector<ParserJSON::t_lexem>::const_iterator &dst, std::vector<ParserJSON::t_lexem>::const_iterator start) const
+{
+	int depth = -1;
+
+	if (start->lexem != ParserJSON::OPEN_OBJ)
+		start = this->_lexems.end();
+	for (; start != this->_lexems.end(); ++start)
+	{
+		if (start->lexem == ParserJSON::OPEN_OBJ)
+			++depth;
+		else if (start->lexem == ParserJSON::CLOSE_OBJ)
+		{
+			--depth;
+			if (depth < 0)
+				break;
+		}
+		else if (start->lexem == ParserJSON::KEY && start->value == key && depth == 0)
+		{
+			dst = start;
+			return (false);
+		}
+	}
+
+	dst = this->_lexems.end();
+	return (true);
+}
+
+// CHECK KEYS
 void ParserJSON::check_unique_keys() const
 {
-	std::map<int, std::set<std::string> > map;
-	int depth = -1;
+	std::stack<std::set<std::string> > stack;
 
 	for (std::vector<ParserJSON::t_lexem>::const_iterator it = this->_lexems.begin(); it != this->_lexems.end(); ++it)
 	{
 		if (it->lexem == ParserJSON::OPEN_OBJ)
-		{
-			++depth;
-			std::pair<std::map<int, std::set<std::string> >::iterator, bool> const ret = map.insert(std::make_pair(depth, std::set<std::string>()));
-			if (ret.second == false)
-				throw "duplicate depth ?!!!!";
-		}
+			stack.push(std::set<std::string>());
 		else if (it->lexem == ParserJSON::CLOSE_OBJ)
-		{
-			std::map<int, std::set<std::string> >::size_type const size = map.erase(depth);
-			if (size == 0)
-				throw("shoud delete something ?!!!!!");
-			--depth;
-		}
+			stack.pop();
 		else if (it->lexem == ParserJSON::KEY)
 		{
-			std::map<int, std::set<std::string> >::iterator map_it = map.find(depth);
-			if (map_it != map.end())
-			{
-				std::pair<std::set<std::string>::iterator, bool> const ret = map_it->second.insert(it->value);
-				if (ret.second == false)
-					throw("unique key");
-			}
+			std::pair<std::set<std::string>::iterator, bool> const ret = stack.top().insert(it->value);
+			if (ret.second == false)
+				throw("duplicate key");
 		}
 	}
 }
@@ -198,7 +213,7 @@ void ParserJSON::state_in_object(std::vector<ParserJSON::e_state> &states,
 		states.pop_back();
 		break;
 	case ParserJSON::TOKEN_COMMA:
-		if (this->_lexems.back().lexem == ParserJSON::CLOSE_OBJ)
+		if (this->_lexems.back().lexem == ParserJSON::OPEN_OBJ)
 			throw("unexpected comma OBJECT");
 		states.push_back(ParserJSON::STATE_IN_KEY);
 		break;

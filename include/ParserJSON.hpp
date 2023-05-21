@@ -18,21 +18,6 @@ class ParserJSON
 	};
 
 public:
-	ParserJSON(std::string const &src);
-	std::string const &getRaw() const;
-	virtual ~ParserJSON();
-
-	std::string toString() const;
-
-private:
-	enum e_state
-	{
-		STATE_IN_VALUE,
-		STATE_IN_OBJECT,
-		STATE_IN_ARRAY,
-		STATE_IN_KEY
-	};
-
 	// LEXER
 	enum e_lexem
 	{
@@ -52,6 +37,54 @@ private:
 		ParserJSON::e_lexem lexem;
 		std::string value;
 	} typedef t_lexem;
+
+	ParserJSON(std::string const &src);
+	std::string const &getRaw() const;
+
+	bool key(std::string const &key,
+					 std::vector<ParserJSON::t_lexem>::const_iterator &dst) const;
+
+	bool key(std::string const &key,
+					 std::vector<ParserJSON::t_lexem>::const_iterator &dst,
+					 std::vector<ParserJSON::t_lexem>::const_iterator start) const;
+
+	template <typename T>
+	bool keys(T const &keys, std::vector<ParserJSON::t_lexem>::const_iterator &dst) const
+	{
+		return this->keys(keys, dst, this->_lexems.begin());
+	}
+
+	template <typename T>
+	bool keys(T const &keys,
+					 std::vector<ParserJSON::t_lexem>::const_iterator &dst,
+					 std::vector<ParserJSON::t_lexem>::const_iterator start) const
+	{
+		if (keys.empty())
+		{
+			dst = this->_lexems.end();
+			return (true);
+		}
+		for (typename T::const_iterator key = keys.begin(); key != keys.end(); ++key)
+		{
+			if (this->key(*key, dst, start))
+				return (true);
+			start = dst + 1;
+		}
+
+		return (false);
+	}
+
+	std::string toString() const;
+	virtual ~ParserJSON();
+
+private:
+	enum e_state
+	{
+		STATE_IN_VALUE,
+		STATE_IN_OBJECT,
+		STATE_IN_ARRAY,
+		STATE_IN_KEY
+	};
 
 	// TOKENIZER
 	enum e_token
