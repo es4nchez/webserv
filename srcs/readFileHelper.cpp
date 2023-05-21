@@ -1,19 +1,18 @@
 #include <string>
-#include <fstream>
-#include <iostream>
 #include <sstream>
+#include <fstream>
 
-int	read_file(std::string const &file_path, std::string &config)
+std::string read_file(std::string const &file_path)
 {
 	std::ifstream ifs(file_path);
 	std::ostringstream ostr;
 
+	if (ifs.fail())
+		throw "failed to open file";
+	if (ifs.eof())
+		return "";
 	ostr << ifs.rdbuf();
 	if (ostr.fail() || ifs.fail())
-	{
-		ifs.close();
-		return (1);
-	}
-	config = ostr.str();
-	return (0);
+		throw "error occured";
+	return ostr.str();
 }

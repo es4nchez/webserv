@@ -22,11 +22,18 @@ SRCS	= 	srcs/dev.cpp \
 			srcs/deleteRequest.cpp \
 			srcs/redirect.cpp \
 			srcs/parsingRequestUtils.cpp \
-			srcs/parsingConf.cpp \
+			srcs/ParserJSON.cpp \
 			srcs/readFileHelper.cpp
+
 NAME 	= webserv
 COMP 	= c++
 CXXFLAGS 	= -Wall -Wextra -Werror -std=c++98 -I include/
+
+DEBUG ?= 0
+ifeq ($(DEBUG), 1)
+	CXXFLAGS += -g
+endif
+
 
 OBJS	= ${SRCS:.cpp=.o}
 

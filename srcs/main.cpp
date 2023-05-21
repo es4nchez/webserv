@@ -1,4 +1,6 @@
 #include "webserv.hpp"
+#include "ParserJSON.hpp"
+#include "server_conf.hpp"
 
 // For Dev
 Webserv *g_webserv = nullptr;
@@ -9,7 +11,10 @@ int main(int ac, char **av, char **envp)
 
 
 		try {
-			parse_server_configuration("./config/test.json");
+			std::string file = read_file("./config/sample.json");
+			ParserJSON json(file);
+
+			std::cout << json.toString() << std::endl;
 			std::cout << "Parsing done" << std::endl;
     }
 		catch(const char *err)

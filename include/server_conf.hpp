@@ -36,10 +36,7 @@ struct s_conf_server
 	std::vector<t_server> servers;
 } typedef t_conf_server;
 
-//parsingConf.cpp
-int parse_server_configuration(std::string const &file_path);
-
 //readFileHelper.cpp
-int	read_file(std::string const &file_path, std::string &config);
+std::string read_file(std::string const &file_path);
 
 #endif
