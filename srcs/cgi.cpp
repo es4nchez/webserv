@@ -13,12 +13,12 @@ CGI::~CGI()
 
 void CGI::handle_cgi_request(int sockfd, const std::string& cgi_path, char **_wenvp)
 {
+    (void) _wenvp;
     int pipefd[2];
     if (pipe(pipefd) == -1) {
         std::cerr << "Error creating pipe: " << strerror(errno) << std::endl;
         return;
     }
-
     pid_t pid = fork();
 
     if (pid == -1) {
@@ -33,7 +33,7 @@ void CGI::handle_cgi_request(int sockfd, const std::string& cgi_path, char **_we
         close(pipefd[1]);
 
         char* args[] = { const_cast<char*>(PYTHON), const_cast<char*>(cgi_path.c_str()), NULL};
-        execve(PYTHON, args, _wenvp);
+        execve(PYTHON, args, NULL);
         std::cerr << "Error executing CGI program: " << strerror(errno) << std::endl;
         exit(EXIT_FAILURE);
     }
