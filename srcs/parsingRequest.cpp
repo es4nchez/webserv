@@ -3,7 +3,10 @@
 
 void Request::handleGET(s_request *requestData, int fd)
 {
-    if (requestData->addr.size() == 1)
+    CGI cgi;
+    if (cgi.is_cgi_request(requestData->addr))
+        cgi.handle_cgi_request(r_client_sockfd, (r_rootpath + requestData->addr), r_wenvp);
+    else if (requestData->addr.size() == 1)
         sendIndex(fd);
     else
     {

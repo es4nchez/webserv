@@ -29,7 +29,7 @@ class	Request
 {
 	public :
 
-	Request(int client_sock_fd);
+	Request(int client_sock_fd, char **envp);
 	~Request();
 
 	int                            		r_client_sockfd;
