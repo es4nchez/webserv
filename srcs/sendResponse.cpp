@@ -35,20 +35,20 @@ void Request::sendResponse(s_request *requestData, int fd, int success_code)
 			}
 		}
 		response = base + buff.str();
-        send(r_client_sockfd[fd], response.c_str(), response.size(), 0);
+        send(r_client_sockfd, response.c_str(), response.size(), 0);
 }
 
 
 // Generic index sending
 void Request::sendIndex(int fd)
 {
-        std::string path = r_rootpath + r_index;
-        std::ifstream   file(path.c_str());
-        std::stringstream   buff;
-        std::string response;
-        buff << file.rdbuf();
-        std::string base = "HTTP/1.1 200 OK \n\n";
-		response = base + buff.str();
-
-        send(r_client_sockfd[fd], response.c_str(), response.size(), 0);
+	(void) fd;
+	std::string path = r_rootpath + r_index;
+	std::ifstream   file(path.c_str());
+	std::stringstream   buff;
+	std::string response;
+	buff << file.rdbuf();
+	std::string base = "HTTP/1.1 200 OK \n\n";
+	response = base + buff.str();
+	send(r_client_sockfd, response.c_str(), response.size(), 0);
 }

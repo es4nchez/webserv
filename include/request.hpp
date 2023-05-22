@@ -29,10 +29,10 @@ class	Request
 {
 	public :
 
-	Request(std::vector<int> client_sock_fd);
+	Request(int client_sock_fd);
 	~Request();
 
-	std::vector<int>            		r_client_sockfd;
+	int                            		r_client_sockfd;
 
 	std::string 						r_index;
     std::string 						r_rootpath;

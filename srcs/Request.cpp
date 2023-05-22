@@ -1,6 +1,6 @@
 #include "request.hpp"
 
-Request::Request(std::vector<int> client_sock_fd)
+Request::Request(int client_sock_fd)
 {
 	r_index = "42lWatch.html";
     r_rootpath = "www/";

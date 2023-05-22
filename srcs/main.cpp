@@ -21,7 +21,6 @@ int main(int ac, char **av, char **envp)
         return (1);
     std::cout << std::endl << "Webserv launching... start logs :" << std::endl << std::endl;
 
-	std::vector<Request> rt(ws.w_ports.size(), Request(ws.w_client_sockfd));
     while (true)
     {
         // wait for activity on the file descriptors using select()
@@ -47,15 +46,15 @@ int main(int ac, char **av, char **envp)
   
                 std::string request = ws.receive(i);\
 
+                Request rt(ws.w_client_sockfd[i]);
                 // handle the request
-                rt[i].handleRequest(request, i);
+                rt.handleRequest(request, i);
 
                 // close the connection
                 close(ws.w_client_sockfd[i]);
             }
         }
     }
-
     for (unsigned int i = 0; i < ws.w_ports.size(); i++)
         close(ws.w_sockfd[i]);
     return (0);

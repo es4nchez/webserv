@@ -23,7 +23,7 @@ void Request::handlePOST(std::string request, s_request *requestData, int fd)
 {
     CGI cgi;
     if (cgi.is_cgi_request(requestData->addr))
-        cgi.handle_cgi_request(r_client_sockfd[fd], (r_rootpath + requestData->addr), r_wenvp);
+        cgi.handle_cgi_request(r_client_sockfd, (r_rootpath + requestData->addr), r_wenvp);
     else
         parsePostRequest(request, fd);
 }
