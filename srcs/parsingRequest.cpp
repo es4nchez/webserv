@@ -9,7 +9,7 @@ void Request::handleGET(s_request *requestData, int fd)
     {
         std::string fullPath = r_rootpath + requestData->addr;
         DIR* dir = opendir(fullPath.c_str());
-        if (dir != NULL && _dirListing)
+        if (dir != NULL && r_dirListing)
         {
             closedir(dir);
             directoryListing(requestData, fd);

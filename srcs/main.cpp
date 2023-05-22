@@ -21,7 +21,7 @@ int main(int ac, char **av, char **envp)
         return (1);
     std::cout << std::endl << "Webserv launching... start logs :" << std::endl << std::endl;
 
-	Request rt[ws.w_ports.size()](ws.w_client_sockfd);
+	std::vector<Request> rt(ws.w_ports.size(), Request(ws.w_client_sockfd));
     while (true)
     {
         // wait for activity on the file descriptors using select()
