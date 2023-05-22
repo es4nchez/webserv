@@ -1,6 +1,6 @@
-#include "webserv.hpp"
+#include "request.hpp"
 
-std::string     Webserv::parseBody(std::string request_body)
+std::string     Request::parseBody(std::string request_body)
 {
     std::string::size_type data_start_pos = request_body.find("\r\n\r\n");
     if (data_start_pos == std::string::npos) {
@@ -13,7 +13,7 @@ std::string     Webserv::parseBody(std::string request_body)
     return fileData;
 }
 
-std::string     Webserv::getFilename(std::string request_data)
+std::string     Request::getFilename(std::string request_data)
  {
     std::string::size_type disposition_start_pos = request_data.find("Content-Disposition: ");
     if (disposition_start_pos == std::string::npos) {
@@ -38,11 +38,11 @@ std::string     Webserv::getFilename(std::string request_data)
 
 
 
-void Webserv::parsePostRequest(std::string request, int fd)
+void Request::parsePostRequest(std::string request, int fd)
 {
     std::string request_body = request.substr(request.find("\r\n\r\n") + 4);
 
-	if (request_body.size() > _maxBodySize )
+	if (request_body.size() > r_maxBodySize )
 	{
 		code_error(fd, 413);
 		return ;

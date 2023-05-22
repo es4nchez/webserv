@@ -1,6 +1,6 @@
-#include "webserv.hpp"
+#include "request.hpp"
 
-void Webserv::sendResponse(s_request *requestData, int fd, int success_code)
+void Request::sendResponse(s_request *requestData, int fd, int success_code)
 {
 		const std::string successCodes[] = {"200 OK", "201 Created", "202 Accepted"};
 		const int success[] = {200, 201, 202};
@@ -10,7 +10,7 @@ void Webserv::sendResponse(s_request *requestData, int fd, int success_code)
 		std::stringstream   buff;
 		if (success_code == 200)
 		{
-			std::string path = _rootpath + requestData->addr.substr(1, requestData->addr.size());
+			std::string path = r_rootpath + requestData->addr.substr(1, requestData->addr.size());
         	std::ifstream   file(path.c_str());
 			if (isRedirect(path))
 			{
@@ -35,14 +35,14 @@ void Webserv::sendResponse(s_request *requestData, int fd, int success_code)
 			}
 		}
 		response = base + buff.str();
-        send(_client_sockfd[fd], response.c_str(), response.size(), 0);
+        send(r_client_sockfd[fd], response.c_str(), response.size(), 0);
 }
 
 
 // Generic index sending
-void Webserv::sendIndex(int fd)
+void Request::sendIndex(int fd)
 {
-        std::string path = _rootpath + _index;
+        std::string path = r_rootpath + r_index;
         std::ifstream   file(path.c_str());
         std::stringstream   buff;
         std::string response;
@@ -50,5 +50,5 @@ void Webserv::sendIndex(int fd)
         std::string base = "HTTP/1.1 200 OK \n\n";
 		response = base + buff.str();
 
-        send(_client_sockfd[fd], response.c_str(), response.size(), 0);
+        send(r_client_sockfd[fd], response.c_str(), response.size(), 0);
 }

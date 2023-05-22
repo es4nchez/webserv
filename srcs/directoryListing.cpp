@@ -1,6 +1,6 @@
-#include "webserv.hpp"
+#include "request.hpp"
 
-std::string Webserv::listFilesInDirectory(const std::string& directoryPath)
+std::string Request::listFilesInDirectory(const std::string& directoryPath)
 {
     DIR* dir = opendir(directoryPath.c_str());
     if (dir == NULL) {
@@ -38,10 +38,10 @@ std::string Webserv::listFilesInDirectory(const std::string& directoryPath)
 
 
 
-void Webserv::directoryListing(s_request *requestData, int fd)
+void Request::directoryListing(s_request *requestData, int fd)
 {
     (void)fd;
-    std::string dirPath = _rootpath + requestData->addr.substr(1, requestData->addr.size());
+    std::string dirPath = r_rootpath + requestData->addr.substr(1, requestData->addr.size());
 
     std::string list = listFilesInDirectory(dirPath); 
     // std::cout << response << std::endl;
@@ -49,5 +49,5 @@ void Webserv::directoryListing(s_request *requestData, int fd)
     std::string base = "HTTP/1.1 200 OK\n\n";
     std::string response = base + list;
 
-    send(_client_sockfd[fd], response.c_str(), response.size(), 0);
+    send(r_client_sockfd[fd], response.c_str(), response.size(), 0);
 }

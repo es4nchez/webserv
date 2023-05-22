@@ -1,14 +1,13 @@
-#include "webserv.hpp"
+#include "request.hpp"
 #include "cgi.hpp"
 
-void Webserv::handleGET(s_request *requestData, int fd)
+void Request::handleGET(s_request *requestData, int fd)
 {
-    CGI cgi;
     if (requestData->addr.size() == 1)
         sendIndex(fd);
     else
     {
-        std::string fullPath = _rootpath + requestData->addr;
+        std::string fullPath = r_rootpath + requestData->addr;
         DIR* dir = opendir(fullPath.c_str());
         if (dir != NULL && _dirListing)
         {
@@ -20,29 +19,29 @@ void Webserv::handleGET(s_request *requestData, int fd)
     }
 }
 
-void Webserv::handlePOST(std::string request, s_request *requestData, int fd)
+void Request::handlePOST(std::string request, s_request *requestData, int fd)
 {
     CGI cgi;
     if (cgi.is_cgi_request(requestData->addr))
-        cgi.handle_cgi_request(_client_sockfd[fd], (_rootpath + requestData->addr), _wenvp);
+        cgi.handle_cgi_request(r_client_sockfd[fd], (r_rootpath + requestData->addr), r_wenvp);
     else
         parsePostRequest(request, fd);
 }
 
-void Webserv::handleDELETE(s_request *requestData, int fd)
+void Request::handleDELETE(s_request *requestData, int fd)
 {
     deleteRequest(requestData, fd);
 }
 
-void Webserv::mainParsing(std::string request, s_request *requestData, int fd)
+void Request::mainParsing(std::string request, s_request *requestData, int fd)
 {
     getAddrMethodData(request, requestData);
     std::cout << "Method: " << requestData->methd << std::endl;
     std::cout << "Requested Address: " << requestData->addr << std::endl;
 
     // Print the Data map
-    for (std::map<std::string, std::string>::iterator it = requestData->data.begin(); it != requestData->data.end(); ++it)
-        std::cout << it->first << " = " << it->second << std::endl;
+    // for (std::map<std::string, std::string>::iterator it = requestData->data.begin(); it != requestData->data.end(); ++it)
+    //     std::cout << it->first << " = " << it->second << std::endl;
 
     // Handle different request types
     if (!requestData->methd.compare("GET"))

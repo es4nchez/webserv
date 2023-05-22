@@ -1,6 +1,6 @@
-#include "webserv.hpp"
+#include "request.hpp"
 
-void    Webserv::code_error(int fd, int error_code)
+void    Request::code_error(int fd, int error_code)
 {
 	const std::string errorCodes[] = {"400 Bad Request", "404 Not Found", "405 Method Not Allowed", "413 Content Too Large"};
     const std::string errorFiles[] = {"www/errors/400.html", "www/errors/404.html", "www/errors/405.html", "www/errors/413.html"};
@@ -21,5 +21,5 @@ void    Webserv::code_error(int fd, int error_code)
     buff << file.rdbuf();
 
     std::string response = base + buff.str();
-    send(_client_sockfd[fd], response.c_str(), response.size(), 0);
+    send(r_client_sockfd[fd], response.c_str(), response.size(), 0);
 }

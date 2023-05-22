@@ -21,7 +21,8 @@ SRCS	= 	srcs/dev.cpp \
 			srcs/directoryListing.cpp \
 			srcs/deleteRequest.cpp \
 			srcs/redirect.cpp \
-			srcs/parsingRequestUtils.cpp
+			srcs/parsingRequestUtils.cpp \
+			srcs/Request.cpp \
 
 NAME 	= webserv
 COMP 	= c++
