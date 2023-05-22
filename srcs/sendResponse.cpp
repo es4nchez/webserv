@@ -43,7 +43,7 @@ void Request::sendResponse(s_request *requestData, int fd, int success_code)
 void Request::sendIndex(int fd)
 {
 	(void) fd;
-	std::string path = r_rootpath + r_index;
+	std::string path = r_config.routes[0].root + r_index;
 	std::ifstream   file(path.c_str());
 	std::stringstream   buff;
 	std::string response;

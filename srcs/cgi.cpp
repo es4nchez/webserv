@@ -66,6 +66,7 @@ bool CGI::is_cgi_request(const std::string& request_path)
     cgi_extensions.push_back(".py");
     cgi_extensions.push_back(".cgi");
 
+
     size_t dot_pos = request_path.find_last_of('.');
     if (dot_pos == std::string::npos)
         return false;
