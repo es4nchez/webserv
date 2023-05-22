@@ -1,6 +1,6 @@
-#include "webserv.hpp"
+#include "request.hpp"
 
-std::string     Webserv::parseBody(std::string request_body)
+std::string     Request::parseBody(std::string request_body)
 {
     std::string::size_type data_start_pos = request_body.find("\r\n\r\n");
     if (data_start_pos == std::string::npos) {
@@ -13,7 +13,7 @@ std::string     Webserv::parseBody(std::string request_body)
     return fileData;
 }
 
-std::string     Webserv::getFilename(std::string request_data)
+std::string     Request::getFilename(std::string request_data)
  {
     std::string::size_type disposition_start_pos = request_data.find("Content-Disposition: ");
     if (disposition_start_pos == std::string::npos) {
@@ -38,16 +38,19 @@ std::string     Webserv::getFilename(std::string request_data)
 
 
 
-void Webserv::parsePostRequest(std::string request, int fd)
+void Request::parsePostRequest(std::string request, int fd)
 {
-	(void) fd;
-
     std::string request_body = request.substr(request.find("\r\n\r\n") + 4);
 
-	std::cout << "REQUEST : " << request_body << std::endl;
+	if (request_body.size() > r_maxBodySize )
+	{
+		code_error(fd, 413);
+		return ;
+	}
+	//std::cout << "REQUEST : " << request_body << std::endl;
     std::string request_data = parseBody(request_body);
 	std::string boundary = request.substr(request.find("boundary") + 11, 55);
-	std::cout << "BOUND : " << "<<" << boundary << boundary.size() << ">>" << std::endl;
+	//std::cout << "BOUND : " << "<<" << boundary << boundary.size() << ">>" << std::endl;
 	std::string filename = getFilename(request);
 	std::string file_data = request_data.substr(0, (request_data.size() - boundary.size()) - 10);
 	//std::cout << "FILENAME : " << filename << std::endl;

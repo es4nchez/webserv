@@ -19,7 +19,7 @@ int Webserv::args(int ac, char **av, char **envp)
         std::cout << std::endl << "Loading config file : " << av[1] << std::endl;
         _configPath = av[1];
     }
-    _wenvp = envp;
+    w_wenvp = envp;
 
     return (0);
 }

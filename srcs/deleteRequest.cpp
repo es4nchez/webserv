@@ -1,4 +1,4 @@
-#include "webserv.hpp"
+#include "request.hpp"
 
 bool isValidPath(const std::string& path)
 {
@@ -11,9 +11,9 @@ bool isValidPath(const std::string& path)
     return true;
 }
 
-void Webserv::deleteRequest(s_request *requestData, int fd)
+void Request::deleteRequest(s_request *requestData, int fd)
 {
-    std::string fullPath = _rootpath + requestData->addr;
+    std::string fullPath = r_rootpath + requestData->addr;
     if (!isValidPath(requestData->addr))
         code_error(fd, 404);
     else if (std::remove(fullPath.c_str()) == 0)

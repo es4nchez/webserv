@@ -24,8 +24,8 @@ int main(int ac, char **av, char **envp)
     while (true)
     {
         // wait for activity on the file descriptors using select()
-        fd_set temp__fds = ws._fds;
-        int ret = select(ws._max_fd + 1, &temp__fds, NULL, NULL, NULL);
+        fd_set temp__fds = ws.w_fds;
+        int ret = select(ws.w_max_fd + 1, &temp__fds, NULL, NULL, NULL);
         if (ret == -1)
         {
             std::cerr << "Error in select()" << std::endl;
@@ -33,29 +33,29 @@ int main(int ac, char **av, char **envp)
         }
 
         // iterate over the file descriptors to check for activity
-        for (unsigned int i = 0; i < ws._ports.size(); i++)
+        for (unsigned int i = 0; i < ws.w_ports.size(); i++)
         {
-            if (FD_ISSET(ws._sockfd[i], &temp__fds))
+            if (FD_ISSET(ws.w_sockfd[i], &temp__fds))
             {
                 // accept the incoming connection
-                ws._client_sockfd[i] = accept(ws._sockfd[i], (sockaddr*) &ws._client_addr[i], &ws._client_len[i]);
-                if (ws._client_sockfd[i] < 0) {
+                ws.w_client_sockfd[i] = accept(ws.w_sockfd[i], (sockaddr*) &ws.w_client_addr[i], &ws.w_client_len[i]);
+                if (ws.w_client_sockfd[i] < 0) {
                     std::cerr << "Error accepting connection" << std::endl;
                     continue;
                 }
   
                 std::string request = ws.receive(i);\
 
+                Request rt(ws.w_client_sockfd[i]);
                 // handle the request
-                ws.handleRequest(request, i);
+                rt.handleRequest(request, i);
 
                 // close the connection
-                close(ws._client_sockfd[i]);
+                close(ws.w_client_sockfd[i]);
             }
         }
     }
-
-    for (unsigned int i = 0; i < ws._ports.size(); i++)
-        close(ws._sockfd[i]);
+    for (unsigned int i = 0; i < ws.w_ports.size(); i++)
+        close(ws.w_sockfd[i]);
     return (0);
 }

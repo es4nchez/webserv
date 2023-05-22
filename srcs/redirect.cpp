@@ -1,17 +1,18 @@
-#include "webserv.hpp"
+#include "request.hpp"
 
-bool Webserv::isRedirect(std::string path)
+bool Request::isRedirect(std::string path)
 {
-    if (_redirects.find(path) != _redirects.end())
+    if (r_redirects.find(path) != r_redirects.end())
         return true;
     else
         return false;
 }
 
-void Webserv::redirectURL(std::string path, int fd)
+void Request::redirectURL(std::string path, int fd)
 {
+    (void)fd;
     std::string base = "HTTP/1.1 301 Moved Permanently\n";
-    std::string body = "Location: " + _redirects[path] + "\r\n";
-    send(_client_sockfd[fd], (base + body).c_str(), (base + body).size(), 0);
+    std::string body = "Location: " + r_redirects[path] + "\r\n";
+    send(r_client_sockfd, (base + body).c_str(), (base + body).size(), 0);
     return;
 }
