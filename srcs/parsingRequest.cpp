@@ -36,8 +36,8 @@ void Request::handleDELETE(s_request *requestData, int fd)
 void Request::mainParsing(std::string request, s_request *requestData, int fd)
 {
     getAddrMethodData(request, requestData);
-    std::cout << "Method: " << requestData->methd << std::endl;
-    std::cout << "Requested Address: " << requestData->addr << std::endl;
+    // std::cout << "Method: " << requestData->methd << std::endl;
+    // std::cout << "Requested Address: " << requestData->addr << std::endl;
 
     // Print the Data map
     // for (std::map<std::string, std::string>::iterator it = requestData->data.begin(); it != requestData->data.end(); ++it)

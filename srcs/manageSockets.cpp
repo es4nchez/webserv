@@ -40,7 +40,7 @@ int Webserv::socketBinding(void)
                 std::cerr << "Error binding socket : " << w_sockfd[i] << std::endl;
                 return (1);
         }
-        std::cout << "Socket '" << w_sockfd[i] << "' binded" << " to port " << w_ports[i] << std::endl;
+        // std::cout << "Socket '" << w_sockfd[i] << "' binded" << " to port " << w_ports[i] << std::endl;
 
 
         // Set the socket to listen for incoming connections.
