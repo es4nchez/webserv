@@ -56,8 +56,8 @@ public:
 
 	template <typename T>
 	bool keys(T const &keys,
-					 std::vector<ParserJSON::t_lexem>::const_iterator &dst,
-					 std::vector<ParserJSON::t_lexem>::const_iterator start) const
+						std::vector<ParserJSON::t_lexem>::const_iterator &dst,
+						std::vector<ParserJSON::t_lexem>::const_iterator start) const
 	{
 		if (keys.empty())
 		{
@@ -72,6 +72,34 @@ public:
 		}
 
 		return (false);
+	}
+
+	template <typename T>
+	bool arr(std::vector<ParserJSON::t_lexem>::const_iterator it,
+					 T &dst,
+					 bool (&func)(std::vector<ParserJSON::t_lexem>::const_iterator, T &)) const
+	{
+		if (it->lexem != OPEN_ARR)
+			return true;
+		++it;
+
+		for (; it != this->_lexems.end() && it->lexem != CLOSE_ARR; ++it)
+		{
+			if (func(it, dst))
+				return true;
+
+			int depth = 0;
+			for (; it != this->_lexems.end(); ++it)
+			{
+				if (it->lexem == ParserJSON::OPEN_OBJ || it->lexem == ParserJSON::OPEN_ARR)
+					++depth;
+				else if (it->lexem == ParserJSON::CLOSE_OBJ || it->lexem == ParserJSON::CLOSE_ARR)
+					--depth;
+				if (depth == 0)
+					break;
+			}
+		}
+		return false;
 	}
 
 	std::string toString() const;

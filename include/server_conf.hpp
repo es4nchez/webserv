@@ -38,5 +38,6 @@ struct s_conf_server
 
 //readFileHelper.cpp
 std::string read_file(std::string const &file_path);
+void parse_configuration(std::string const &file_path);
 
 #endif

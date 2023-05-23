@@ -10,37 +10,11 @@ int main(int ac, char **av, char **envp)
 {
 	Webserv ws;
 
-	try
-	{
-		std::string file = read_file("./config/sample.json");
-		ParserJSON json(file);
-
-		std::cout << json.toString() << std::endl;
-
-		std::vector<ParserJSON::t_lexem>::const_iterator tmp;
-
-		if (!json.keys((std::array<std::string, 3>){"test", "testa", "testb"}, tmp))
-		{
-			std::cout << tmp->value << std::endl;
-		}
-
-		std::cout << "Parsing done" << std::endl;
-	}
-	catch (const char *err)
-	{
-		std::cerr << "parse_server_configuration_err" << std::endl;
-		std::cerr << err << std::endl;
-	}
-	catch (std::exception &e)
-	{
-		std::cerr << "parse_server_configuration" << std::endl;
-		std::cerr << e.what() << std::endl;
-	}
-	return (0);
-
 	// Init args
 	if (ws.args(ac, av, envp))
 		return (1);
+
+	parse_configuration("config/sample.json");
 
 	// HARDCODE CONFIG
 	ws.HARDCODE_INIT();
