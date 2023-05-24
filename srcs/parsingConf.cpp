@@ -7,6 +7,8 @@ bool parse_servers(std::vector<ParserJSON::t_lexem>::const_iterator it,
 									 std::vector<ParserJSON::t_lexem> &arr_res)
 {
 	(void)arr_res;
+	if (it->lexem != ParserJSON::BOOL)
+		return true;
 	std::cout << "test: " << it->value << std::endl;
 	return false;
 }
@@ -20,22 +22,15 @@ void parse_configuration(std::string const &file_path)
 
 		std::cout << json.toString() << std::endl;
 
-		std::vector<ParserJSON::t_lexem>::const_iterator tmp;
-
-		if (json.key("servers", tmp))
-		{
-			std::cout << "servers key not found";
-			return;
-		}
-		++tmp;
+		std::vector<ParserJSON::t_lexem>::const_iterator key;
+		if (json.get_key("test", key))
+			throw "test key not found";
 
 		std::vector<ParserJSON::t_lexem> arr_res;
-		if (json.arr(tmp, arr_res, parse_servers))
-		{
-			std::cout << "json arr errror";
-		}
-		(void)tmp;
-		std::cout << "Parsing done" << std::endl;
+		if (json.arr(key + 1, arr_res, parse_servers))
+			throw "test arr fail";
+		
+		std::cout << arr_res.size() << std::endl;
 	}
 	catch (const char *err)
 	{

@@ -35,18 +35,15 @@ std::string ParserJSON::toString() const
 	}
 	return (s);
 }
-
-bool ParserJSON::key(std::string const &key, std::vector<ParserJSON::t_lexem>::const_iterator &dst) const
-{
-	return this->key(key, dst, this->_lexems.begin());
-}
-
-bool ParserJSON::key(std::string const &key, std::vector<ParserJSON::t_lexem>::const_iterator &dst, std::vector<ParserJSON::t_lexem>::const_iterator start) const
+//RETURN LEXEM_KEY
+bool ParserJSON::get_key(std::string const &key,
+												 std::vector<ParserJSON::t_lexem>::const_iterator &dst,
+												 std::vector<ParserJSON::t_lexem>::const_iterator start) const
 {
 	int depth = -1;
 
 	if (start->lexem != ParserJSON::OPEN_OBJ)
-		start = this->_lexems.end();
+		return (true);
 	for (; start != this->_lexems.end(); ++start)
 	{
 		if (start->lexem == ParserJSON::OPEN_OBJ)
@@ -64,8 +61,13 @@ bool ParserJSON::key(std::string const &key, std::vector<ParserJSON::t_lexem>::c
 		}
 	}
 
-	dst = this->_lexems.end();
 	return (true);
+}
+
+bool ParserJSON::get_key(std::string const &key,
+												 std::vector<ParserJSON::t_lexem>::const_iterator &dst) const
+{
+	return this->get_key(key, dst, this->_lexems.begin());
 }
 
 // CHECK KEYS

@@ -1,9 +1,5 @@
 {
-	"test": {
-		"testa": {
-			"testb": "dsdsa"
-		}
-	},
+	"test": ["test", "test"],
 	"servers": [
 		{
 			"host": "localhost",
