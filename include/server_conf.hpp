@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <map>
 
 enum e_http_method
 {
@@ -16,9 +17,9 @@ struct s_route
 	std::string location;
 	std::vector<enum e_http_method> methods;
 	std::string http_redir;
-	std::string root;
-	bool dir_listing;
-	std::vector<std::string> index;
+	std::string root; 
+	bool dir_listing; //false
+	std::string index; //""
 } typedef t_route;
 
 struct s_server
@@ -27,7 +28,7 @@ struct s_server
 	unsigned int port;
 	std::vector<std::string> server_names;
 	unsigned int max_client_body_size;
-	std::vector<std::string> default_error_pages;
+	std::multimap<int, std::string> default_error_pages; //map error_code / error_page
 	std::vector<t_route> routes;
 } typedef t_server;
 

@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <sstream>
 
 class ParserJSON
 {
@@ -49,18 +50,18 @@ public:
 	template <typename T>
 	bool key(std::string const &key,
 					 T &dst,
-					 bool (&func)(std::vector<ParserJSON::t_lexem>::const_iterator, T &),
+					 bool (&func)(ParserJSON const &, std::vector<ParserJSON::t_lexem>::const_iterator const &, T &),
 					 std::vector<ParserJSON::t_lexem>::const_iterator start) const
 	{
 		if (this->get_key(key, start, start))
 			return (true);
-		return func(start + 1, dst);
+		return func(*this, start + 1, dst);
 	}
 
 	template <typename T>
 	bool key(std::string const &key,
 					 T &dst,
-					 bool (&func)(std::vector<ParserJSON::t_lexem>::const_iterator, T &)) const
+					 bool (&func)(ParserJSON const &, std::vector<ParserJSON::t_lexem>::const_iterator const &, T &)) const
 	{
 		return this->key(key, dst, func, this->_lexems.begin());
 	}
@@ -68,20 +69,20 @@ public:
 	template <typename T, typename U>
 	bool keys(T const &keys,
 						U &dst,
-						bool (&func)(std::vector<ParserJSON::t_lexem>::const_iterator, U &),
+						bool (&func)(ParserJSON const &, std::vector<ParserJSON::t_lexem>::const_iterator const &, T &),
 						std::vector<ParserJSON::t_lexem>::const_iterator start) const
 	{
 		if (keys.empty())
 			return (true);
 		if (this->get_keys(keys, start, start))
 			return (true);
-		return func(start + 1, dst);
+		return func(*this, start + 1, dst);
 	}
 
 	template <typename T, typename U>
 	bool keys(T const &keys,
 						U &dst,
-						bool (&func)(std::vector<ParserJSON::t_lexem>::const_iterator, U &)) const
+						bool (&func)(ParserJSON const &, std::vector<ParserJSON::t_lexem>::const_iterator const &, T &)) const
 	{
 		return this->keys(keys, dst, func, this->_lexems.begin());
 	}
@@ -111,9 +112,31 @@ public:
 	}
 
 	template <typename T>
+	bool key_map(std::string const &key,
+							 T &dst,
+							 bool (&func)(ParserJSON const &, std::vector<ParserJSON::t_lexem>::const_iterator const &, T &),
+							 std::vector<ParserJSON::t_lexem>::const_iterator start) const
+	{
+		std::vector<ParserJSON::t_lexem>::const_iterator it;
+
+		if (this->get_key(key, it, start))
+			return (true);
+		return this->arr(it + 1, dst, func);
+	}
+
+	template <typename T>
+	bool key_map(std::string const &key,
+							 T &dst,
+							 bool (&func)(ParserJSON const &, std::vector<ParserJSON::t_lexem>::const_iterator const &, T &)) const
+	{
+		return this->key_map(key, dst, func, this->_lexems.begin());
+	}
+
+
+	template <typename T>
 	bool arr(std::vector<ParserJSON::t_lexem>::const_iterator it,
 					 T &dst,
-					 bool (&func)(std::vector<ParserJSON::t_lexem>::const_iterator, T &)) const
+					 bool (&func)(ParserJSON const &, std::vector<ParserJSON::t_lexem>::const_iterator const &, T &)) const
 	{
 		if (it->lexem != OPEN_ARR)
 			return true;
@@ -121,9 +144,8 @@ public:
 
 		for (; it != this->_lexems.end() && it->lexem != CLOSE_ARR; ++it)
 		{
-			if (func(it, dst))
+			if (func(*this, it, dst))
 				return true;
-
 			int depth = 0;
 			for (; it != this->_lexems.end(); ++it)
 			{
@@ -138,9 +160,19 @@ public:
 		return false;
 	}
 
-	bool key_bool(std::vector<ParserJSON::t_lexem>::const_iterator const &lexem_value, bool &dst) const;
-	bool key_word(std::vector<ParserJSON::t_lexem>::const_iterator const &lexem_value, std::string &dst) const;
-	bool key_number(std::vector<ParserJSON::t_lexem>::const_iterator const &lexem_value, int &dst) const;
+	template <typename T>
+	static bool to_number(ParserJSON const &json, std::vector<ParserJSON::t_lexem>::const_iterator const &lexem_value, T &dst)
+	{
+		(void)json;
+		if (lexem_value->lexem != ParserJSON::NUMBER)
+			return (true);
+		std::stringstream str(lexem_value->value);
+		str >> dst;
+		return std::to_string(dst) != lexem_value->value;
+	}
+
+	static bool to_bool(ParserJSON const &json, std::vector<ParserJSON::t_lexem>::const_iterator const &lexem_value, bool &dst);
+	static bool to_word(ParserJSON const &json, std::vector<ParserJSON::t_lexem>::const_iterator const &lexem_value, std::string &dst);
 
 	std::string toString() const;
 	virtual ~ParserJSON();

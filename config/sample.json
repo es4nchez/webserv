@@ -4,11 +4,11 @@
 		{
 			"host": "localhost",
 			"port": 8080,
-			"server_name": "plouf_name",
+			"server_names": ["plouf_name"],
 			"max_client_body_size": 4096,
 			"default_error_pages": [
-				"error.html",
-				"another_error.html"
+				[404, "error.html"],
+				[405, "another_error.html"]
 			],
 			"routes": [
 				{
