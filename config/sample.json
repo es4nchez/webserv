@@ -1,0 +1,29 @@
+{
+	"test": ["test", "test"],
+	"servers": [
+		{
+			"host": "localhost",
+			"port": 8080,
+			"server_names": ["plouf_name"],
+			"max_client_body_size": 4096,
+			"default_error_pages": [
+				[404, "error.html"],
+				[405, "another_error.html"]
+			],
+			"routes": [
+				{
+					"location": "/",
+					"methods": [
+						"GET",
+						"POST",
+						"DELETE"
+					],
+					"http_redir": "my_redir",
+					"root": "/public",
+					"dir_listing": false,
+					"index": "index.html"
+				}
+			]
+		}
+	]
+}

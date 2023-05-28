@@ -37,3 +37,4 @@ webserv
 #vscode settings
 .vscode/*
 .vscode/
+.vscode
