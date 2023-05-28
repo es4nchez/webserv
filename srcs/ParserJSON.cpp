@@ -2,6 +2,7 @@
 #include <map>
 #include <set>
 #include <stack>
+#include <sstream>
 #include "ParserJSON.hpp"
 
 ParserJSON::ParserJSON(std::string const &src) : _raw(src)
@@ -35,7 +36,7 @@ std::string ParserJSON::toString() const
 	}
 	return (s);
 }
-//RETURN LEXEM_KEY
+// RETURN LEXEM_KEY
 bool ParserJSON::get_key(std::string const &key,
 												 std::vector<ParserJSON::t_lexem>::const_iterator &dst,
 												 std::vector<ParserJSON::t_lexem>::const_iterator start) const
@@ -376,6 +377,37 @@ void ParserJSON::tokenizer(std::vector<ParserJSON::t_token> &tokens) const
 		t.token = e;
 		tokens.push_back(t);
 	}
+}
+
+bool ParserJSON::key_bool(std::vector<ParserJSON::t_lexem>::const_iterator const &lexem_value, bool &dst) const
+{
+	static const std::string true_litteral("true");
+	static const std::string false_litteral("false");
+
+	if (lexem_value->lexem != ParserJSON::BOOL)
+		return (true);
+	if (lexem_value->value == true_litteral)
+		dst = true;
+	else
+		dst = false;
+	return (false);
+}
+
+bool ParserJSON::key_word(std::vector<ParserJSON::t_lexem>::const_iterator const &lexem_value, std::string &dst) const
+{
+	if (lexem_value->lexem != ParserJSON::WORD)
+		return (true);
+	dst = lexem_value->value;
+	return (false);
+}
+
+bool ParserJSON::key_number(std::vector<ParserJSON::t_lexem>::const_iterator const &lexem_value, int &dst) const
+{
+	if (lexem_value->lexem != ParserJSON::NUMBER)
+		return (true);
+	std::stringstream str(lexem_value->value);
+	str >> dst;
+	return std::to_string(dst) != lexem_value->value;
 }
 
 // Colpien

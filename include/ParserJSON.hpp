@@ -138,6 +138,10 @@ public:
 		return false;
 	}
 
+	bool key_bool(std::vector<ParserJSON::t_lexem>::const_iterator const &lexem_value, bool &dst) const;
+	bool key_word(std::vector<ParserJSON::t_lexem>::const_iterator const &lexem_value, std::string &dst) const;
+	bool key_number(std::vector<ParserJSON::t_lexem>::const_iterator const &lexem_value, int &dst) const;
+
 	std::string toString() const;
 	virtual ~ParserJSON();
 
