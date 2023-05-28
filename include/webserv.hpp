@@ -15,9 +15,10 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <unistd.h>
-#include "cgi.hpp"
-
 #include <dirent.h>
+#include "cgi.hpp"
+#include "request.hpp"
+
 
 #define MAX_CONNECTIONS 10
 
@@ -46,12 +47,12 @@ class Webserv
     ~Webserv();
 
     // Socket related
-    std::vector<int>            _sockfd;
-    std::vector<int>            _client_sockfd;
-    std::vector<sockaddr_in>    _client_addr;
-    std::vector<socklen_t>      _client_len;
-    fd_set                      _fds;
-    int                         _max_fd;
+    std::vector<int>            w_sockfd;
+    std::vector<int>            w_client_sockfd;
+    std::vector<sockaddr_in>    w_client_addr;
+    std::vector<socklen_t>      w_client_len;
+    fd_set                      w_fds;
+    int                         w_max_fd;
 
     // Request and serving file related
     std::string _index;
@@ -60,8 +61,8 @@ class Webserv
 
     // Config file related
     std::string             _configPath;
-    std::vector<int>        _ports;
-    char                    **_wenvp;
+    std::vector<int>        w_ports;
+    char                    **w_wenvp;
     bool                    _dirListing;
     std::map<std::string, std::string> _redirects;
 
@@ -73,51 +74,13 @@ class Webserv
     // manageSockets.cpp
     int     socketBinding(void);
 
-    // handleRequest.cpp
-    void    handleRequest(std::string buffer, int fd);
-
     // args.cpp
     int     args(int ac, char **av, char **envp);
-
-    // parsingRequest.cpp
-    void    mainParsing(std::string request, s_request *requestData, int fd);
-    void    handleGET(s_request *requestData, int fd);
-    void    handlePOST(std::string request, s_request *requestData, int fd);
-    void    handleDELETE(s_request *requestData, int fd);
-
-    // parsingRequestUtils.cpp
-    void        getAddrMethodData(std:: string request, s_request *requestData);
-    void        addQueryEnv(std::string str);
-    std::string url_decode(const std::string& str);
-
-    // sendResponse.cpp
-    void    sendResponse(s_request *requestData, int fd, int success_code);
-    void    sendIndex(int fd);
-
-    // postRequest.cpp
-    void            parsePostRequest(std::string request, int fd);
-    std::string     parseBody(std::string request_body);
-    std::string     getFilename(std::string request_data);
-
-    // deleteRequest.cpp
-    void            deleteRequest(s_request *requestData, int fd);
 
     // receive.cpp
     std::string receive(int i);
     std::string getRequestMethod(const std::string& headers);
     int         getContentLengthFromHeaders(const std::string& headers);
-
-    // directoryListing.cpp
-    void        directoryListing(s_request *requestData, int fd);
-    std::string listFilesInDirectory(const std::string& directoryPath);
-
-    // redirects.cpp
-    bool        isRedirect(std::string path);
-    void        redirectURL(std::string path, int fd);
-
-    // errorResponses.cpp
-    void    code_error(int fd, int error_code);
-    void    badMethod(int fd);
 
 };
 

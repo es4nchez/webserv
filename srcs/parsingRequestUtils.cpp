@@ -1,4 +1,4 @@
-#include "webserv.hpp"
+#include "request.hpp"
 #include "cgi.hpp"
 
 std::string url_decode(const std::string& str)
@@ -19,21 +19,21 @@ std::string url_decode(const std::string& str)
     return result;
 }
 
-void Webserv::addQueryEnv(std::string str) {
+void Request::addQueryEnv(std::string str) {
     int size = 0;
     bool queryStringExists = false;
 
     str = "QUERY_STRING=" + str;
 
-    if (_wenvp != NULL) {
-        while (_wenvp[size] != NULL) {
-            if (strncmp(_wenvp[size], "QUERY_STRING=", 13) == 0) {
+    if (r_wenvp != NULL) {
+        while (r_wenvp[size] != NULL) {
+            if (strncmp(r_wenvp[size], "QUERY_STRING=", 13) == 0) {
                 queryStringExists = true;
-                delete[] _wenvp[size];
+                delete[] r_wenvp[size];
                 char *newStr = new char[str.size() + 1];
                 std::copy(str.begin(), str.end(), newStr);
                 newStr[str.size()] = '\0';
-                _wenvp[size] = newStr;
+                r_wenvp[size] = newStr;
             }
             size++;
         }
@@ -41,7 +41,7 @@ void Webserv::addQueryEnv(std::string str) {
     if (!queryStringExists) {
         char** newEnvTab = new char*[size + 2];
         for (int i = 0; i < size; i++) {
-            newEnvTab[i] = _wenvp[i];
+            newEnvTab[i] = r_wenvp[i];
         }
         char *newStr = new char[str.size() + 1];
         std::copy(str.begin(), str.end(), newStr);
@@ -49,12 +49,12 @@ void Webserv::addQueryEnv(std::string str) {
         newEnvTab[size] = newStr;
         newEnvTab[size + 1] = NULL;
         
-        _wenvp = newEnvTab;
+        r_wenvp = newEnvTab;
     }
 }
 
 
-void    Webserv::getAddrMethodData(std:: string request, s_request *requestData)
+void    Request::getAddrMethodData(std:: string request, s_request *requestData)
 {
     std::size_t space_pos = request.find(' ');
 

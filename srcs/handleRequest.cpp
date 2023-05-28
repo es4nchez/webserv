@@ -1,8 +1,9 @@
-#include "webserv.hpp"
+#include "request.hpp"
 
 
-void    Webserv::handleRequest(std::string buffer, int fd)
+void    Request::handleRequest(std::string buffer, int fd)
 {
     s_request requestData;
+	//std::cout << buffer << std::endl;
     mainParsing(buffer, &requestData, fd);
 }
