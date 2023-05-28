@@ -1,28 +1,27 @@
 #include "request.hpp"
 #include "cgi.hpp"
 
-std::string url_decode(const std::string& str)
-{
-    std::string result;
-    char ch;
-    size_t i, j;
-    for (i = 0; i < str.length(); i++) {
-        if (str[i] == '%') {
-            sscanf(str.substr(i + 1, 2).c_str(), "%lx", &j);
-            ch = static_cast<char>(j);
-            result += ch;
-            i += 2;
-        } else {
-            result += str[i];
-        }
-    }
-    return result;
-}
+// std::string url_decode(const std::string& str)
+// {
+//     std::string result;
+//     char ch;
+//     size_t i, j;
+//     for (i = 0; i < str.length(); i++) {
+//         if (str[i] == '%') {
+//             sscanf(str.substr(i + 1, 2).c_str(), "%lx", &j);
+//             ch = static_cast<char>(j);
+//             result += ch;
+//             i += 2;
+//         } else {
+//             result += str[i];
+//         }
+//     }
+//     return result;
+// }
 
 void Request::addQueryEnv(std::string str) {
     int size = 0;
     bool queryStringExists = false;
-
     str = "QUERY_STRING=" + str;
 
     if (r_wenvp != NULL) {

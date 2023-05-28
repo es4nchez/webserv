@@ -29,6 +29,9 @@
 // For dev
 #include <signal.h>
 
+//parser
+#include "server_conf.hpp"
+
 class Webserv
 {
     public:

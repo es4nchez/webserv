@@ -4,14 +4,13 @@ void Webserv::HARDCODE_INIT(void)
 {
     w_config = new s_server[2];
 
-    std::cout << "debug 1" << std::endl;
-
     s_route route;
     w_config[0].routes.push_back(route);
-
     w_config[0].routes[0].root = "www/";
+    w_config[0].routes[0].dir_listing = true;
 
-    std::cout << "debug 2" << std::endl;
+    w_config[1].routes.push_back(route);
+    w_config[1].routes[0].root = "www/";
 
 
     w_ports.push_back(8080);

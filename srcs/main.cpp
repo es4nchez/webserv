@@ -1,4 +1,7 @@
 #include "webserv.hpp"
+#include "ParserJSON.hpp"
+#include "server_conf.hpp"
+#include <array>
 
 // For Dev
 Webserv *g_webserv = nullptr;
@@ -15,7 +18,7 @@ int main(int ac, char **av, char **envp)
     ws.HARDCODE_INIT();
 
     // Parsing config file
-        // To do
+	parse_configuration("config/sample.json");
 
     if (ws.socketBinding())
         return (1);
