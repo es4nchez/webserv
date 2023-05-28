@@ -16,6 +16,7 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <dirent.h>
+#include "server_conf.hpp"
 
 struct s_request {
 
@@ -29,7 +30,7 @@ class	Request
 {
 	public :
 
-	Request(int client_sock_fd, char **envp);
+	Request(int client_sock_fd, char **envp, s_server w_config);
 	~Request();
 
 	int                            		r_client_sockfd;
@@ -42,6 +43,8 @@ class	Request
 
 	bool                    			r_dirListing;
     std::map<std::string, std::string> 	r_redirects;
+
+    s_server                            r_config;
 
 	// handleRequest.cpp
     void    handleRequest(std::string buffer, int fd);

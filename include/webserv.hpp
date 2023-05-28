@@ -18,6 +18,7 @@
 #include <dirent.h>
 #include "cgi.hpp"
 #include "request.hpp"
+#include "server_conf.hpp"
 
 
 #define MAX_CONNECTIONS 10
@@ -30,14 +31,6 @@
 
 //parser
 #include "server_conf.hpp"
-
-struct s_request {
-
-    std::string methd;
-    std::string addr;
-    std::map<std::string, std::string> data;
-
-};
 
 class Webserv
 {
@@ -65,6 +58,8 @@ class Webserv
     char                    **w_wenvp;
     bool                    _dirListing;
     std::map<std::string, std::string> _redirects;
+
+    s_server                *w_config;
 
     // POST Data
 

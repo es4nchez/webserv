@@ -18,7 +18,7 @@ int main(int ac, char **av, char **envp)
     ws.HARDCODE_INIT();
 
     // Parsing config file
-	  parse_configuration("config/sample.json");
+	parse_configuration("config/sample.json");
 
     if (ws.socketBinding())
         return (1);
@@ -49,7 +49,7 @@ int main(int ac, char **av, char **envp)
   
                 std::string request = ws.receive(i);\
 
-                Request rt(ws.w_client_sockfd[i], envp);
+                Request rt(ws.w_client_sockfd[i], envp, ws.w_config[i]);
                 // handle the request
                 rt.handleRequest(request, i);
 
