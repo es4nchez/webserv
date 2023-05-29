@@ -59,7 +59,7 @@ class Webserv
     bool                    _dirListing;
     std::map<std::string, std::string> _redirects;
 
-    s_server                *w_config;
+    std::vector<t_server> w_config;
 
     // POST Data
 

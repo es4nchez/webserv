@@ -1,32 +1,31 @@
 #include "request.hpp"
 #include "cgi.hpp"
 
-// std::string url_decode(const std::string& str)
-// {
-//     std::string result;
-//     char ch;
-//     size_t i, j;
-//     for (i = 0; i < str.length(); i++) {
-//         if (str[i] == '%') {
-//             sscanf(str.substr(i + 1, 2).c_str(), "%lx", &j);
-//             ch = static_cast<char>(j);
-//             result += ch;
-//             i += 2;
-//         } else {
-//             result += str[i];
-//         }
-//     }
-//     return result;
-// }
+std::string Request::methodToString(e_http_method method)
+{
+    switch(method) {
+    case GET:
+        return "GET";
+    case POST:
+        return "POST";
+    case DELETE:
+        return "DELETE";
+    default:
+        return "";
+    }
+}
 
-void Request::addQueryEnv(std::string str) {
+void Request::addQueryEnv(std::string str)
+{
     int size = 0;
     bool queryStringExists = false;
     str = "QUERY_STRING=" + str;
 
-    if (r_wenvp != NULL) {
+    if (r_wenvp != NULL)
+    {
         while (r_wenvp[size] != NULL) {
-            if (strncmp(r_wenvp[size], "QUERY_STRING=", 13) == 0) {
+            if (strncmp(r_wenvp[size], "QUERY_STRING=", 13) == 0)
+            {
                 queryStringExists = true;
                 delete[] r_wenvp[size];
                 char *newStr = new char[str.size() + 1];
@@ -37,11 +36,11 @@ void Request::addQueryEnv(std::string str) {
             size++;
         }
     }
-    if (!queryStringExists) {
+    if (!queryStringExists)
+    {
         char** newEnvTab = new char*[size + 2];
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < size; i++)
             newEnvTab[i] = r_wenvp[i];
-        }
         char *newStr = new char[str.size() + 1];
         std::copy(str.begin(), str.end(), newStr);
         newStr[str.size()] = '\0';
@@ -58,12 +57,12 @@ void    Request::getAddrMethodData(std:: string request, s_request *requestData)
     std::size_t space_pos = request.find(' ');
 
     // Find the method and the address in the request 
-    if (space_pos != std::string::npos) {
+    if (space_pos != std::string::npos)
+    {
         requestData->methd = request.substr(0, space_pos);
         std::size_t next_space_pos = request.find(' ', space_pos + 1);
-        if (next_space_pos != std::string::npos) {
+        if (next_space_pos != std::string::npos)
             requestData->addr = request.substr(space_pos + 1, next_space_pos - space_pos - 1);
-        }
     }
 
     if (requestData->methd == "POST")

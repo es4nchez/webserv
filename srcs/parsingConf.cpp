@@ -96,7 +96,7 @@ bool parse_servers(ParserJSON const &json, std::vector<ParserJSON::t_lexem>::con
 	return (false);
 }
 
-void parse_configuration(std::string const &file_path)
+std::vector<t_server> parse_configuration(std::string const &file_path)
 {
 	try
 	{
@@ -118,6 +118,7 @@ void parse_configuration(std::string const &file_path)
 				std::cout << it_map->first << ", " << it_map->second << std::endl;
 			}
 		}
+		return servers;
 	}
 	catch (const char *err)
 	{
@@ -129,4 +130,5 @@ void parse_configuration(std::string const &file_path)
 		std::cerr << "parse_server_configuration" << std::endl;
 		std::cerr << e.what() << std::endl;
 	}
+	return std::vector<t_server>();
 }
