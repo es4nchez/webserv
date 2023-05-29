@@ -49,7 +49,6 @@ int main(int ac, char **av, char **envp)
                 }
   
                 std::string request = ws.receive(i);
-                std::cout << "clientsockfd : " << ws.w_client_sockfd[i] << std::endl;
                 Request rt(ws.w_client_sockfd[i], envp, ws.w_config[i]);
                 // handle the request
                 rt.handleRequest(request, i);

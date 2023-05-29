@@ -19,11 +19,45 @@
 						"DELETE"
 					],
 					"http_redir": "my_redir",
-					"root": "/public",
+					"root": "www/",
 					"dir_listing": false,
-					"index": "index.html"
+					"index": "42lwatch.html"
 				}
 			]
+		},
+		{
+			"host": "localhost",
+			"port": 8181,
+			"server_names": ["plouf_name"],
+			"max_client_body_size": 4096,
+			"default_error_pages": [
+				[404, "error.html"],
+				[405, "another_error.html"]
+			],
+			"routes": [
+				{
+					"location": "/",
+					"methods": [
+						"POST",
+						"DELETE"
+					],
+					"http_redir": "my_redir",
+					"root": "www/",
+					"dir_listing": false,
+					"index": "42lwatch.html"
+				},
+				{
+					"location": "/postex.html",
+					"methods": [
+						"GET"
+					],
+					"http_redir": "my_redir",
+					"root": "www/",
+					"dir_listing": false,
+					"index": "42lwatch.html"
+				}
+			]
+			
 		}
 	]
 }

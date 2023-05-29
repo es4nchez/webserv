@@ -41,7 +41,7 @@ void Request::handleDELETE(s_request *requestData, int fd)
 
 bool Request::checkMethod(std::string methd)
 {
-    for (std::vector<e_http_method>::const_iterator it = r_config.routes[0].methods.begin(); 
+    for (std::vector<e_http_method>::const_iterator it = r_config.routes[0].methods.begin();
          it != r_config.routes[0].methods.end(); ++it)
     {
         if (methodToString(*it) == methd)
@@ -63,7 +63,7 @@ void Request::mainParsing(std::string request, s_request *requestData, int fd)
 
     // Handle different request types
     if (!checkMethod(requestData->methd))
-        code_error(fd, 405);
+        code_error(405);
     else if (!requestData->methd.compare("GET"))
         handleGET(requestData, fd);
     else if (!requestData->methd.compare("POST"))
@@ -71,5 +71,5 @@ void Request::mainParsing(std::string request, s_request *requestData, int fd)
     else if (!requestData->methd.compare("DELETE"))
         handleDELETE(requestData, fd);
     else
-        code_error(fd, 405);
+        code_error(405);
 }
