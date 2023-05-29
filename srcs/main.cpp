@@ -14,11 +14,12 @@ int main(int ac, char **av, char **envp)
     if (ws.args(ac, av, envp))
         return (1);
 
-    // HARDCODE CONFIG
+    // Parsing config file
+	ws.w_config = parse_configuration(av[1]);
+
+    // // HARDCODE CONFIG
     ws.HARDCODE_INIT();
 
-    // Parsing config file
-	parse_configuration("config/sample.json");
 
     if (ws.socketBinding())
         return (1);
@@ -36,7 +37,7 @@ int main(int ac, char **av, char **envp)
         }
 
         // iterate over the file descriptors to check for activity
-        for (unsigned int i = 0; i < ws.w_ports.size(); i++)
+        for (unsigned int i = 0; i < ws.w_config.size(); i++)
         {
             if (FD_ISSET(ws.w_sockfd[i], &temp__fds))
             {
@@ -47,8 +48,8 @@ int main(int ac, char **av, char **envp)
                     continue;
                 }
   
-                std::string request = ws.receive(i);\
-
+                std::string request = ws.receive(i);
+                std::cout << "clientsockfd : " << ws.w_client_sockfd[i] << std::endl;
                 Request rt(ws.w_client_sockfd[i], envp, ws.w_config[i]);
                 // handle the request
                 rt.handleRequest(request, i);
@@ -58,7 +59,7 @@ int main(int ac, char **av, char **envp)
             }
         }
     }
-    for (unsigned int i = 0; i < ws.w_ports.size(); i++)
+    for (unsigned int i = 0; i < ws.w_config.size(); i++)
         close(ws.w_sockfd[i]);
     return (0);
 }

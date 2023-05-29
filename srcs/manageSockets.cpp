@@ -7,7 +7,7 @@ int Webserv::socketBinding(void)
     // The first argument AF_INET specifies the address family (in this case, IPv4)
     // The second argument SOCK_STREAM specifies the socket type (in this case, a TCP stream socket)
     // The third argument 0 indicates that the protocol should be chosen automatically.
-    for (unsigned int i = 0; i < w_ports.size(); i++)
+    for (unsigned int i = 0; i < w_config.size(); i++)
     {
         w_sockfd.push_back(socket(AF_INET, SOCK_STREAM, 0));
         if (w_sockfd[i] < 0)
@@ -34,7 +34,7 @@ int Webserv::socketBinding(void)
         sockaddr_in server_addr;
         server_addr.sin_family = AF_INET;
         server_addr.sin_addr.s_addr = INADDR_ANY;
-        server_addr.sin_port = htons(w_ports[i]);
+        server_addr.sin_port = htons(w_config[i].port);
         if (bind(w_sockfd[i], (sockaddr*) &server_addr, sizeof(server_addr)) < 0)
         {
                 std::cerr << "Error binding socket : " << w_sockfd[i] << std::endl;
@@ -57,7 +57,7 @@ int Webserv::socketBinding(void)
 
     // create a set of file descriptors to monitor for activity
     w_max_fd = -1;
-    for (unsigned int i = 0; i < w_ports.size(); i++)
+    for (unsigned int i = 0; i < w_config.size(); i++)
     {
         FD_SET(w_sockfd[i], &w_fds);
         w_max_fd = std::max(w_max_fd, w_sockfd[i]);

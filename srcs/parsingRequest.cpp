@@ -3,6 +3,7 @@
 
 void Request::handleGET(s_request *requestData, int fd)
 {
+
     CGI cgi;
     if (cgi.is_cgi_request(requestData->addr))
         cgi.handle_cgi_request(r_client_sockfd, (r_rootpath + requestData->addr), r_wenvp);
@@ -36,6 +37,20 @@ void Request::handleDELETE(s_request *requestData, int fd)
     deleteRequest(requestData, fd);
 }
 
+
+
+bool Request::checkMethod(std::string methd)
+{
+    for (std::vector<e_http_method>::const_iterator it = r_config.routes[0].methods.begin(); 
+         it != r_config.routes[0].methods.end(); ++it)
+    {
+        if (methodToString(*it) == methd)
+            return true;
+    }
+    return false;
+}
+
+
 void Request::mainParsing(std::string request, s_request *requestData, int fd)
 {
     getAddrMethodData(request, requestData);
@@ -47,7 +62,9 @@ void Request::mainParsing(std::string request, s_request *requestData, int fd)
     //     std::cout << it->first << " = " << it->second << std::endl;
 
     // Handle different request types
-    if (!requestData->methd.compare("GET"))
+    if (!checkMethod(requestData->methd))
+        code_error(fd, 405);
+    else if (!requestData->methd.compare("GET"))
         handleGET(requestData, fd);
     else if (!requestData->methd.compare("POST"))
         handlePOST(request, requestData, fd);
