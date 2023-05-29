@@ -21,7 +21,7 @@ void Request::sendResponse(s_request *requestData, int fd, int success_code)
 			// std::cout << "size : " <<  buff.str().size() << std::endl << std::endl;
 			if (!buff.str().size())
 			{
-				code_error(fd, 404);
+				code_error(404);
 				return;
 			}
 		}
@@ -38,7 +38,6 @@ void Request::sendResponse(s_request *requestData, int fd, int success_code)
 			}
 		}
 		response = base + buff.str();
-		std::cout << "real clientsockfd : " << r_client_sockfd << std::endl;
         send(r_client_sockfd, response.c_str(), response.size(), 0);
 }
 
@@ -48,7 +47,6 @@ void Request::sendIndex(int fd)
 {
 	(void) fd;
 	std::string path = r_config.routes[0].root + r_index;
-	std::cout << "path : " << path << std::endl; 
 	std::ifstream   file(path.c_str());
 	std::stringstream   buff;
 	std::string response;

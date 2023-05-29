@@ -83,7 +83,7 @@ class	Request
     void        redirectURL(std::string path, int fd);
 
     // errorResponses.cpp
-    void    code_error(int fd, int error_code);
+    void    code_error(int error_code);
     void    badMethod(int fd);
 };
 

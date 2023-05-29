@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 import os
 from datetime import datetime
+from time import sleep
 
 t = datetime.now().strftime("%H:%M:%S")
 
+sleep(100)
 # Generate the CGI response
 # print('HTTP/1.1 200 OK\n\n')
 print('<html><head><title>CGI Response</title></head>')
