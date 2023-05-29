@@ -46,13 +46,14 @@ bool parse_http_methods(ParserJSON const &json,
 	(void)json;
 	if (method->lexem != ParserJSON::WORD)
 		return true;
-	if (method->value.compare("POST"))
+	if (!method->value.compare("POST"))
 		tmp = (enum e_http_method)POST;
-	else if (method->value.compare("GET"))
+	else if (!method->value.compare("GET"))
 		tmp = (enum e_http_method)GET;
-	else if (method->value.compare("DELETE"))
+	else if (!method->value.compare("DELETE"))
 		tmp = (enum e_http_method)DELETE;
-
+	else
+		throw ("unknown value in route methods");
 	methods.push_back(tmp);
 	return false;
 }
