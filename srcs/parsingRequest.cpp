@@ -53,7 +53,6 @@ bool Request::checkMethod(std::string methd)
 
 void Request::mainParsing(std::string request, s_request *requestData, int fd)
 {
-    getAddrMethodData(request, requestData);
     std::cout << "Method: " << requestData->methd << std::endl;
     std::cout << "Requested Address: " << requestData->addr << std::endl;
 

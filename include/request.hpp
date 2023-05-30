@@ -47,7 +47,8 @@ class	Request
     s_server                            r_config;
 
 	// handleRequest.cpp
-    void    handleRequest(std::string buffer, int fd);
+    void    		handleRequest(std::string buffer, int fd);
+	unsigned long	nbCommonLetters(std::string requestLocation, std::string routeLocation);
 
 	// parsingRequest.cpp
     void    mainParsing(std::string request, s_request *requestData, int fd);
@@ -86,6 +87,5 @@ class	Request
     void    code_error(int error_code);
     void    badMethod(int fd);
 };
-
 
 #endif
