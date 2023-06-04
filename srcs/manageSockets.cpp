@@ -20,6 +20,7 @@ int Webserv::socketBinding(void)
         if (setsockopt(w_sockfd[i], SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int)) < 0)
         {
             perror("setsockopt(SO_REUSEADDR) failed");
+						//return 1 ?
         }
         
         // This sets up the server address structure, server_addr, which will be used to bind the socket to a specific port. 

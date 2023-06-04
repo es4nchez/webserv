@@ -14,10 +14,15 @@ bool parse_words(ParserJSON const &json, std::vector<ParserJSON::t_lexem>::const
 	return false;
 }
 
+
 // ROUTE
+/*
+	expect [int, string]
+	throw error if duplicate int
+*/
 bool parse_default_error_pages(ParserJSON const &json,
 															 std::vector<ParserJSON::t_lexem>::const_iterator const &error_page,
-															 std::multimap<int, std::string> &default_error_pages)
+															 std::map<int, std::string> &default_error_pages)
 {
 	std::vector<ParserJSON::t_lexem>::const_iterator tmp = error_page;
 	std::pair<int, std::string> pair;
@@ -33,10 +38,15 @@ bool parse_default_error_pages(ParserJSON const &json,
 	++tmp;
 	if (tmp->lexem != ParserJSON::CLOSE_ARR)
 		throw("error format default error_pages: expect [err_code, path_page]");
-	default_error_pages.insert(pair);
+	std::pair<std::map<int, std::string>::iterator, bool> ret = default_error_pages.insert(pair);
+	if (!ret.second)
+		throw("duplicate error_code encountered");
 	return (false);
 }
 
+/*
+	expect: POST | GET | DELETE
+*/
 bool parse_http_methods(ParserJSON const &json,
 												std::vector<ParserJSON::t_lexem>::const_iterator const &method,
 												std::vector<enum e_http_method> &methods)
@@ -76,6 +86,9 @@ bool parse_routes(ParserJSON const &json,
 }
 
 // SERVER
+/*
+	every call to json.key inside an `if` means it's a required property json.key return true if failed
+*/
 bool parse_servers(ParserJSON const &json, std::vector<ParserJSON::t_lexem>::const_iterator const &server, std::vector<t_server> &servers)
 {
 	t_server serv;

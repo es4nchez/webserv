@@ -18,8 +18,8 @@ struct s_route
 	std::vector<enum e_http_method> methods;
 	std::string http_redir;
 	std::string root; 
-	bool dir_listing; //false
-	std::string index; //""
+	bool dir_listing;
+	std::string index;
 } typedef t_route;
 
 struct s_server
@@ -28,7 +28,7 @@ struct s_server
 	unsigned int port;
 	std::vector<std::string> server_names;
 	unsigned int max_client_body_size;
-	std::multimap<int, std::string> default_error_pages; //map error_code / error_page
+	std::map<int, std::string> default_error_pages;
 	std::vector<t_route> routes;
 } typedef t_server;
 
@@ -40,5 +40,8 @@ struct s_conf_server
 //readFileHelper.cpp
 std::string read_file(std::string const &file_path);
 std::vector<t_server> parse_configuration(std::string const &file_path);
+
+//checkServersConf.cpp
+bool checkServersConf(std::vector<t_server> const &servers);
 
 #endif

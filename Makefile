@@ -25,7 +25,8 @@ SRCS	= 	srcs/dev.cpp \
 			srcs/ParserJSON.cpp \
 			srcs/readFileHelper.cpp \
 			srcs/parsingConf.cpp \
-			srcs/Request.cpp
+			srcs/Request.cpp \
+			srcs/checkServersConf.cpp
 
 NAME 	= webserv
 COMP 	= c++
