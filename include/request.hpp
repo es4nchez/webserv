@@ -17,6 +17,7 @@
 #include <unistd.h>
 #include <dirent.h>
 #include "server_conf.hpp"
+#include "error.hpp"
 
 struct s_request {
 
@@ -47,6 +48,8 @@ class	Request
     s_server                            r_config;
 
 	s_route								r_route;
+
+    error                               *r_error;
 
 	// handleRequest.cpp
     void    		handleRequest(std::string buffer, int fd);

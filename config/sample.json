@@ -18,7 +18,7 @@
 						"POST",
 						"DELETE"
 					],
-					"http_redir": "my_redir",
+					"http_redir": "",
 					"root": "www/",
 					"dir_listing": false,
 					"index": "42lwatch.html"
