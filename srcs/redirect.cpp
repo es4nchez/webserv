@@ -1,8 +1,8 @@
 #include "request.hpp"
 
-bool Request::isRedirect(std::string path)
+bool Request::isRedirect()
 {
-    if (r_redirects.find(path) != r_redirects.end())
+    if (r_route.http_redir.size() > 0)
         return true;
     else
         return false;
@@ -11,8 +11,9 @@ bool Request::isRedirect(std::string path)
 void Request::redirectURL(std::string path, int fd)
 {
     (void)fd;
+	(void) path;
     std::string base = "HTTP/1.1 301 Moved Permanently\n";
-    std::string body = "Location: " + r_redirects[path] + "\r\n";
+    std::string body = "Location: " + r_route.http_redir + "\r\n";
     send(r_client_sockfd, (base + body).c_str(), (base + body).size(), 0);
     return;
 }

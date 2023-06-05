@@ -16,6 +16,7 @@ void    		Request::handleRequest(std::string buffer, int fd)
 {
     s_request 		requestData;
 	unsigned long	maxCommonLetters = 0;
+  	std::string::size_type n;
 
 	getAddrMethodData(buffer, &requestData);
 	for(unsigned long i = 0; i < r_config.routes.size(); i++)
@@ -25,17 +26,22 @@ void    		Request::handleRequest(std::string buffer, int fd)
 	}
 	for(unsigned long i = 0; i < r_config.routes.size(); i++)
 	{
-		if (nbCommonLetters(requestData.addr, r_config.routes[i].location) == maxCommonLetters && requestData.addr.size() == maxCommonLetters)
+		n = requestData.addr.find(r_config.routes[i].location);
+		if (requestData.addr.size() == maxCommonLetters && maxCommonLetters == r_config.routes[i].location.size())
 		{
-			std::cout << "The good route is : " << r_config.routes[i].location << std::endl;
+			r_route = r_config.routes[i];
 			break ;
 		}
-		else
+		else if (std::string::npos != n)
 		{
-			std::cout << "The good route is : " << r_config.routes[0].location << std::endl;
-			break;
+			r_route = r_config.routes[i];
+			break ;
+		}
+		else if (i == (r_config.routes.size() - 1))
+		{
+			code_error(404);
+			return;
 		}
 	}
-	return ;
     mainParsing(buffer, &requestData, fd);
 }

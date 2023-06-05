@@ -13,7 +13,7 @@ void Request::handleGET(s_request *requestData, int fd)
     {
         std::string fullPath = r_rootpath + requestData->addr;
         DIR* dir = opendir(fullPath.c_str());
-        if (dir != NULL && r_config.routes[0].dir_listing)
+        if (dir != NULL && r_route.dir_listing)
         {
             closedir(dir);
             directoryListing(requestData, fd);
@@ -41,8 +41,8 @@ void Request::handleDELETE(s_request *requestData, int fd)
 
 bool Request::checkMethod(std::string methd)
 {
-    for (std::vector<e_http_method>::const_iterator it = r_config.routes[0].methods.begin();
-         it != r_config.routes[0].methods.end(); ++it)
+    for (std::vector<e_http_method>::const_iterator it = r_route.methods.begin();
+         it != r_route.methods.end(); ++it)
     {
         if (methodToString(*it) == methd)
             return true;

@@ -46,6 +46,8 @@ class	Request
 
     s_server                            r_config;
 
+	s_route								r_route;
+
 	// handleRequest.cpp
     void    		handleRequest(std::string buffer, int fd);
 	unsigned long	nbCommonLetters(std::string requestLocation, std::string routeLocation);
@@ -80,7 +82,7 @@ class	Request
     std::string listFilesInDirectory(const std::string& directoryPath);
 
     // redirects.cpp
-    bool        isRedirect(std::string path);
+    bool        isRedirect();
     void        redirectURL(std::string path, int fd);
 
     // errorResponses.cpp
