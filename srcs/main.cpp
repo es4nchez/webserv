@@ -15,15 +15,16 @@ int main(int ac, char **av, char **envp)
         return (1);
 
     // Parsing config file
-	ws.w_config = parse_configuration(av[1]);
+    ws.w_config = parse_configuration(av[1]);
 
     // // HARDCODE CONFIG
     ws.HARDCODE_INIT();
 
-
     if (ws.socketBinding())
         return (1);
-    std::cout << std::endl << "Webserv launching... start logs :" << std::endl << std::endl;
+    std::cout << std::endl
+              << "Webserv launching... start logs :" << std::endl
+              << std::endl;
 
     while (true)
     {
@@ -42,12 +43,13 @@ int main(int ac, char **av, char **envp)
             if (FD_ISSET(ws.w_sockfd[i], &temp__fds))
             {
                 // accept the incoming connection
-                ws.w_client_sockfd[i] = accept(ws.w_sockfd[i], (sockaddr*) &ws.w_client_addr[i], &ws.w_client_len[i]);
-                if (ws.w_client_sockfd[i] < 0) {
+                ws.w_client_sockfd[i] = accept(ws.w_sockfd[i], (sockaddr *)&ws.w_client_addr[i], &ws.w_client_len[i]);
+                if (ws.w_client_sockfd[i] < 0)
+                {
                     std::cerr << "Error accepting connection" << std::endl;
                     continue;
                 }
-  
+
                 std::string request = ws.receive(i);
                 Request rt(ws.w_client_sockfd[i], envp, ws.w_config[i]);
                 // handle the request

@@ -5,6 +5,32 @@
 #include <vector>
 #include <sstream>
 
+
+/*
+	ParserJSON take a string and convert it into a vector of lexems
+	to use it we work with lexem::iterator
+	
+
+	key.s functions are used to parse values, parameters:
+		- key : string, key of the value
+		| keys : array of strings, for nested search ["firstLevel", "secondLevel"] == ({ firstLevel: { secondLevel: ... }}) 
+		- dst : reference to the variable where func should store result
+		- func : a function who parse should return false if parse success
+		- start? : a lexem::iterator pointing at a OPEN_OBJ
+
+	key_map : works same expect it's call func for each items inside an array
+
+	arr : expect a lexem::iterator point at a OPEN_ARR
+
+	predefined functions for parsing primitives types it's attended to be used as a func parameter:
+		- to_number
+		- to_word
+		- to_bool
+	
+	get_key.s return lexem::iterator at KEY
+
+	all functions, func parameters return true if failed
+*/
 class ParserJSON
 {
 	class ReadFileException : public std::exception
