@@ -25,10 +25,12 @@ class error
         ~error();
         void send_error(int error_code);
 
-        int   e_fd;
-        const std::string errorCodes[];
-        const std::string errorFiles[];
-        const int errors[];
+        int   	e_fd;
+		int		e_size;
+		std::map<int, std::vector<std::string> > e_errorCodes;
+		std::vector<std::string> errorCodes;
+        std::vector<std::string> errorFiles;
+        std::vector<int> errors;
 
 };
 

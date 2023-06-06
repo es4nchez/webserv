@@ -56,21 +56,21 @@ class	Request
 	unsigned long	nbCommonLetters(std::string requestLocation, std::string routeLocation);
 
 	// parsingRequest.cpp
-    void    mainParsing(std::string request, s_request *requestData, int fd);
-    void    handleGET(s_request *requestData, int fd);
-    void    handlePOST(std::string request, s_request *requestData, int fd);
-    void    handleDELETE(s_request *requestData, int fd);
-    bool    checkMethod(std::string methd);
+    void    		mainParsing(std::string request, s_request *requestData, int fd);
+    void    		handleGET(s_request *requestData, int fd);
+    void    		handlePOST(std::string request, s_request *requestData, int fd);
+    void    		handleDELETE(s_request *requestData, int fd);
+    bool    		checkMethod(std::string methd);
 
 	// parsingRequestUtils.cpp
-    void        getAddrMethodData(std:: string request, s_request *requestData);
-    void        addQueryEnv(std::string str);
-    std::string url_decode(const std::string& str);
-    std::string methodToString(e_http_method method);
+    void        	getAddrMethodData(std:: string request, s_request *requestData);
+    void        	addQueryEnv(std::string str);
+    std::string 	url_decode(const std::string& str);
+    std::string 	methodToString(e_http_method method);
 
     // sendResponse.cpp
-    void    sendResponse(s_request *requestData, int fd, int success_code);
-    void    sendIndex(int fd);
+    void    		sendResponse(s_request *requestData, int fd, int success_code);
+    void    		sendIndex(int fd);
 
     // postRequest.cpp
     void            parsePostRequest(std::string request, int fd);
@@ -81,16 +81,16 @@ class	Request
     void            deleteRequest(s_request *requestData, int fd);
 
 	// directoryListing.cpp
-    void        directoryListing(s_request *requestData, int fd);
-    std::string listFilesInDirectory(const std::string& directoryPath);
+    void        	directoryListing(s_request *requestData, int fd);
+    std::string 	listFilesInDirectory(const std::string& directoryPath);
 
     // redirects.cpp
-    bool        isRedirect();
-    void        redirectURL(std::string path, int fd);
+    bool        	isRedirect();
+    void        	redirectURL(std::string path, int fd);
 
     // errorResponses.cpp
-    void    code_error(int error_code);
-    void    badMethod(int fd);
+    void    		code_error(int error_code);
+    void    		badMethod(int fd);
 };
 
 #endif

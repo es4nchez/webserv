@@ -18,10 +18,10 @@ void Request::sendResponse(s_request *requestData, int fd, int success_code)
 				return;
 			}
 			buff << file.rdbuf();
-			// std::cout << "size : " <<  buff.str().size() << std::endl << std::endl;
 			if (!buff.str().size())
 			{
-				code_error(404);
+				std::cout << "I AM THE TRUTH" << std::endl;
+				r_error->send_error(404);
 				return;
 			}
 		}
