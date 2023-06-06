@@ -17,6 +17,7 @@
 #include <unistd.h>
 #include <dirent.h>
 #include "server_conf.hpp"
+#include "error.hpp"
 
 struct s_request {
 
@@ -46,8 +47,13 @@ class	Request
 
     s_server                            r_config;
 
+	s_route								r_route;
+
+    error                               *r_error;
+
 	// handleRequest.cpp
-    void    handleRequest(std::string buffer, int fd);
+    void    		handleRequest(std::string buffer, int fd);
+	unsigned long	nbCommonLetters(std::string requestLocation, std::string routeLocation);
 
 	// parsingRequest.cpp
     void    mainParsing(std::string request, s_request *requestData, int fd);
@@ -79,13 +85,12 @@ class	Request
     std::string listFilesInDirectory(const std::string& directoryPath);
 
     // redirects.cpp
-    bool        isRedirect(std::string path);
+    bool        isRedirect();
     void        redirectURL(std::string path, int fd);
 
     // errorResponses.cpp
     void    code_error(int error_code);
     void    badMethod(int fd);
 };
-
 
 #endif

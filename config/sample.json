@@ -18,7 +18,7 @@
 						"POST",
 						"DELETE"
 					],
-					"http_redir": "my_redir",
+					"http_redir": "",
 					"root": "www/",
 					"dir_listing": false,
 					"index": "42lwatch.html"
@@ -36,14 +36,15 @@
 			],
 			"routes": [
 				{
-					"location": "/",
+					"location": "/upload",
 					"methods": [
+						"GET",
 						"POST",
 						"DELETE"
 					],
 					"http_redir": "my_redir",
 					"root": "www/",
-					"dir_listing": false,
+					"dir_listing": true,
 					"index": "42lwatch.html"
 				},
 				{
@@ -57,7 +58,6 @@
 					"index": "42lwatch.html"
 				}
 			]
-			
 		}
 	]
 }

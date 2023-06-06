@@ -27,6 +27,7 @@ SRCS	= 	srcs/dev.cpp \
 			srcs/parsingConf.cpp \
 			srcs/Request.cpp \
 			srcs/checkServersConf.cpp
+			srcs/error.cpp
 
 NAME 	= webserv
 COMP 	= c++

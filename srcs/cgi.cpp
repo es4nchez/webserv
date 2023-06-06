@@ -15,7 +15,8 @@ void CGI::handle_cgi_request(int sockfd, const std::string& cgi_path, char **_we
 {
     int pipefd[2];
     if (pipe(pipefd) == -1) {
-        printf("Error creating pipe: %s\n", strerror(errno));
+        std::cout << "Error creating pipe\n" << std::endl;
+        
         return;
     }
 
