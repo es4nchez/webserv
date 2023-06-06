@@ -2,21 +2,17 @@
 
 error::error(int fd, std::map<int, std::string> error_code)
 {
+	std::map<int, std::string>::iterator it;
     e_fd = fd;
-	std::map<int,std::string>::iterator it;
-	std::vector<std::string> test;
-	test[0] = "blou";
-	test[1] = "blah";
-	e_errorCodes.insert(std::pair<int, std::vector<std::string> >(400, test));
-	e_errorCodes[404] = {"404 Not Found", "www/errors/404.html"};
-	e_errorCodes[405] = {"405 Method Not Allowed", "www/errors/405.html"};
-	e_errorCodes[413] = {"413 Content Too Large", "www/errors/413.html"};
-	
-	for(it = error_code.begin(); it != error_code.end(); it++)
-	{
-		e_errorCodes[it->first][1] = error_code[it->second];
-	}
-    e_size = sizeof(errors) / sizeof(errors[0]);
+
+	e_errorCodes.insert(fill_map(400, "400 Bad Request", "www/errors/400.html"));
+	e_errorCodes.insert(fill_map(404, "404 Not Found", "www/errors/404.html"));
+	e_errorCodes.insert(fill_map(405, "405 Method Not Allowed", "www/errors/405.html"));
+	e_errorCodes.insert(fill_map(413, "413 Content Too Large", "www/errors/413.html"));
+
+	for (it = error_code.begin(); it != error_code.end(); it++)
+		e_errorCodes[it->first][1] = it->second;
+    e_size = e_errorCodes.size();
 }
 
 error::~error()
@@ -24,15 +20,27 @@ error::~error()
 
 }
 
+std::pair<int, std::vector<std::string> >	error::fill_map(int error_code, std::string header, std::string path)
+{
+	std::vector<std::string> value;
+
+	value.push_back(header);
+	value.push_back(path);
+
+	return (std::make_pair(error_code, value));
+}
+
 void    error::send_error(int error_code)
 {
 	std::string base, name;
-    for (int i = 0; i < e_size; ++i) 
+	std::map<int, std::vector<std::string> >::iterator it;
+
+    for (it = e_errorCodes.begin(); it != e_errorCodes.end() ; it++) 
 	{
-        if (error_code == errors[i]) 
+        if (error_code == it->first) 
 		{
-            base = "HTTP/1.1 " + errorCodes[i] + "\n\n";
-            name = errorFiles[i];
+            base = "HTTP/1.1 " + it->second[0] + "\n\n";
+            name = it->second[1];
             break;
         }
     }
