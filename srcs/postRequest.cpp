@@ -44,7 +44,7 @@ void Request::parsePostRequest(std::string request, int fd)
 
 	if (request_body.size() > r_maxBodySize )
 	{
-		code_error(413);
+		r_error->send_error(413);
 		return ;
 	}
     std::string request_data = parseBody(request_body);

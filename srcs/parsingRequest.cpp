@@ -65,7 +65,7 @@ void Request::mainParsing(std::string request, s_request *requestData, int fd)
 
     // Handle different request types
     if (!checkMethod(requestData->methd))
-        code_error(405);
+        r_error->send_error(405);
     else if (!requestData->methd.compare("GET"))
         handleGET(requestData, fd);
     else if (!requestData->methd.compare("POST"))
@@ -73,5 +73,5 @@ void Request::mainParsing(std::string request, s_request *requestData, int fd)
     else if (!requestData->methd.compare("DELETE"))
         handleDELETE(requestData, fd);
     else
-        code_error(405);
+        r_error->send_error(405);
 }

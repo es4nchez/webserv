@@ -39,7 +39,7 @@ void    		Request::handleRequest(std::string buffer, int fd)
 		}
 		else if (i == (r_config.routes.size() - 1))
 		{
-			code_error(404);
+			r_error->send_error(404);
 			return;
 		}
 	}

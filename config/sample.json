@@ -7,8 +7,7 @@
 			"server_names": ["plouf_name"],
 			"max_client_body_size": 4096,
 			"default_error_pages": [
-				[404, "error.html"],
-				[405, "another_error.html"]
+				[404, "www/error.html"]
 			],
 			"routes": [
 				{
@@ -31,8 +30,7 @@
 			"server_names": ["plouf_name"],
 			"max_client_body_size": 4096,
 			"default_error_pages": [
-				[404, "error.html"],
-				[405, "another_error.html"]
+				[404, "www/error.html"]
 			],
 			"routes": [
 				{
