@@ -3,7 +3,7 @@
 error::error(int fd, std::map<int, std::string> error_code)
 {
 	std::map<int, std::string>::iterator it;
-    e_fd = fd;
+  e_fd = fd;
 
 	e_errorCodes.insert(fill_map(400, "400 Bad Request", "www/errors/400.html"));
 	e_errorCodes.insert(fill_map(404, "404 Not Found", "www/errors/404.html"));
@@ -12,7 +12,7 @@ error::error(int fd, std::map<int, std::string> error_code)
 
 	for (it = error_code.begin(); it != error_code.end(); it++)
 		e_errorCodes[it->first][1] = it->second;
-    e_size = e_errorCodes.size();
+  e_size = e_errorCodes.size();
 }
 
 error::~error()

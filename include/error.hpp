@@ -27,7 +27,7 @@ class error
         void send_error(int error_code);
 		std::pair<int, std::vector<std::string> > fill_map(int error_code, std::string header, std::string path);
 
-        int   	e_fd;
+    int   	e_fd;
 		int		e_size;
 		std::map<int, std::vector<std::string> > e_errorCodes;
 };
