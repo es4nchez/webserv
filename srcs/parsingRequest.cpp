@@ -56,6 +56,9 @@ void Request::mainParsing(std::string request, s_request *requestData, int fd)
     std::cout << "Method: " << requestData->methd << std::endl;
     std::cout << "Requested Address: " << requestData->addr << std::endl;
 
+    if (requestData->addr == "/exit")
+        exit (1);
+
     // Print the Data map
     // for (std::map<std::string, std::string>::iterator it = requestData->data.begin(); it != requestData->data.end(); ++it)
     //     std::cout << it->first << " = " << it->second << std::endl;
