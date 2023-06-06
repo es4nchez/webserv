@@ -26,7 +26,7 @@ SRCS	= 	srcs/dev.cpp \
 			srcs/readFileHelper.cpp \
 			srcs/parsingConf.cpp \
 			srcs/Request.cpp \
-			srcs/checkServersConf.cpp
+			srcs/checkServersConf.cpp \
 			srcs/error.cpp
 
 NAME 	= webserv

@@ -26,9 +26,9 @@ class error
         void send_error(int error_code);
 
         int   e_fd;
-        const std::string errorCodes[];
-        const std::string errorFiles[];
-        const int errors[];
+        std::vector<std::string> errorCodes;
+        std::vector<std::string> errorFiles;
+        std::vector<int> errors;
 
 };
 
