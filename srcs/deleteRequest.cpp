@@ -13,7 +13,7 @@ bool isValidPath(const std::string& path)
 
 void Request::deleteRequest(s_request *requestData, int fd)
 {
-    std::string fullPath = r_rootpath + requestData->addr;
+    std::string fullPath = r_route.root + requestData->addr;
     if (!isValidPath(requestData->addr))
 		r_error->send_error(404);
     else if (std::remove(fullPath.c_str()) == 0)

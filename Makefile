@@ -6,8 +6,7 @@ PRP = \033[35m
 RED = \033[91m
 BPRP = \033[135m
 
-SRCS	= 	srcs/dev.cpp \
-			srcs/main.cpp \
+SRCS	= 	srcs/main.cpp \
 			srcs/handleRequest.cpp \
 			srcs/parsingRequest.cpp \
 			srcs/sendResponse.cpp \

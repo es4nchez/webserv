@@ -115,22 +115,9 @@ std::vector<t_server> parse_configuration(std::string const &file_path)
 	{
 		std::string file = read_file(file_path);
 		ParserJSON json(file);
-
-		std::cout << json.toString() << std::endl;
 		std::vector<t_server> servers;
 		if (json.key_map("servers", servers, parse_servers))
 			throw("servers not found");
-
-		for (std::vector<t_server>::const_iterator it = servers.begin(); it != servers.end(); ++it)
-		{
-			std::cout << "host " << it->host << std::endl;
-			std::cout << "port " << it->port << std::endl;
-			std::cout << "error_page " << std::endl;
-			for (std::multimap<int, std::string>::const_iterator it_map = it->default_error_pages.begin(); it_map != it->default_error_pages.end(); ++it_map)
-			{
-				std::cout << it_map->first << ", " << it_map->second << std::endl;
-			}
-		}
 		return servers;
 	}
 	catch (const char *err)

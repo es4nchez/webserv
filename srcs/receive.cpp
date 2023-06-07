@@ -65,10 +65,5 @@ std::string Webserv::receive(int i)
                 break;
         }
     }
-
-    // std::cout << "Data total received : " << buffer.size() << " bytes" << std::endl;
-    // std::cout << "Data received : --\"" << buffer << "\"--" << std::endl; 
-    // std::cout << "Received data from " << inet_ntoa(w_client_addr[i].sin_addr) << ":" << ntohs(w_client_addr[i].sin_port) << std::endl;
-
     return buffer;
 }

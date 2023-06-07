@@ -42,7 +42,7 @@ void Request::parsePostRequest(std::string request, int fd)
 {
     std::string request_body = request.substr(request.find("\r\n\r\n") + 4);
 
-	if (request_body.size() > r_maxBodySize )
+	if (request_body.size() > r_config.max_client_body_size )
 	{
 		r_error->send_error(413);
 		return ;

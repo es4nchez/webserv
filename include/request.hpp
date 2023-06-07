@@ -36,14 +36,7 @@ class	Request
 
 	int                            		r_client_sockfd;
 
-	std::string 						r_index;
-    std::string 						r_rootpath;
-    size_t      						r_maxBodySize;
-
 	char                    			**r_wenvp;
-
-	bool                    			r_dirListing;
-    std::map<std::string, std::string> 	r_redirects;
 
     s_server                            r_config;
 
@@ -54,6 +47,7 @@ class	Request
 	// handleRequest.cpp
     void    		handleRequest(std::string buffer, int fd);
 	unsigned long	nbCommonLetters(std::string requestLocation, std::string routeLocation);
+	bool 			check_hostname(std::string address);
 
 	// parsingRequest.cpp
     void    		mainParsing(std::string request, s_request *requestData, int fd);

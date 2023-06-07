@@ -1,13 +1,15 @@
-#include "webserv.hpp"
 #include "cgi.hpp"
 
-CGI::CGI()
+CGI::CGI(int fd, s_server r_config)
 {
+	this->c_config = r_config;
+	this->c_error = new error(fd, c_config.default_error_pages);
     return;
 }
 
 CGI::~CGI()
 {
+	delete this->c_error;
     return;
 }
 
@@ -42,40 +44,31 @@ void CGI::handle_cgi_request(int sockfd, const std::string& cgi_path, char **_we
 
     fcntl(pipefd[0], F_SETFL, O_NONBLOCK);
 
-    std::string status = "HTTP/1.1 508 OK\n\n";
-    if (ft_write(sockfd, status.c_str(), status.size()) == false)
-	{
-		//close(pipefd[0]);
-		return ;
-	}
     int wpid, Stat;
     std::time_t start_time = std::time(NULL);
     const int timeout = 5;
+	int bytes_read = 1;
 
     wpid = waitpid(pid, &Stat, WNOHANG);
-    while (wpid == 0 && (std::time(NULL) - start_time) <= timeout) {
+    while (wpid == 0 && (std::time(NULL) - start_time) <= timeout && bytes_read) 
+	{
         std::time_t current_time = std::time(NULL);
-        if (current_time - start_time < timeout) {
+        if (current_time - start_time < timeout) 
+		{
             char buffer[1024];
-            int bytes_read;
-
+			
+			// std::string status = "HTTP/1.1 200 OK\n\n";
+			// ft_write(sockfd, status.c_str(), status.size());
             while ((bytes_read = read(pipefd[0], buffer, sizeof(buffer))) > 0) 
-			{
-				if (ft_write(sockfd, buffer, bytes_read) == false)
-				{
-					//close(pipefd[0]);
-					return ;
-				}
-            }
-
-            if (bytes_read == -1) {
-                std::cout << "Error reading CGI output" << std::endl;
-                break;
-            }
+				ft_write(sockfd, buffer, bytes_read);
+            if (bytes_read == -1 || bytes_read == 0)
+                continue;
         }
-        else {
+        else 
+		{
             printf("CGI execution time exceeded the limit. Terminating process.\n");
             kill(pid, SIGKILL);
+			c_error->send_error(508);
             break;
         }
 

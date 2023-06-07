@@ -10,7 +10,8 @@ void Request::sendResponse(s_request *requestData, int fd, int success_code)
 		std::stringstream   buff;
 		if (success_code == 200)
 		{
-			std::string path = r_rootpath + requestData->addr.substr(1, requestData->addr.size());
+			std::string path = r_route.root + requestData->addr.substr(1, requestData->addr.size());
+			std::cout << "je suis le fichier : " << path << std::endl;
         	std::ifstream   file(path.c_str());
 			if (isRedirect())
 			{
@@ -45,7 +46,8 @@ void Request::sendResponse(s_request *requestData, int fd, int success_code)
 void Request::sendIndex(int fd)
 {
 	(void) fd;
-	std::string path = r_route.root + r_index;
+	std::string path = r_route.root + r_route.index;
+	std::cout << "PATH : " << path << std::endl;
 	std::ifstream   file(path.c_str());
 	std::stringstream   buff;
 	std::string response;

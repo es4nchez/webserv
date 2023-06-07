@@ -9,6 +9,7 @@ error::error(int fd, std::map<int, std::string> error_code)
 	e_errorCodes.insert(fill_map(404, "404 Not Found", "www/errors/404.html"));
 	e_errorCodes.insert(fill_map(405, "405 Method Not Allowed", "www/errors/405.html"));
 	e_errorCodes.insert(fill_map(413, "413 Content Too Large", "www/errors/413.html"));
+	e_errorCodes.insert(fill_map(508, "508 Loop Detected", "www/errors/508.html"));
 
 	for (it = error_code.begin(); it != error_code.end(); it++)
 		e_errorCodes[it->first][1] = it->second;
