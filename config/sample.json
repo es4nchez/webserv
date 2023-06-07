@@ -47,7 +47,7 @@
 			],
 			"routes": [
 				{
-					"location": "/upload",
+					"location": "/upload", //must
 					"methods": [
 						"GET",
 						"POST",

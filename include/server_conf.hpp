@@ -41,9 +41,10 @@ struct s_conf_server
 
 //parser_conf/parseHelpers.cpp
 bool parse_words(ParserJSON const &json, std::vector<ParserJSON::t_lexem>::const_iterator const &word, std::vector<std::string> &words);
+bool parse_word(ParserJSON const &json, std::vector<ParserJSON::t_lexem>::const_iterator const & word, std::string &dst);
 
 //parser_conf/parsingConf.cpp
-std::vector<t_server> parse_configuration(std::string const &file_path);
+bool parse_configuration(std::string const &file_path, std::vector<t_server> &dst);
 
 //parser_conf/checkServersConf.cpp
 bool checkServersConf(std::vector<t_server> const &servers);
@@ -58,6 +59,25 @@ bool parse_http_methods(ParserJSON const &json,
 bool parse_default_error_pages(ParserJSON const &json,
 															 std::vector<ParserJSON::t_lexem>::const_iterator const &error_page,
 															 std::map<int, std::string> &default_error_pages);
+
+//parser_conf/checkServerConf.cpp
+bool checkServerConf(t_server const &server);
+bool checkHost(std::string const &str);
+bool checkPort(unsigned int const &port);
+bool checkServerNames(std::vector<std::string> const &names);
+bool checkMaxBodySize(unsigned int const &size);
+bool checkErrorPages(std::map<int, std::string> const &pages);
+
+
+//parser_conf/checkRouteConf.cpp
+bool checkRouteConf(t_route const &route);
+bool checkLocation(std::string const &str);
+bool checkHttpRedir(std::string const &str);
+bool checkRoot(std::string const &str);
+bool checkIndex(std::string const &str);
+
+//parser_conf/checkServersConf.cpp
+bool checkServersConf(std::vector<t_server> const &servers);
 
 //utils.cpp
 bool string_to_word(std::string const &str, std::string &dst);

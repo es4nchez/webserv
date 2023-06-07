@@ -29,7 +29,6 @@ bool has_space(std::string const &str)
 		if (isspace(*it))
 			return (true);
 	}
-
 	return false;
 }
 

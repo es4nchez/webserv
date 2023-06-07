@@ -198,7 +198,7 @@ public:
 	}
 
 	static bool to_bool(ParserJSON const &json, std::vector<ParserJSON::t_lexem>::const_iterator const &lexem_value, bool &dst);
-	static bool to_word(ParserJSON const &json, std::vector<ParserJSON::t_lexem>::const_iterator const &lexem_value, std::string &dst);
+	static bool to_string(ParserJSON const &json, std::vector<ParserJSON::t_lexem>::const_iterator const &lexem_value, std::string &dst);
 
 	std::string toString() const;
 	virtual ~ParserJSON();

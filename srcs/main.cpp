@@ -15,7 +15,19 @@ int main(int ac, char **av, char **envp)
         return (1);
 
     // Parsing config file
-    ws.w_config = parse_configuration(ws._configPath);
+    if (parse_configuration(ws._configPath, ws.w_config))
+		{
+			if (ws._configPath == "config/default.json")
+			{
+				std::cerr << "config/default.json can't load" << std::endl;
+				return (1);
+			}
+			if (parse_configuration("config/default.json", ws.w_config))
+			{
+				std::cerr << "config/default.json can't load" << std::endl;
+				return (1);
+			}
+		}
 
     ws.w_client_addr.reserve(ws.w_config.size());
 

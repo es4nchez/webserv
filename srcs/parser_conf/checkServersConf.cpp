@@ -4,53 +4,20 @@
 
 #include "server_conf.hpp"
 
-bool checkRouteConf(t_route const &route)
-{
-	if (route.location.empty())
-	{
-		std::cerr << "checkRouteConf - location should not be empty" << std::endl;
-		return true;
-	}
-	return false;
-}
-
-bool checkServerConf(t_server const &server)
-{
-	std::set<std::string> locations;
-
-	if (server.routes.size() == 0)
-	{
-		std::cerr << "checServerConf - routes should have at least one" << std::endl;
-		return (true);
-	}
-
-	// check routes
-	for (std::vector<t_route>::const_iterator it_route = server.routes.begin(); it_route != server.routes.end(); ++it_route)
-	{
-		if (checkRouteConf(*it_route))
-			return true;
-
-		std::pair<std::set<std::string>::iterator, bool> ret = locations.insert(it_route->location);
-		if (!ret.second)
-		{
-			std::cerr << "checkServerConf - routes location not unique";
-			return (true);
-		}
-	}
-
-	return (false);
-}
 
 bool checkServersConf(std::vector<t_server> const &servers)
 {
 	std::set<unsigned int> ports;
 	std::map<std::vector<t_server>::const_iterator, std::string> set_servers_names;
 
+	if (servers.size() == 0)
+	{
+		std::cerr << "checkServersConf - no servers configuration found" << std::endl;
+		return (true);
+	}
+
 	for (std::vector<t_server>::const_iterator it = servers.begin(); it != servers.end(); ++it)
 	{
-		if (checkServerConf(*it))
-			return (true);
-
 		std::pair<std::set<unsigned int>::iterator, bool> set_ports_ret = ports.insert(it->port);
 		if (!set_ports_ret.second)
 		{

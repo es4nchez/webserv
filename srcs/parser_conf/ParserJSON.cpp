@@ -394,18 +394,12 @@ bool ParserJSON::to_bool(ParserJSON const &json, std::vector<ParserJSON::t_lexem
 	return (false);
 }
 
-bool ParserJSON::to_word(ParserJSON const &json, std::vector<ParserJSON::t_lexem>::const_iterator const &lexem_value, std::string &dst)
+bool ParserJSON::to_string(ParserJSON const &json, std::vector<ParserJSON::t_lexem>::const_iterator const &lexem_value, std::string &dst)
 {
 	(void) json;
 
 	if (lexem_value->lexem != ParserJSON::WORD)
 		return (true);
-		
-	for (std::string::const_iterator it = lexem_value->value.begin(); it != lexem_value->value.end(); ++it )
-	{
-		if (isspace(*it))
-			return (true);
-	}
 
 	dst = lexem_value->value;
 	return (false);
