@@ -2,6 +2,7 @@
 # define WEBSERV_HPP
 
 #include <iostream>
+#include <algorithm>
 #include <fstream>
 #include <string>
 #include <cstring>

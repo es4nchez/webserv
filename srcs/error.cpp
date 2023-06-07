@@ -51,3 +51,22 @@ void    error::send_error(int error_code)
     std::string response = base + buff.str();
     send(e_fd, response.c_str(), response.size(), 0);
 }
+
+void error::ft_send(std::string response, int size)
+{
+	ssize_t sendedpacket = 0;
+	ssize_t temp = 0;
+	while (sendedpacket < (ssize_t)size)
+	{
+		temp = send(e_fd, response.c_str() + sendedpacket, size - sendedpacket, 0);
+		if (temp == -1)
+		{
+			std::cout << "Error in the function send()" << std::endl;
+			return ;
+		}
+		else if (temp == 0)
+			return ;
+		sendedpacket += temp;
+	}
+
+}

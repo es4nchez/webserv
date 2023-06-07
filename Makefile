@@ -63,6 +63,6 @@ fclean: clean
 re:		fclean all
 
 cheaks:
-		leaks --atExit -- ./${NAME}
+		leaks --atExit -- ./${NAME} config/sample.json
 
 .PHONY: all clean fclean re cheaks

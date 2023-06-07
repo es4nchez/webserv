@@ -15,6 +15,6 @@ Request::Request(int client_sock_fd, char **envp, s_server w_config)
 }
 Request::~Request()
 {
-
+	delete this->r_error;
 }
 

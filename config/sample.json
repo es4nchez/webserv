@@ -40,10 +40,10 @@
 						"POST",
 						"DELETE"
 					],
-					"http_redir": "my_redir",
+					"http_redir": "",
 					"root": "www/",
-					"dir_listing": true,
-					"index": "42lwatch.html"
+					"dir_listing": false,
+					"index": "www/bouh.txt"
 				},
 				{
 					"location": "/postex.html",

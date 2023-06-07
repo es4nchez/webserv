@@ -27,6 +27,7 @@ class CGI
 
     void handle_cgi_request(int sockfd, const std::string& query_string, char **_wenvp);
     bool is_cgi_request(const std::string& request_path);
+	bool ft_write(int fd, std::string string, int size);
 
 
 };

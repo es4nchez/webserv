@@ -71,6 +71,7 @@ class	Request
     // sendResponse.cpp
     void    		sendResponse(s_request *requestData, int fd, int success_code);
     void    		sendIndex(int fd);
+	void 			ft_send(std::string response, int size);
 
     // postRequest.cpp
     void            parsePostRequest(std::string request, int fd);
