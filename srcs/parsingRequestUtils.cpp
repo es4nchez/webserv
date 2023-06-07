@@ -32,6 +32,7 @@ void Request::addQueryEnv(std::string str)
                 std::copy(str.begin(), str.end(), newStr);
                 newStr[str.size()] = '\0';
                 r_wenvp[size] = newStr;
+                delete newStr;
             }
             size++;
         }

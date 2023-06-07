@@ -28,7 +28,7 @@ class error
 		void ft_send(std::string response, int size);
 		std::pair<int, std::vector<std::string> > fill_map(int error_code, std::string header, std::string path);
 
-        int   	e_fd;
+    int   	e_fd;
 		int		e_size;
 		std::map<int, std::vector<std::string> > e_errorCodes;
 };
