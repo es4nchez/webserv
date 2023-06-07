@@ -32,7 +32,6 @@ void Request::addQueryEnv(std::string str)
                 std::copy(str.begin(), str.end(), newStr);
                 newStr[str.size()] = '\0';
                 r_wenvp[size] = newStr;
-                delete newStr;
             }
             size++;
         }
@@ -47,7 +46,8 @@ void Request::addQueryEnv(std::string str)
         newStr[str.size()] = '\0';
         newEnvTab[size] = newStr;
         newEnvTab[size + 1] = NULL;
-        
+
+				delete[] newStr;
         r_wenvp = newEnvTab;
     }
 }
@@ -63,7 +63,7 @@ void    Request::getAddrMethodData(std:: string request, s_request *requestData)
         requestData->methd = request.substr(0, space_pos);
         std::size_t next_space_pos = request.find(' ', space_pos + 1);
         if (next_space_pos != std::string::npos)
-            requestData->addr = request.substr(space_pos + 1, next_space_pos - space_pos - 1);
+          requestData->addr = request.substr(space_pos + 1, next_space_pos - space_pos - 1);
     }
 
     if (requestData->methd == "POST")

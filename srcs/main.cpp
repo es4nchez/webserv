@@ -15,7 +15,7 @@ int main(int ac, char **av, char **envp)
         return (1);
 
     // Parsing config file
-    ws.w_config = parse_configuration(av[1]);
+    ws.w_config = parse_configuration(ws._configPath);
 
     // // HARDCODE CONFIG
     ws.HARDCODE_INIT();

@@ -74,18 +74,18 @@ public:
 							 std::vector<ParserJSON::t_lexem>::const_iterator &dst) const;
 
 	template <typename T>
-	bool key(std::string const &key,
+	int key(std::string const &key,
 					 T &dst,
 					 bool (&func)(ParserJSON const &, std::vector<ParserJSON::t_lexem>::const_iterator const &, T &),
 					 std::vector<ParserJSON::t_lexem>::const_iterator start) const
 	{
 		if (this->get_key(key, start, start))
-			return (true);
+			return 2;
 		return func(*this, start + 1, dst);
 	}
 
 	template <typename T>
-	bool key(std::string const &key,
+	int key(std::string const &key,
 					 T &dst,
 					 bool (&func)(ParserJSON const &, std::vector<ParserJSON::t_lexem>::const_iterator const &, T &)) const
 	{
@@ -93,7 +93,7 @@ public:
 	}
 
 	template <typename T, typename U>
-	bool keys(T const &keys,
+	int keys(T const &keys,
 						U &dst,
 						bool (&func)(ParserJSON const &, std::vector<ParserJSON::t_lexem>::const_iterator const &, T &),
 						std::vector<ParserJSON::t_lexem>::const_iterator start) const
@@ -101,12 +101,12 @@ public:
 		if (keys.empty())
 			return (true);
 		if (this->get_keys(keys, start, start))
-			return (true);
+			return (2);
 		return func(*this, start + 1, dst);
 	}
 
 	template <typename T, typename U>
-	bool keys(T const &keys,
+	int keys(T const &keys,
 						U &dst,
 						bool (&func)(ParserJSON const &, std::vector<ParserJSON::t_lexem>::const_iterator const &, T &)) const
 	{
@@ -138,7 +138,7 @@ public:
 	}
 
 	template <typename T>
-	bool key_map(std::string const &key,
+	int key_map(std::string const &key,
 							 T &dst,
 							 bool (&func)(ParserJSON const &, std::vector<ParserJSON::t_lexem>::const_iterator const &, T &),
 							 std::vector<ParserJSON::t_lexem>::const_iterator start) const
@@ -146,7 +146,7 @@ public:
 		std::vector<ParserJSON::t_lexem>::const_iterator it;
 
 		if (this->get_key(key, it, start))
-			return (true);
+			return (2);
 		return this->arr(it + 1, dst, func);
 	}
 

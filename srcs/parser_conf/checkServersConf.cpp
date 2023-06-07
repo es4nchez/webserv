@@ -28,8 +28,7 @@ bool checkServerConf(t_server const &server)
 	for (std::vector<t_route>::const_iterator it_route = server.routes.begin(); it_route != server.routes.end(); ++it_route)
 	{
 		if (checkRouteConf(*it_route))
-			;
-		return true;
+			return true;
 
 		std::pair<std::set<std::string>::iterator, bool> ret = locations.insert(it_route->location);
 		if (!ret.second)
