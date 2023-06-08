@@ -37,6 +37,7 @@ class	Request
 	int                            		r_client_sockfd;
 
 	char                    			**r_wenvp;
+    std::string                         r_query_string;
 
     s_server                            r_config;
 
