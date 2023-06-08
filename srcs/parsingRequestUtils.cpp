@@ -71,7 +71,7 @@ void    Request::getAddrMethodData(std:: string request, s_request *requestData)
     {
         std::string query_string = request.substr(request.find("\r\n\r\n") + 4);
    //     std::cout << "query_string : " << query_string << std::endl;
-
+        r_query_string = query_string;
         addQueryEnv(query_string);
 
     }
