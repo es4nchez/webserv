@@ -1,9 +1,12 @@
 import unittest
+import os
 import requests
 
 get_endpoint = "/42lWatch.html"
 get_cgi = "/cgi_script.py"
+sleep_cgi = "/sleep.py"
 post_endpoint = "/post.py"
+bouh_txt = "/Users/esanchez/Projects/webserv/www/upload/bouh.txt"
 
 class TestWebserver(unittest.TestCase):
     BASE_URL = 'http://localhost:8080'
@@ -24,14 +27,21 @@ class TestWebserver(unittest.TestCase):
         response = requests.get(f'{self.BASE_URL}{get_cgi}')
         self.assertEqual(response.status_code, 200)
 
+    def test_get3(self):    
+        response = requests.get(f'{self.BASE_URL}{sleep_cgi}')
+        self.assertEqual(response.status_code, 508)
+
     def test_post(self):
         data = {"name": "eduardo"}
         response = requests.post(f'{self.BASE_URL}{post_endpoint}', json=data)
         self.assertEqual(response.status_code, 200)
 
     def test_delete(self):
-        response = requests.delete(f'{self.BASE_URL}/upload/test.txt')
+        response = requests.delete(f'{self.BASE_URL}/upload/bouh.txt')
         self.assertEqual(response.status_code, 202)
+
+    with open(os.path.join(os.getcwd(), bouh_txt), 'w') as file:
+        file.write("Balalala/nbloubloub")
 
     def test_bad_delete(self):
         response = requests.delete(f'{self.BASE_URL}/upload/dontexist.txt')
