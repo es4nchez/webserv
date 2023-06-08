@@ -11,8 +11,8 @@ int Webserv::args(int ac, char **av, char **envp)
     }
     else if (ac == 1)
     {
-        std::cout << std::endl <<  "\033[1;35mLoading default config file : config/default.conf\033[0m" << std::endl;
-        _configPath = "config/default.conf";
+        std::cout << std::endl <<  "\033[1;35mLoading default config file \033[0m: config/default.json" << std::endl;
+        _configPath = "config/default.json";
     }
     else
     {

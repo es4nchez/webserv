@@ -27,7 +27,7 @@
 					],
 					"http_redir": "",
 					"root": "www/",
-					"dir_listing": true,
+					"dir_listing": false,
 					"index": "42lwatch.html"
 				}
 			]
@@ -55,8 +55,8 @@
 					],
 					"http_redir": "",
 					"root": "www/",
-					"dir_listing": true,
-					"index": ""
+					"dir_listing": false,
+					"index": "upload/bouh.txt"
 				},
 				{
 					"location": "/",
