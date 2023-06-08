@@ -9,6 +9,7 @@ error::error(int fd, std::map<int, std::string> error_code)
 	e_errorCodes.insert(fill_map(404, "404 Not Found", "www/errors/404.html"));
 	e_errorCodes.insert(fill_map(405, "405 Method Not Allowed", "www/errors/405.html"));
 	e_errorCodes.insert(fill_map(413, "413 Content Too Large", "www/errors/413.html"));
+	e_errorCodes.insert(fill_map(508, "508 Loop Detected", "www/errors/508.html"));
 
 	for (it = error_code.begin(); it != error_code.end(); it++)
 		e_errorCodes[it->first][1] = it->second;
@@ -50,4 +51,23 @@ void    error::send_error(int error_code)
 
     std::string response = base + buff.str();
     send(e_fd, response.c_str(), response.size(), 0);
+}
+
+void error::ft_send(std::string response, int size)
+{
+	ssize_t sendedpacket = 0;
+	ssize_t temp = 0;
+	while (sendedpacket < (ssize_t)size)
+	{
+		temp = send(e_fd, response.c_str() + sendedpacket, size - sendedpacket, 0);
+		if (temp == -1)
+		{
+			std::cout << "Error in the function send()" << std::endl;
+			return ;
+		}
+		else if (temp == 0)
+			return ;
+		sendedpacket += temp;
+	}
+
 }

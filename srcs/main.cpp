@@ -17,13 +17,13 @@ int main(int ac, char **av, char **envp)
     // Parsing config file
     ws.w_config = parse_configuration(ws._configPath);
 
-    // // HARDCODE CONFIG
-    ws.HARDCODE_INIT();
+    ws.w_client_addr.reserve(ws.w_config.size());
+    ws.w_client_sockfd.reserve(ws.w_config.size());
 
     if (ws.socketBinding())
         return (1);
     std::cout << std::endl
-              << "Webserv launching... start logs :" << std::endl
+              << "\033[1;32mWebserv launching... start logs :\033[0m" << std::endl
               << std::endl;
 
     while (true)
@@ -46,7 +46,7 @@ int main(int ac, char **av, char **envp)
                 ws.w_client_sockfd[i] = accept(ws.w_sockfd[i], (sockaddr *)&ws.w_client_addr[i], &ws.w_client_len[i]);
                 if (ws.w_client_sockfd[i] < 0)
                 {
-                    std::cerr << "Error accepting connection" << std::endl;
+                    std::cerr << "\033[1;31mError accepting connection\033[0m" << std::endl;
                     continue;
                 }
 

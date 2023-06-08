@@ -14,6 +14,6 @@ void Request::redirectURL(std::string path, int fd)
 	(void) path;
     std::string base = "HTTP/1.1 301 Moved Permanently\n";
     std::string body = "Location: " + r_route.http_redir + "\r\n";
-    send(r_client_sockfd, (base + body).c_str(), (base + body).size(), 0);
+    ft_send(body, body.size());
     return;
 }

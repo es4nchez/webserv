@@ -25,6 +25,7 @@ class error
         error(int fd, std::map<int, std::string> error_code);
         ~error();
         void send_error(int error_code);
+		void ft_send(std::string response, int size);
 		std::pair<int, std::vector<std::string> > fill_map(int error_code, std::string header, std::string path);
 
     int   	e_fd;

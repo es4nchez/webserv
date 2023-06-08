@@ -7,6 +7,16 @@ int Webserv::socketBinding(void)
     // The first argument AF_INET specifies the address family (in this case, IPv4)
     // The second argument SOCK_STREAM specifies the socket type (in this case, a TCP stream socket)
     // The third argument 0 indicates that the protocol should be chosen automatically.
+    addrinfo hints, *res;
+    hints.ai_flags = 0;
+    hints.ai_family = AF_INET;
+    hints.ai_socktype = SOCK_STREAM;
+    hints.ai_protocol = 0;
+    hints.ai_addrlen = 0;
+    hints.ai_addr = NULL;
+    hints.ai_canonname = NULL;
+    hints.ai_next = NULL;
+
     for (unsigned int i = 0; i < w_config.size(); i++)
     {
         w_sockfd.push_back(socket(AF_INET, SOCK_STREAM, 0));
@@ -32,14 +42,26 @@ int Webserv::socketBinding(void)
         //sin_port specifies the port number to bind to (which is taken from the ports).
 
         // The bind() system call is then used to associate the socket file descriptor with the server address. 
+        hints.ai_family = AF_INET;
+        hints.ai_socktype = SOCK_STREAM;
+
+        if (getaddrinfo(w_config[i].host.c_str(), NULL, &hints, &res) != 0)
+        {
+            std::cerr << "getaddrinfo failed" << std::endl;
+            return 1;
+        }
+
         sockaddr_in server_addr;
         server_addr.sin_family = AF_INET;
-        server_addr.sin_addr.s_addr = INADDR_ANY;
+        server_addr.sin_addr = ((struct sockaddr_in*) res->ai_addr)->sin_addr; // use IP address obtained from getaddrinfo
         server_addr.sin_port = htons(w_config[i].port);
+
+        freeaddrinfo(res); // free the linked-list
+
         if (bind(w_sockfd[i], (sockaddr*) &server_addr, sizeof(server_addr)) < 0)
         {
-                std::cerr << "Error binding socket : " << w_sockfd[i] << std::endl;
-                return (1);
+            std::cerr << "Error binding socket : " << w_sockfd[i] << std::endl;
+            return (1);
         }
         // std::cout << "Socket '" << w_sockfd[i] << "' binded" << " to port " << w_ports[i] << std::endl;
 

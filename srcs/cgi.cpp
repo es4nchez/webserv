@@ -1,13 +1,15 @@
-#include "webserv.hpp"
 #include "cgi.hpp"
 
-CGI::CGI()
+CGI::CGI(int fd, s_server r_config)
 {
+	this->c_config = r_config;
+	this->c_error = new error(fd, c_config.default_error_pages);
     return;
 }
 
 CGI::~CGI()
 {
+	delete this->c_error;
     return;
 }
 
@@ -15,14 +17,14 @@ void CGI::handle_cgi_request(int sockfd, const std::string& cgi_path, char **_we
 {
     int pipefd[2];
     if (pipe(pipefd) == -1) {
-        std::cout << "Error creating pipe\n" << std::endl;
+        std::cout << "Error creating pipe" << std::endl;
         
         return;
     }
 
     pid_t pid = fork();
     if (pid == -1) {
-        printf("Error forking process: %s\n", strerror(errno));
+       std::cout << "Error forking process" << std::endl;
         return;
     }
 
@@ -34,7 +36,7 @@ void CGI::handle_cgi_request(int sockfd, const std::string& cgi_path, char **_we
 
         char* args[] = { const_cast<char*>(PYTHON), const_cast<char*>(cgi_path.c_str()), NULL};
         execve(PYTHON, args, _wenvp);
-        printf("Error executing CGI program: %s\n", strerror(errno));
+       std::cout << "Error executing CGI program" << std::endl;
         exit(EXIT_FAILURE);
     }
 
@@ -42,32 +44,31 @@ void CGI::handle_cgi_request(int sockfd, const std::string& cgi_path, char **_we
 
     fcntl(pipefd[0], F_SETFL, O_NONBLOCK);
 
-    std::string status = "HTTP/1.1 508 OK\n\n";
-    write(sockfd, status.c_str(), status.size());
-
     int wpid, Stat;
     std::time_t start_time = std::time(NULL);
     const int timeout = 5;
+	int bytes_read = 1;
 
     wpid = waitpid(pid, &Stat, WNOHANG);
-    while (wpid == 0 && (std::time(NULL) - start_time) <= timeout) {
+    while (wpid == 0 && (std::time(NULL) - start_time) <= timeout && bytes_read) 
+	{
         std::time_t current_time = std::time(NULL);
-        if (current_time - start_time < timeout) {
+        if (current_time - start_time < timeout) 
+		{
             char buffer[1024];
-            int bytes_read;
-
-            while ((bytes_read = read(pipefd[0], buffer, sizeof(buffer))) > 0) {
-                write(sockfd, buffer, bytes_read);
-            }
-
-            if (bytes_read == -1 && errno != EAGAIN) {
-                printf("Error reading CGI output: %s\n", strerror(errno));
-                break;
-            }
+			
+			// std::string status = "HTTP/1.1 200 OK\n\n";
+			// ft_write(sockfd, status.c_str(), status.size());
+            while ((bytes_read = read(pipefd[0], buffer, sizeof(buffer))) > 0) 
+				ft_write(sockfd, buffer, bytes_read);
+            if (bytes_read == -1 || bytes_read == 0)
+                continue;
         }
-        else {
+        else 
+		{
             printf("CGI execution time exceeded the limit. Terminating process.\n");
             kill(pid, SIGKILL);
+			c_error->send_error(508);
             break;
         }
 
@@ -83,14 +84,6 @@ void CGI::handle_cgi_request(int sockfd, const std::string& cgi_path, char **_we
         printf("Child was terminated with a status of: %d\n", WTERMSIG(Stat));
     }
 }
-
-
-
-
-
-
-#include <algorithm>
-#include <vector>
 
 bool CGI::is_cgi_request(const std::string& request_path)
 {
@@ -112,4 +105,23 @@ bool CGI::is_cgi_request(const std::string& request_path)
     std::transform(ext.begin(), ext.end(), ext.begin(), ::tolower);
 
     return std::find(cgi_extensions.begin(), cgi_extensions.end(), ext) != cgi_extensions.end();
+}
+
+bool CGI::ft_write(int fd, std::string string, int size)
+{
+	ssize_t writtenpacket = 0;
+	ssize_t temp = 0;
+	while (writtenpacket < (ssize_t)size)
+	{
+		temp = write(fd, string.c_str() + writtenpacket, size - writtenpacket);
+		if (temp == -1)
+		{
+			std::cout << "Error in the function write()" << std::endl;
+			return false;
+		}
+		else if (temp == 0)
+			return true;
+		writtenpacket += temp;
+	}
+	return true;
 }

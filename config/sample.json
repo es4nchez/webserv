@@ -1,13 +1,21 @@
 {
-	"test": ["test", "test"],
+	"test": [
+		"test",
+		"test"
+	],
 	"servers": [
 		{
 			"host": "localhost",
 			"port": 8080,
-			"server_names": ["plouf_name"],
+			"server_names": [
+				"plouf_name"
+			],
 			"max_client_body_size": 4096,
 			"default_error_pages": [
-				[404, "www/error.html"]
+				[
+					404,
+					"www/error.html"
+				]
 			],
 			"routes": [
 				{
@@ -27,10 +35,15 @@
 		{
 			"host": "localhost",
 			"port": 8181,
-			"server_names": ["plouf_name"],
+			"server_names": [
+				"plouf_name"
+			],
 			"max_client_body_size": 4096,
 			"default_error_pages": [
-				[404, "www/error.html"]
+				[
+					404,
+					"www/error.html"
+				]
 			],
 			"routes": [
 				{
@@ -40,17 +53,19 @@
 						"POST",
 						"DELETE"
 					],
-					"http_redir": "my_redir",
+					"http_redir": "",
 					"root": "www/",
-					"dir_listing": true,
-					"index": "42lwatch.html"
+					"dir_listing": false,
+					"index": "upload/bouh.txt"
 				},
 				{
-					"location": "/postex.html",
+					"location": "/",
 					"methods": [
-						"GET"
+						"GET",
+						"POST",
+						"DELETE"
 					],
-					"http_redir": "my_redir",
+					"http_redir": "",
 					"root": "www/",
 					"dir_listing": false,
 					"index": "42lwatch.html"

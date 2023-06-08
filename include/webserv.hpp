@@ -2,6 +2,7 @@
 # define WEBSERV_HPP
 
 #include <iostream>
+#include <algorithm>
 #include <fstream>
 #include <string>
 #include <cstring>
@@ -16,6 +17,8 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <dirent.h>
+#include <sys/types.h>
+#include <netdb.h>
 #include "cgi.hpp"
 #include "request.hpp"
 #include "server_conf.hpp"

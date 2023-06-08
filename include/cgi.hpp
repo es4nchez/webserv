@@ -16,17 +16,24 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include "webserv.hpp"
+#include "error.hpp"
+#include "request.hpp"
+#include "server_conf.hpp"
 
 class CGI
 {
     public:
 
-    CGI();
+   CGI(int fd, s_server r_config);
     ~CGI();
 
+	error                               *c_error;
+	s_server                            c_config;
 
     void handle_cgi_request(int sockfd, const std::string& query_string, char **_wenvp);
     bool is_cgi_request(const std::string& request_path);
+	bool ft_write(int fd, std::string string, int size);
 
 
 };

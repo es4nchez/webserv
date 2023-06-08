@@ -41,7 +41,7 @@ std::string Request::listFilesInDirectory(const std::string& directoryPath)
 void Request::directoryListing(s_request *requestData, int fd)
 {
     (void)fd;
-    std::string dirPath = r_rootpath + requestData->addr.substr(1, requestData->addr.size());
+    std::string dirPath = r_route.root + requestData->addr.substr(1, requestData->addr.size());
 
     std::string list = listFilesInDirectory(dirPath); 
     // std::cout << response << std::endl;
@@ -49,5 +49,5 @@ void Request::directoryListing(s_request *requestData, int fd)
     std::string base = "HTTP/1.1 200 OK\n\n";
     std::string response = base + list;
 
-    send(r_client_sockfd, response.c_str(), response.size(), 0);
+    ft_send(response, response.size());
 }

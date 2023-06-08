@@ -10,7 +10,8 @@ void Request::sendResponse(s_request *requestData, int fd, int success_code)
 		std::stringstream   buff;
 		if (success_code == 200)
 		{
-			std::string path = r_rootpath + requestData->addr.substr(1, requestData->addr.size());
+			std::string path = r_route.root + requestData->addr.substr(1, requestData->addr.size());
+			std::cout << "je suis le fichier : " << path << std::endl;
         	std::ifstream   file(path.c_str());
 			if (isRedirect())
 			{
@@ -20,7 +21,6 @@ void Request::sendResponse(s_request *requestData, int fd, int success_code)
 			buff << file.rdbuf();
 			if (!buff.str().size())
 			{
-				std::cout << "I AM THE TRUTH" << std::endl;
 				r_error->send_error(404);
 				return;
 			}
@@ -38,7 +38,7 @@ void Request::sendResponse(s_request *requestData, int fd, int success_code)
 			}
 		}
 		response = base + buff.str();
-        send(r_client_sockfd, response.c_str(), response.size(), 0);
+        ft_send(response, response.size());
 }
 
 
@@ -46,12 +46,32 @@ void Request::sendResponse(s_request *requestData, int fd, int success_code)
 void Request::sendIndex(int fd)
 {
 	(void) fd;
-	std::string path = r_route.root + r_index;
+	std::string path = r_route.root + r_route.index;
+	std::cout << "PATH : " << path << std::endl;
 	std::ifstream   file(path.c_str());
 	std::stringstream   buff;
 	std::string response;
 	buff << file.rdbuf();
 	std::string base = "HTTP/1.1 200 OK \n\n";
 	response = base + buff.str();
-	send(r_client_sockfd, response.c_str(), response.size(), 0);
+	ft_send(response, response.size());
+}
+
+void Request::ft_send(std::string response, int size)
+{
+	ssize_t sendedpacket = 0;
+	ssize_t temp = 0;
+	while (sendedpacket < (ssize_t)size)
+	{
+		temp = send(r_client_sockfd, response.c_str() + sendedpacket, size - sendedpacket, 0);
+		if (temp == -1)
+		{
+			std::cout << "Error in the function send()" << std::endl;
+			return ;
+		}
+		else if (temp == 0)
+			return ;
+		sendedpacket += temp;
+	}
+
 }
