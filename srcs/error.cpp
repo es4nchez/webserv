@@ -12,7 +12,15 @@ error::error(int fd, std::map<int, std::string> error_code)
 	e_errorCodes.insert(fill_map(508, "508 Loop Detected", "www/errors/508.html"));
 
 	for (it = error_code.begin(); it != error_code.end(); it++)
-		e_errorCodes[it->first][1] = it->second;
+	{
+			std::ifstream ifs;
+			ifs.open(it->second, std::ios_base::in);
+			if (ifs.is_open())
+			{
+				e_errorCodes[it->first][1] = it->second;
+				ifs.close();
+			}
+	}
   e_size = e_errorCodes.size();
 }
 
@@ -40,9 +48,9 @@ void    error::send_error(int error_code)
 	{
         if (error_code == it->first) 
 		{
-            base = "HTTP/1.1 " + it->second[0] + "\n\n";
-            name = it->second[1];
-            break;
+			base = "HTTP/1.1 " + it->second[0] + "\n\n";
+			name = it->second[1];
+			break;
         }
     }
     std::ifstream file(name.c_str());

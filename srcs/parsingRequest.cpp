@@ -10,12 +10,12 @@ void Request::handleGET(s_request *requestData, int fd)
 	std::string addr = "";
     if (cgi.is_cgi_request(requestData->addr))
         cgi.handle_cgi_request(r_client_sockfd, (r_route.root + requestData->addr), r_wenvp);
-    else if (requestData->addr.size() == 1 || !requestData->addr.compare(r_route.location))
-        sendIndex(fd);
     else
     {
-		if (requestData->addr[requestData->addr.size() - 1] == '/')
+		std::cout << "ELSE" << std::endl;
+		if (requestData->addr.at(requestData->addr.size() - 1) == '/' && r_route.index.size() != 0)
 		{
+			std::cout << "GRUH" << std::endl;
 			root = r_route.root.substr(0, r_route.root.size() - 1);
 			addr = requestData->addr.substr(0, requestData->addr.size() - 1);
 			fullPath = root + addr;
@@ -24,7 +24,6 @@ void Request::handleGET(s_request *requestData, int fd)
 		}
 		else
         	fullPath = r_route.root + requestData->addr;
-		std::cout << "FULL : " << fullPath << std::endl;
         DIR* dir = opendir(fullPath.c_str());
         if (dir != NULL && r_route.dir_listing)
         {
