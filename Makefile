@@ -21,12 +21,14 @@ SRCS	= 	srcs/main.cpp \
 			srcs/deleteRequest.cpp \
 			srcs/redirect.cpp \
 			srcs/parsingRequestUtils.cpp \
-			srcs/ParserJSON.cpp \
-			srcs/readFileHelper.cpp \
-			srcs/parsingConf.cpp \
 			srcs/Request.cpp \
-			srcs/checkServersConf.cpp \
-			srcs/error.cpp
+			srcs/parser_conf/ParserJSON.cpp \
+			srcs/parser_conf/parsingConf.cpp \
+			srcs/parser_conf/parsingConfRoute.cpp \
+			srcs/parser_conf/checkServersConf.cpp \
+			srcs/parser_conf/parsingHelpers.cpp \
+			srcs/error.cpp \
+			srcs/utils.cpp
 
 NAME 	= webserv
 COMP 	= c++

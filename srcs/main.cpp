@@ -15,7 +15,7 @@ int main(int ac, char **av, char **envp)
         return (1);
 
     // Parsing config file
-    ws.w_config = parse_configuration(av[1]);
+    ws.w_config = parse_configuration(ws._configPath);
 
     ws.w_client_addr.reserve(ws.w_config.size());
     ws.w_client_sockfd.reserve(ws.w_config.size());
