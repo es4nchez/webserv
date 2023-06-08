@@ -6,7 +6,7 @@ bool checkLocation(std::string const &str)
 {
 	if (str.empty())
 	{
-		std::cerr << "route.location: expect [a-e,A-E,0-9]+" << std::endl;
+		std::cerr << "route.location: is empty" << std::endl;
 		return true;
 	}
 
@@ -15,7 +15,7 @@ bool checkLocation(std::string const &str)
 
 	if (*it != '/')
 	{
-		std::cerr << "route.location: expect [a-e,A-E,0-9]+" << std::endl;
+		std::cerr << "route.location: expect / at start" << std::endl;
 		return (true);
 	}
 

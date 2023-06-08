@@ -41,22 +41,18 @@ bool parse_routes(ParserJSON const &json,
 	if (json.key_map("methods", rou.methods, parse_http_methods, route) == 1)
 		return (true);
 	
-	if ((tmp = json.key("http_redir", rou.http_redir, parse_word, route)) == 1)
-		return (true);
-	if (tmp == 0 && checkHttpRedir(rou.http_redir))
+	if ((tmp = json.key("http_redir", rou.http_redir, ParserJSON::to_string, route)) == 1)
 		return (true);
 	
-	if ((tmp = json.key("root", rou.root, parse_word, route)) == 1)
-		return (true);
-	if (tmp == 0 && checkRoot(rou.root))
+	if ((tmp = json.key("root", rou.root, ParserJSON::to_string, route)) == 1)
 		return (true);
 	
-	if (json.key("dir_listing", rou.dir_listing, ParserJSON::to_bool, route) == 1)
+	if ((tmp = json.key("dir_listing", rou.dir_listing, ParserJSON::to_bool, route)) == 1)
 		return (true);
+	if (tmp == 2)
+		rou.dir_listing = false;
 	
-	if ((tmp = json.key("index", rou.index, parse_word, route)) == 1)
-		return (true);
-	if (tmp == 0 && checkIndex(rou.index))
+	if ((tmp = json.key("index", rou.index, ParserJSON::to_string, route)) == 1)
 		return (true);
 	
 	if (checkRouteConf(rou))

@@ -42,6 +42,7 @@ struct s_conf_server
 //parser_conf/parseHelpers.cpp
 bool parse_words(ParserJSON const &json, std::vector<ParserJSON::t_lexem>::const_iterator const &word, std::vector<std::string> &words);
 bool parse_word(ParserJSON const &json, std::vector<ParserJSON::t_lexem>::const_iterator const & word, std::string &dst);
+bool parse_strings(ParserJSON const &json, std::vector<ParserJSON::t_lexem>::const_iterator const &word, std::vector<std::string> &words);
 
 //parser_conf/parsingConf.cpp
 bool parse_configuration(std::string const &file_path, std::vector<t_server> &dst);

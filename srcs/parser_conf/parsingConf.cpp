@@ -23,7 +23,7 @@ bool parse_default_error_pages(ParserJSON const &json,
 		return true;
 	}
 	++tmp;
-	if (parse_word(json, tmp, pair.second))
+	if (ParserJSON::to_string(json, tmp, pair.second))
 	{
 		std::cerr << err << std::endl;
 		return true;
@@ -46,20 +46,17 @@ bool parse_default_error_pages(ParserJSON const &json,
 bool parse_servers(ParserJSON const &json, std::vector<ParserJSON::t_lexem>::const_iterator const &server, std::vector<t_server> &servers)
 {
 	t_server serv;
+	int tmp;
 
-	if (json.key("host", serv.host, parse_word, server))
+	if (json.key("host", serv.host, ParserJSON::to_string, server))
 		return true;
-	if (checkHost(serv.host))
-		return (true);
-	
+
 	if (json.key("port", serv.port, ParserJSON::to_number, server))
 		return true;
 	if (checkPort(serv.port))
 		return true;
 
-	if (json.key_map("server_names", serv.server_names, parse_words, server))
-		return true;
-	if (checkServerNames(serv.server_names))
+	if ((tmp = json.key_map("server_names", serv.server_names, parse_words, server) == 1))
 		return true;
 	
 	if (json.key("max_client_body_size", serv.max_client_body_size, ParserJSON::to_number, server))
@@ -69,9 +66,7 @@ bool parse_servers(ParserJSON const &json, std::vector<ParserJSON::t_lexem>::con
 
 	if (json.key_map("default_error_pages", serv.default_error_pages, parse_default_error_pages, server))
 		return true;
-	if (checkErrorPages(serv.default_error_pages))
-		return true;
-
+	
 	if (json.key_map("routes", serv.routes, parse_routes, server))
 		return true;
 	
