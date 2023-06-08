@@ -30,8 +30,9 @@ SRCS	= 	srcs/main.cpp \
 			srcs/utils.cpp
 
 NAME 	= webserv
-COMP 	= c++
+CXX 	= g++
 CXXFLAGS 	= -Wall -Wextra -Werror -std=c++98 -I include/
+# CXXFLAGS 	= -Wall -Wextra -Werror -std=c++98 fsanitize=address -g -I include/
 
 DEBUG ?= 0
 ifeq ($(DEBUG), 1)
@@ -44,7 +45,7 @@ OBJS	= ${SRCS:.cpp=.o}
 $(NAME):	$(OBJS)
 			@echo "${PRP}-----compilation-----${RST}"
 			@echo "[WEBSERV]	${CYN}Compilating... 🔨${RST}"
-			@$(COMP) $(CXXFLAGS) $(OBJS) -o $(NAME)
+			@$(CXX) $(CXXFLAGS) $(OBJS) -o $(NAME)
 			@echo "[WEBSERV]	${GRN}OK ${RST}"
 			@echo "${GRN}Ready to execute ✅${RST}"
 
