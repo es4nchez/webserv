@@ -32,11 +32,10 @@ SRCS	= 	srcs/main.cpp \
 NAME 	= webserv
 CXX 	= g++
 CXXFLAGS 	= -Wall -Wextra -Werror -std=c++98 -I include/
-# CXXFLAGS 	= -Wall -Wextra -Werror -std=c++98 fsanitize=address -g -I include/
 
 DEBUG ?= 0
 ifeq ($(DEBUG), 1)
-	CXXFLAGS += -g
+	CXXFLAGS += -fsanitize=address -g
 endif
 
 
