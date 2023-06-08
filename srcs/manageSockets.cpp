@@ -74,7 +74,7 @@ int Webserv::socketBinding(void)
         // The _client_len variable is also initialized to the size of the _client_addr structure,
         // which will be used to store client connection information.
         listen(w_sockfd[i], 64);
-        w_client_len.push_back(sizeof(w_client_addr[i]));
+        w_client_len.push_back(sizeof(sockaddr));
 
     }
 

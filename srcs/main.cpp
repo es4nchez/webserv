@@ -20,6 +20,10 @@ int main(int ac, char **av, char **envp)
     ws.w_client_addr.reserve(ws.w_config.size());
     ws.w_client_sockfd.reserve(ws.w_config.size());
 
+    sockaddr test;
+
+    std::cout << "size :" << ws.w_config.size() << std::endl;
+
     if (ws.socketBinding())
         return (1);
     std::cout << std::endl
@@ -43,7 +47,8 @@ int main(int ac, char **av, char **envp)
             if (FD_ISSET(ws.w_sockfd[i], &temp__fds))
             {
                 // accept the incoming connection
-                ws.w_client_sockfd[i] = accept(ws.w_sockfd[i], (sockaddr *)&ws.w_client_addr[i], &ws.w_client_len[i]);
+                std::cout << "i : " << i << std::endl;
+                ws.w_client_sockfd.push_back(accept(ws.w_sockfd[i], &test, &ws.w_client_len[i]));
                 if (ws.w_client_sockfd[i] < 0)
                 {
                     std::cerr << "\033[1;31mError accepting connection\033[0m" << std::endl;
