@@ -45,7 +45,7 @@ class Webserv
     // Socket related
     std::vector<int>           			w_sockfd;
     std::vector<int>           			w_client_sockfd;
-    std::vector<sockaddr>    		w_client_addr;
+    std::vector<sockaddr>    		    w_client_addr;
     std::vector<socklen_t>      		w_client_len;
     fd_set                      		w_fds;
     int                         		w_max_fd;
@@ -76,7 +76,7 @@ class Webserv
     int     		args(int ac, char **av, char **envp);
 
     // receive.cpp
-    std::string 	receive(int i);
+    std::string 	receive(int i, int sockfd);
     std::string 	getRequestMethod(const std::string& headers);
     int         	getContentLengthFromHeaders(const std::string& headers);
 

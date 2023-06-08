@@ -31,13 +31,16 @@ int Webserv::getContentLengthFromHeaders(const std::string& headers)
 }
 
 
-std::string Webserv::receive(int i)
+std::string Webserv::receive(int i, int sockfd)
 {
     std::string buffer;
     while (true)
     {
+        std::cout << "total : " << w_client_sockfd.size() << std::endl;
+        std::cout << "i : " << i << std::endl;
         char temp_buffer[1000000] = {0};
-        int bytes_received = recv(w_client_sockfd[i], temp_buffer, sizeof(temp_buffer) - 1, 0);
+        int bytes_received = recv(sockfd, temp_buffer, sizeof(temp_buffer) - 1, 0);
+        std::cout << "we received !!!" << std::endl;
         if (bytes_received <= 0)
         {
             if (bytes_received < 0)
