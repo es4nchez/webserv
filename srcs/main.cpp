@@ -18,7 +18,6 @@ int main(int ac, char **av, char **envp)
     ws.w_config = parse_configuration(ws._configPath);
 
     ws.w_client_addr.reserve(ws.w_config.size());
-    ws.w_client_sockfd.reserve(ws.w_config.size());
 
     sockaddr test;
 
@@ -48,20 +47,21 @@ int main(int ac, char **av, char **envp)
             {
                 // accept the incoming connection
                 std::cout << "i : " << i << std::endl;
-                ws.w_client_sockfd.push_back(accept(ws.w_sockfd[i], &test, &ws.w_client_len[i]));
-                if (ws.w_client_sockfd[i] < 0)
+                int sockfd = accept(ws.w_sockfd[i], &test, &ws.w_client_len[i]);
+                std::cout << "accepted  " << i << std::endl;
+                if (sockfd < 0)
                 {
                     std::cerr << "\033[1;31mError accepting connection\033[0m" << std::endl;
                     continue;
                 }
 
-                std::string request = ws.receive(i);
-                Request rt(ws.w_client_sockfd[i], envp, ws.w_config[i]);
+                std::string request = ws.receive(i, sockfd);
+                Request rt(sockfd, envp, ws.w_config[i]);
                 // handle the request
                 rt.handleRequest(request, i);
 
                 // close the connection
-                close(ws.w_client_sockfd[i]);
+                close(sockfd);
             }
         }
     }
