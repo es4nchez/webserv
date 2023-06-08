@@ -4,7 +4,7 @@
 void Request::handleGET(s_request *requestData, int fd)
 {
 
-    CGI cgi(r_client_sockfd, r_config);
+    CGI cgi(r_client_sockfd, r_config, r_query_string);
 	std::string fullPath = "";
 	std::string	root = "";
 	std::string addr = "";
@@ -37,7 +37,7 @@ void Request::handleGET(s_request *requestData, int fd)
 
 void Request::handlePOST(std::string request, s_request *requestData, int fd)
 {
-    CGI cgi(r_client_sockfd, r_config);
+    CGI cgi(r_client_sockfd, r_config, r_query_string);
     if (cgi.is_cgi_request(requestData->addr))
         cgi.handle_cgi_request(r_client_sockfd, (r_route.root + requestData->addr), r_wenvp);
     else
