@@ -45,7 +45,7 @@ class Webserv
     // Socket related
     std::vector<int>           			w_sockfd;
     std::vector<int>           			w_client_sockfd;
-    std::vector<sockaddr_in>    		w_client_addr;
+    std::vector<sockaddr>    		w_client_addr;
     std::vector<socklen_t>      		w_client_len;
     fd_set                      		w_fds;
     int                         		w_max_fd;
