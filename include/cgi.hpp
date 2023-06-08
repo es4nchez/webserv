@@ -25,11 +25,13 @@ class CGI
 {
     public:
 
-   CGI(int fd, s_server r_config);
+   CGI(int fd, s_server r_config, std::string r_query_string);
     ~CGI();
 
 	error                               *c_error;
 	s_server                            c_config;
+
+    std::string                         c_test_env;
 
     void handle_cgi_request(int sockfd, const std::string& query_string, char **_wenvp);
     bool is_cgi_request(const std::string& request_path);

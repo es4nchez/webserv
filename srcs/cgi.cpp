@@ -1,9 +1,10 @@
 #include "cgi.hpp"
 
-CGI::CGI(int fd, s_server r_config)
+CGI::CGI(int fd, s_server r_config, std::string r_query_string)
 {
 	this->c_config = r_config;
 	this->c_error = new error(fd, c_config.default_error_pages);
+    this->c_test_env = r_query_string;
     return;
 }
 
@@ -15,6 +16,10 @@ CGI::~CGI()
 
 void CGI::handle_cgi_request(int sockfd, const std::string& cgi_path, char **_wenvp)
 {
+    (void) _wenvp;
+    // int i = -1;
+    // while (_wenvp[++i])
+    //     std::cout << "env : " << _wenvp[i] << std::endl;
     int pipefd[2];
     if (pipe(pipefd) == -1) {
         std::cout << "Error creating pipe" << std::endl;
@@ -34,8 +39,8 @@ void CGI::handle_cgi_request(int sockfd, const std::string& cgi_path, char **_we
         close(pipefd[0]);
         close(pipefd[1]);
 
-        char* args[] = { const_cast<char*>(PYTHON), const_cast<char*>(cgi_path.c_str()), NULL};
-        execve(PYTHON, args, _wenvp);
+        char* args[] = { const_cast<char*>(PYTHON), const_cast<char*>(cgi_path.c_str()), const_cast<char*>(c_test_env.c_str()), NULL};
+        execve(PYTHON, args, NULL);
        std::cout << "Error executing CGI program" << std::endl;
         exit(EXIT_FAILURE);
     }
@@ -48,6 +53,7 @@ void CGI::handle_cgi_request(int sockfd, const std::string& cgi_path, char **_we
     std::time_t start_time = std::time(NULL);
     const int timeout = 5;
 	int bytes_read = 1;
+    std::string tmp;
 
     wpid = waitpid(pid, &Stat, WNOHANG);
     while (wpid == 0 && (std::time(NULL) - start_time) <= timeout && bytes_read) 
@@ -57,12 +63,15 @@ void CGI::handle_cgi_request(int sockfd, const std::string& cgi_path, char **_we
 		{
             char buffer[1024];
 			
-			// std::string status = "HTTP/1.1 200 OK\n\n";
-			// ft_write(sockfd, status.c_str(), status.size());
-            while ((bytes_read = read(pipefd[0], buffer, sizeof(buffer))) > 0) 
-				ft_write(sockfd, buffer, bytes_read);
+            while ((bytes_read = read(pipefd[0], buffer, sizeof(buffer))) > 0)
+            {
+				tmp = buffer;
+            }
             if (bytes_read == -1 || bytes_read == 0)
+            {
+                
                 continue;
+            }
         }
         else 
 		{
@@ -74,7 +83,9 @@ void CGI::handle_cgi_request(int sockfd, const std::string& cgi_path, char **_we
 
         wpid = waitpid(pid, &Stat, WNOHANG);
     }
-
+    std::string status = "HTTP/1.1 200 OK\n\n";
+	ft_write(sockfd, status.c_str(), status.size());
+    ft_write(sockfd, tmp, tmp.size());
     close(pipefd[0]);
 
     if (WIFEXITED(Stat)) {

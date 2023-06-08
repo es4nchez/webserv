@@ -3,7 +3,7 @@ import os
 from datetime import datetime
 from time import sleep
 
-t = datetime.now().strftime("%H:%M:%S")
+
 
 # Generate the CGI response
 # print('HTTP/1.1 200 OK\n\n')
