@@ -19,14 +19,16 @@ int main(int ac, char **av, char **envp)
 		{
 			if (ws._configPath == "config/default.json")
 			{
-				std::cerr << "config/default.json can't load" << std::endl;
+				std::cerr << "\033[1;31mconfig/default.json can't load\033[0m" << std::endl;
 				return (1);
 			}
 			if (parse_configuration("config/default.json", ws.w_config))
 			{
-				std::cerr << "config/default.json can't load" << std::endl;
+				std::cerr << "\033[1;31mconfig/default.json can't load\033[0m" << std::endl;
 				return (1);
 			}
+			else
+				std::cout << std::endl <<  "\033[1;35mLoading default config file \033[0m: config/default.json" << std::endl;
 		}
 
     ws.w_client_addr.reserve(ws.w_config.size());
