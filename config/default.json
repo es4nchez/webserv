@@ -6,7 +6,7 @@
 	"servers": [
 		{
 			"host": "localhost",
-			"port": 8080, //todo
+			"port": 8080, 
 			"server_names": [
 				"plouf_name"
 			],
@@ -38,7 +38,7 @@
 			"server_names": [
 				"plouf_name"
 			],
-			"max_client_body_size": 4096, //TODO intmax
+			"max_client_body_size": 4096,
 			"default_error_pages": [
 				[
 					404,
@@ -48,7 +48,6 @@
 			"routes": [
 				{
 					"location": "/upload",
-					"methods": [
 						"GET",
 						"POST",
 						"DELETE"

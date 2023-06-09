@@ -8,7 +8,7 @@
 			"host": "localhost",
 			"port": 8080,
 			"server_names": [
-				"plouf_name"
+	
 			],
 			"max_client_body_size": 4096,
 			"default_error_pages": [
@@ -36,7 +36,6 @@
 			"host": "localhost",
 			"port": 8181,
 			"server_names": [
-				"plouf_name"
 			],
 			"max_client_body_size": 4096,
 			"default_error_pages": [
@@ -47,7 +46,7 @@
 			],
 			"routes": [
 				{
-					"location": "/upload", //must
+					"location": "/upload",
 					"methods": [
 						"GET",
 						"POST",
