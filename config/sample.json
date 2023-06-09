@@ -61,7 +61,6 @@
 					"location": "/",
 					"methods": [
 						"GET",
-						"POST",
 						"DELETE"
 					],
 					"http_redir": "",

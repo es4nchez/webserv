@@ -6,9 +6,9 @@
 	"servers": [
 		{
 			"host": "localhost",
-			"port": 8080, 
+			"port": 8080,
 			"server_names": [
-				"plouf_name"
+	
 			],
 			"max_client_body_size": 4096,
 			"default_error_pages": [
@@ -27,7 +27,7 @@
 					],
 					"http_redir": "",
 					"root": "www/",
-					"dir_listing": false,
+					"dir_listing": true,
 					"index": "42lwatch.html"
 				}
 			]
@@ -36,7 +36,6 @@
 			"host": "localhost",
 			"port": 8181,
 			"server_names": [
-				"plouf_name"
 			],
 			"max_client_body_size": 4096,
 			"default_error_pages": [
@@ -55,8 +54,8 @@
 					],
 					"http_redir": "",
 					"root": "www/",
-					"dir_listing": false,
-					"index": "upload/bouh.txt"
+					"dir_listing": true,
+					"index": ""
 				},
 				{
 					"location": "/",
