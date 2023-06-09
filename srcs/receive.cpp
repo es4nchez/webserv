@@ -22,7 +22,7 @@ int Webserv::getContentLengthFromHeaders(const std::string& headers)
     std::string::size_type end_of_line_pos = headers.find("\r\n", content_length_pos);
     if (end_of_line_pos == std::string::npos) {
         // Invalid HTTP headers
-        std::cerr << "Invalid HTTP headers" << std::endl;
+        std::cerr << "Invalid HTTP headers : " << headers << std::endl;
         return -1;
     }
 
@@ -33,14 +33,12 @@ int Webserv::getContentLengthFromHeaders(const std::string& headers)
 
 std::string Webserv::receive(int i, int sockfd)
 {
+    (void) i;
     std::string buffer;
     while (true)
-    {
-        std::cout << "total : " << w_client_sockfd.size() << std::endl;
-        std::cout << "i : " << i << std::endl;
+    {;
         char temp_buffer[1000000] = {0};
-        int bytes_received = recv(sockfd, temp_buffer, sizeof(temp_buffer) - 1, 0);
-        std::cout << "we received !!!" << std::endl;
+        int bytes_received = recv(sockfd, temp_buffer, sizeof(temp_buffer) - 1, 0);;
         if (bytes_received <= 0)
         {
             if (bytes_received < 0)

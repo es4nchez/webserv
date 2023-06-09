@@ -12,10 +12,8 @@ void Request::handleGET(s_request *requestData, int fd)
         cgi.handle_cgi_request(r_client_sockfd, (r_route.root + requestData->addr), r_wenvp);
     else
     {
-		std::cout << "ELSE" << std::endl;
 		if (requestData->addr.at(requestData->addr.size() - 1) == '/' && r_route.index.size() != 0)
 		{
-			std::cout << "GRUH" << std::endl;
 			root = r_route.root.substr(0, r_route.root.size() - 1);
 			addr = requestData->addr.substr(0, requestData->addr.size() - 1);
 			fullPath = root + addr;
