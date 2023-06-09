@@ -1,9 +1,10 @@
 #include "request.hpp"
 
-std::string Request::listFilesInDirectory(const std::string& directoryPath)
+std::string Request::listFilesInDirectory(const std::string &directoryPath)
 {
-    DIR* dir = opendir(directoryPath.c_str());
-    if (dir == NULL) {
+    DIR *dir = opendir(directoryPath.c_str());
+    if (dir == NULL)
+    {
         std::cerr << "Could not open directory: " << directoryPath << std::endl;
         return "";
     }
@@ -11,21 +12,28 @@ std::string Request::listFilesInDirectory(const std::string& directoryPath)
     std::string html = "<html>\n<head><title>Directory Listing</title></head>\n<body>\n<h1>Directory Listing for " + directoryPath + "</h1>\n<ul>\n";
     html += "<li><a href=\"..\">..</a></li>\n";
 
-    struct dirent* entry;
-    while ((entry = readdir(dir)) != NULL) {
+    struct dirent *entry;
+    while ((entry = readdir(dir)) != NULL)
+    {
         std::string entryName = std::string(entry->d_name);
 
         // Skip the special entries "." and "..".
-        if (entryName != "." && entryName != "..") {
+        if (entryName != "." && entryName != "..")
+        {
             // Check if the entry is a directory.
             std::string fullPath = directoryPath + "/" + entryName;
-            DIR* entryDir = opendir(fullPath.c_str());
-            if (entryDir != NULL) {
+            DIR *entryDir = opendir(fullPath.c_str());
+            if (entryDir != NULL)
+            {
                 entryName += "/";
                 closedir(entryDir);
             }
-
-            html += "<li><a href=\"" + entryName + "\">" + entryName + "</a></li>\n";
+            std::string tmp;
+            int pad = 0;
+            if (!r_route.location.empty() && r_route.location.at(r_route.location.size() - 1) == '/')
+                pad = -1;
+            tmp =  r_route.location.substr(0, r_route.location.size() + pad);
+            html += "<li><a href=\"" + tmp + "/" + entryName + "\">" + entryName + "</a></li>\n";
         }
     }
 
@@ -35,15 +43,12 @@ std::string Request::listFilesInDirectory(const std::string& directoryPath)
     return html;
 }
 
-
-
-
 void Request::directoryListing(s_request *requestData, int fd)
 {
     (void)fd;
     std::string dirPath = r_route.root + requestData->addr.substr(1, requestData->addr.size());
 
-    std::string list = listFilesInDirectory(dirPath); 
+    std::string list = listFilesInDirectory(dirPath);
     // std::cout << response << std::endl;
 
     std::string base = "HTTP/1.1 200 OK\n\n";

@@ -50,7 +50,6 @@ void Request::addQueryEnv(std::string str)
 
 				delete[] newStr;
         r_wenvp = newEnvTab;
-        std::cout << "test4" << std::endl;
     }
 }
 

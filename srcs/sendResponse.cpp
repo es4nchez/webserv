@@ -3,6 +3,7 @@
 void Request::sendResponse(s_request *requestData, int fd, int success_code)
 {
 		const std::string successCodes[] = {"200 OK", "201 Created", "202 Accepted"};
+		const std::string successPage[] = {"www/success/201.html", "www/success/202.html"};
 		const int success[] = {200, 201, 202};
 		const int size = sizeof(success) / sizeof(success[0]);
 		std::string base, name;
@@ -26,9 +27,15 @@ void Request::sendResponse(s_request *requestData, int fd, int success_code)
 		}
 		else
 		{
-			name = "www/success/201.html";
-			std::ifstream file(name.c_str());
-    		buff << file.rdbuf();
+			for (int i = 0; i < size; ++i) 
+			{
+				if (success_code == success[i]) 
+				{
+					name = successPage[i - 1];
+					std::ifstream file(name.c_str());
+					buff << file.rdbuf();
+				}
+			}
 		}
         // Try to open the requested file, if it doesnt exist ( empty = 0), send 404
      	for (int i = 0; i < size; ++i) {

@@ -42,7 +42,7 @@ void CGI::handle_cgi_request(int sockfd, const std::string& cgi_path, char **_we
 
         char* args[] = { const_cast<char*>(PYTHON), const_cast<char*>(cgi_path.c_str()), const_cast<char*>(c_test_env.c_str()), NULL};
         execve(PYTHON, args, NULL);
-       std::cout << "Error executing CGI program" << std::endl;
+        std::cout << "Error executing CGI program" << std::endl;
         exit(EXIT_FAILURE);
     }
 
@@ -65,14 +65,9 @@ void CGI::handle_cgi_request(int sockfd, const std::string& cgi_path, char **_we
             char buffer[1024];
 			
             while ((bytes_read = read(pipefd[0], buffer, sizeof(buffer))) > 0)
-            {
 				tmp = buffer;
-            }
             if (bytes_read == -1 || bytes_read == 0)
-            {
-                
                 continue;
-            }
         }
         else 
 		{
@@ -89,12 +84,12 @@ void CGI::handle_cgi_request(int sockfd, const std::string& cgi_path, char **_we
     ft_write(sockfd, tmp, tmp.size());
     close(pipefd[0]);
 
-    if (WIFEXITED(Stat)) {
-        printf("Child exited, status=%d\n", WEXITSTATUS(Stat));
-    }
-    else if (WIFSIGNALED(Stat)) {
-        printf("Child was terminated with a status of: %d\n", WTERMSIG(Stat));
-    }
+    // if (WIFEXITED(Stat)) {
+    //     printf("Child exited, status=%d\n", WEXITSTATUS(Stat));
+    // }
+    // else if (WIFSIGNALED(Stat)) {
+    //     printf("Child was terminated with a status of: %d\n", WTERMSIG(Stat));
+    // }
 }
 
 bool CGI::is_cgi_request(const std::string& request_path)

@@ -6,7 +6,7 @@ get_endpoint = "/42lWatch.html"
 get_cgi = "/cgi_script.py"
 sleep_cgi = "/sleep.py"
 post_endpoint = "/post.py"
-bouh_txt = "/Users/mthiesso/Documents/cursus/webserv/www/upload/bouh.txt"
+bouh_txt = "/Users/esanchez/Projects/webserv/www/upload/bouh.txt"
 
 class TestWebserver(unittest.TestCase):
     BASE_URL = 'http://localhost:8080'

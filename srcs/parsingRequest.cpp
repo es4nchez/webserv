@@ -35,6 +35,12 @@ void Request::handleGET(s_request *requestData, int fd)
 
 void Request::handlePOST(std::string request, s_request *requestData, int fd)
 {
+    std::string temp = request.substr(request.find("\r\n\r\n") + 4);
+    if (temp.size() > r_config.max_client_body_size )
+	{
+		r_error->send_error(413);
+		return ;
+	}
     CGI cgi(r_client_sockfd, r_config, r_query_string);
     if (cgi.is_cgi_request(requestData->addr))
         cgi.handle_cgi_request(r_client_sockfd, (r_route.root + requestData->addr), r_wenvp);
