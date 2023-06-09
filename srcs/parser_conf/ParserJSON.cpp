@@ -241,6 +241,7 @@ void ParserJSON::state_in_array(std::vector<ParserJSON::e_state> &states,
 			states.push_back(ParserJSON::STATE_IN_VALUE);
 			break;
 		}
+		break;
 	default:
 		throw("unexpected ARRAY");
 	}
@@ -299,16 +300,16 @@ void ParserJSON::lexer(std::vector<t_token> &tokens)
 	std::vector<ParserJSON::e_state> states;
 	std::vector<ParserJSON::t_token>::const_iterator it = tokens.begin();
 
-	skip_white_and_nl(it, tokens.cend());
+	skip_white_and_nl(it, tokens.end());
 	if (it->token != ParserJSON::TOKEN_OPEN_BRACKET)
 		throw("expected global OPEN_BRACKET");
 	this->_lexems.push_back(token_to_lexem(*it));
 	states.push_back(ParserJSON::STATE_IN_OBJECT);
 	states.push_back(ParserJSON::STATE_IN_KEY);
 	++it;
-	while (it != tokens.cend())
+	while (it != tokens.end())
 	{
-		skip_white_and_nl(it, tokens.cend());
+		skip_white_and_nl(it, tokens.end());
 		if (states.empty())
 			break;
 		switch (states.back())
@@ -320,10 +321,10 @@ void ParserJSON::lexer(std::vector<t_token> &tokens)
 			state_in_array(states, it);
 			break;
 		case ParserJSON::STATE_IN_VALUE:
-			state_in_value(states, it, tokens.cend());
+			state_in_value(states, it, tokens.end());
 			break;
 		case ParserJSON::STATE_IN_KEY:
-			this->_lexems.push_back(state_parse_key(it, tokens.cend()));
+			this->_lexems.push_back(state_parse_key(it, tokens.end()));
 			states.pop_back();
 			states.push_back(ParserJSON::STATE_IN_VALUE);
 			break;
@@ -370,7 +371,7 @@ void ParserJSON::tokenizer(std::vector<ParserJSON::t_token> &tokens) const
 {
 	t_token t;
 
-	for (std::string::const_iterator it = this->_raw.cbegin(); it != this->_raw.cend(); ++it)
+	for (std::string::const_iterator it = this->_raw.begin(); it != this->_raw.end(); ++it)
 	{
 		ParserJSON::e_token e = get_token(*it);
 		t.value = *it;

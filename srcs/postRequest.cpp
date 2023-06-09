@@ -53,7 +53,7 @@ void Request::parsePostRequest(std::string request, int fd)
 	std::string file_data = request_data.substr(0, (request_data.size() - boundary.size()) - 10);
 
     std::string path = "www/upload/" + filename;
-    std::ofstream file(path, std::ios::binary);
+    std::ofstream file(path.c_str(), std::ios::binary);
 
    	file.write(file_data.data(), file_data.size());
 	if (file.good()) 

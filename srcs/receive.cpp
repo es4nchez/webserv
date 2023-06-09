@@ -27,7 +27,10 @@ int Webserv::getContentLengthFromHeaders(const std::string& headers)
     }
 
     std::string content_length_str = headers.substr(content_length_pos + 16, end_of_line_pos - content_length_pos - 16);
-    return std::stoi(content_length_str);
+    std::istringstream iss(content_length_str);
+    int result;
+    iss >> result;
+    return result;
 }
 
 

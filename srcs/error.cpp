@@ -14,7 +14,7 @@ error::error(int fd, std::map<int, std::string> error_code)
 	for (it = error_code.begin(); it != error_code.end(); it++)
 	{
 			std::ifstream ifs;
-			ifs.open(it->second, std::ios_base::in);
+			ifs.open(it->second.c_str(), std::ios_base::in);
 			if (ifs.is_open())
 			{
 				e_errorCodes[it->first][1] = it->second;
