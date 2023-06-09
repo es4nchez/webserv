@@ -24,8 +24,10 @@ SRCS	= 	srcs/main.cpp \
 			srcs/parser_conf/ParserJSON.cpp \
 			srcs/parser_conf/parsingConf.cpp \
 			srcs/parser_conf/parsingConfRoute.cpp \
-			srcs/parser_conf/checkServersConf.cpp \
 			srcs/parser_conf/parsingHelpers.cpp \
+			srcs/parser_conf/checkServersConf.cpp \
+			srcs/parser_conf/checkServerConf.cpp \
+			srcs/parser_conf/checkRouteConf.cpp \
 			srcs/error.cpp \
 			srcs/utils.cpp
 

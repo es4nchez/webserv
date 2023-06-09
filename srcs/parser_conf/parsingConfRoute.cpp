@@ -31,20 +31,32 @@ bool parse_routes(ParserJSON const &json,
 									std::vector<t_route> &routes)
 {
 	t_route rou;
+	int tmp;
 
-	if (json.key("location", rou.location, ParserJSON::to_word, route))
+	if (json.key("location", rou.location, parse_word, route))
 		return (true);
+	if (checkLocation(rou.location))
+		return (true);
+
 	if (json.key_map("methods", rou.methods, parse_http_methods, route) == 1)
 		return (true);
-	if (json.key("http_redir", rou.http_redir, ParserJSON::to_word, route) == 1)
+	
+	if ((tmp = json.key("http_redir", rou.http_redir, ParserJSON::to_string, route)) == 1)
 		return (true);
-	if (json.key("root", rou.root, ParserJSON::to_word, route) == 1)
+	
+	if ((tmp = json.key("root", rou.root, ParserJSON::to_string, route)) == 1)
 		return (true);
-	if (json.key("dir_listing", rou.dir_listing, ParserJSON::to_bool, route) == 1)
+	
+	if ((tmp = json.key("dir_listing", rou.dir_listing, ParserJSON::to_bool, route)) == 1)
 		return (true);
-	if (json.key("index", rou.index, ParserJSON::to_word, route) == 1)
+	if (tmp == 2)
+		rou.dir_listing = false;
+	
+	if ((tmp = json.key("index", rou.index, ParserJSON::to_string, route)) == 1)
 		return (true);
-
+	
+	if (checkRouteConf(rou))
+		return (true);
 	routes.push_back(rou);
 	return (false);
 }

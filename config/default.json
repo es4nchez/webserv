@@ -6,7 +6,7 @@
 	"servers": [
 		{
 			"host": "localhost",
-			"port": 8080,
+			"port": 8080, //todo
 			"server_names": [
 				"plouf_name"
 			],
@@ -38,7 +38,7 @@
 			"server_names": [
 				"plouf_name"
 			],
-			"max_client_body_size": 4096,
+			"max_client_body_size": 4096, //TODO intmax
 			"default_error_pages": [
 				[
 					404,
