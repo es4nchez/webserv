@@ -19,7 +19,6 @@ bool parse_default_error_pages(ParserJSON const &json,
 	++tmp;
 	if (tmp->lexem == ParserJSON::CLOSE_ARR)
 		return (false);
-	++tmp;
 	if (ParserJSON::to_number(json, tmp, pair.first))
 	{
 		std::cerr << err << std::endl;

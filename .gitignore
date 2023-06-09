@@ -38,3 +38,6 @@ webserv
 .vscode/*
 .vscode/
 .vscode
+
+#python lib
+lib/*
