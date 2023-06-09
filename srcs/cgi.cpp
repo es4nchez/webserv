@@ -1,4 +1,5 @@
 #include "cgi.hpp"
+#include <sys/wait.h>
 
 CGI::CGI(int fd, s_server r_config, std::string r_query_string)
 {
@@ -50,15 +51,15 @@ void CGI::handle_cgi_request(int sockfd, const std::string& cgi_path, char **_we
     fcntl(pipefd[0], F_SETFL, O_NONBLOCK);
 
     int wpid, Stat;
-    std::time_t start_time = std::time(NULL);
+    time_t start_time = time(NULL);
     const int timeout = 5;
 	int bytes_read = 1;
     std::string tmp;
 
     wpid = waitpid(pid, &Stat, WNOHANG);
-    while (wpid == 0 && (std::time(NULL) - start_time) <= timeout && bytes_read) 
+    while (wpid == 0 && (time(NULL) - start_time) <= timeout && bytes_read) 
 	{
-        std::time_t current_time = std::time(NULL);
+        time_t current_time = time(NULL);
         if (current_time - start_time < timeout) 
 		{
             char buffer[1024];

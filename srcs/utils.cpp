@@ -44,7 +44,7 @@ bool string_to_word(std::string const &str, std::string &dst)
 
 std::string read_file(std::string const &file_path)
 {
-	std::ifstream ifs(file_path);
+	std::ifstream ifs(file_path.c_str());
 	std::ostringstream ostr;
 
 	if (ifs.fail())

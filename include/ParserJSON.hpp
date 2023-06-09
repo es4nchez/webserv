@@ -194,7 +194,11 @@ public:
 			return (true);
 		std::stringstream str(lexem_value->value);
 		str >> dst;
-		return std::to_string(dst) != lexem_value->value;
+		std::stringstream ss;
+		ss << dst;
+		std::string dst_string = ss.str();
+
+		return dst_string != lexem_value->value;
 	}
 
 	static bool to_bool(ParserJSON const &json, std::vector<ParserJSON::t_lexem>::const_iterator const &lexem_value, bool &dst);
