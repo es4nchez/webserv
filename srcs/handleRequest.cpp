@@ -22,13 +22,14 @@ void            Request::handleRequest(std::string buffer, int fd)
     for(unsigned long i = 0; i < r_config.routes.size(); i++)
     {
         n = requestData.addr.find(r_config.routes[i].location);
-        if (n != std::string::npos && n < maxCommonLetters) {
+        if (n != std::string::npos && n < maxCommonLetters)
+        {
             r_route = r_config.routes[i];
             maxCommonLetters = n;
         }
     }
     if (maxCommonLetters == std::string::npos) {
-        r_route = r_config.routes[2];
+        r_route = r_config.routes[0];
     }
     mainParsing(buffer, &requestData, fd);
 }
@@ -38,26 +39,23 @@ bool Request::check_hostname(std::string address)
 {
 	std::string temp;
 	std::size_t end_pos = address.find('\n');
-	temp = address.substr(end_pos + 7, address.size() - end_pos);
+    if (address.size() == 0)
+        return true;
+	temp = address.substr(end_pos, address.size() - end_pos);
 	end_pos = temp.find('\n');
 	temp = temp.substr(0, end_pos);
 	end_pos = temp.find(':');
 	temp = temp.substr(0, end_pos);
-
     if (r_config.server_names.size() == 0)
         return true;
     std::vector<std::string>::iterator  it;
     for (it = r_config.server_names.begin(); it != r_config.server_names.end(); it++)
     {
         if (it->find(temp) != std::string::npos)
-        {
-            std::cout << "find : " << *it << std::endl;
             return true;
-        }
     }
 
 
 	r_error->send_error(400);
-
 	return false;
 }

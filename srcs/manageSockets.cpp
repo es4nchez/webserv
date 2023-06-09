@@ -16,7 +16,6 @@ int Webserv::socketBinding(void)
     hints.ai_addr = NULL;
     hints.ai_canonname = NULL;
     hints.ai_next = NULL;
-
     for (unsigned int i = 0; i < w_config.size(); i++)
     {
         w_sockfd.push_back(socket(AF_INET, SOCK_STREAM, 0));
@@ -85,8 +84,6 @@ int Webserv::socketBinding(void)
         FD_SET(w_sockfd[i], &w_fds);
         w_max_fd = std::max(w_max_fd, w_sockfd[i]);
     }
-
-
     return (0);
 }
 
