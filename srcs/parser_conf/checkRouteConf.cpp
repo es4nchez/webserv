@@ -38,27 +38,3 @@ bool checkLocation(std::string const &str)
 
 	return (false);
 }
-
-bool checkHttpRedir(std::string const &str)
-{
-	(void)str;
-	return (false);
-}
-
-bool checkRoot(std::string const &str)
-{
-	(void)str;
-	return (false);
-}
-
-bool checkIndex(std::string const &str)
-{
-	(void)str;
-	return (false);
-}
-
-bool checkRouteConf(t_route const &route)
-{
-	(void)route;
-	return false;
-}

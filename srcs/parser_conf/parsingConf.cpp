@@ -17,6 +17,9 @@ bool parse_default_error_pages(ParserJSON const &json,
 		return (true);
 	}
 	++tmp;
+	if (tmp->lexem == ParserJSON::CLOSE_ARR)
+		return (false);
+	++tmp;
 	if (ParserJSON::to_number(json, tmp, pair.first))
 	{
 		std::cerr << err << std::endl;
@@ -60,8 +63,6 @@ bool parse_servers(ParserJSON const &json, std::vector<ParserJSON::t_lexem>::con
 		return true;
 	
 	if (json.key("max_client_body_size", serv.max_client_body_size, ParserJSON::to_number, server))
-		return true;
-	if (checkMaxBodySize(serv.max_client_body_size))
 		return true;
 
 	if (json.key_map("default_error_pages", serv.default_error_pages, parse_default_error_pages, server))

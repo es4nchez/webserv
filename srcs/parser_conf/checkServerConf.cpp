@@ -12,26 +12,9 @@ bool checkHost(std::string const &str)
 
 bool checkPort(unsigned int const &port)
 {
-	(void) port;
-	return (false);
-}
-
-bool checkServerNames(std::vector<std::string> const &names)
-{
-	(void) names;
-	return (false);
-}
-
-bool checkMaxBodySize(unsigned int const &size)
-{
-	(void) size;
-	return (false);
-}
-
-bool checkErrorPages(std::map<int, std::string> const &pages)
-{
-	(void) pages;
-	return (false);
+	if (1 <= port && port <= 65535)
+		return (false);
+	return (true);
 }
 
 bool checkServerConf(t_server const &server)

@@ -55,8 +55,6 @@ bool parse_routes(ParserJSON const &json,
 	if ((tmp = json.key("index", rou.index, ParserJSON::to_string, route)) == 1)
 		return (true);
 	
-	if (checkRouteConf(rou))
-		return (true);
 	routes.push_back(rou);
 	return (false);
 }

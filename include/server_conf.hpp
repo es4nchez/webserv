@@ -65,17 +65,10 @@ bool parse_default_error_pages(ParserJSON const &json,
 bool checkServerConf(t_server const &server);
 bool checkHost(std::string const &str);
 bool checkPort(unsigned int const &port);
-bool checkServerNames(std::vector<std::string> const &names);
-bool checkMaxBodySize(unsigned int const &size);
-bool checkErrorPages(std::map<int, std::string> const &pages);
 
 
 //parser_conf/checkRouteConf.cpp
-bool checkRouteConf(t_route const &route);
 bool checkLocation(std::string const &str);
-bool checkHttpRedir(std::string const &str);
-bool checkRoot(std::string const &str);
-bool checkIndex(std::string const &str);
 
 //parser_conf/checkServersConf.cpp
 bool checkServersConf(std::vector<t_server> const &servers);
