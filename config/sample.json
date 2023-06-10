@@ -6,10 +6,8 @@
 	"servers": [
 		{
 			"host": "localhost",
-			"port": 8181,
-			"server_names": [
-	
-			],
+			"port": 8080,
+			"server_names": [],
 			"max_client_body_size": 0,
 			"default_error_pages": [
 				[
@@ -19,7 +17,7 @@
 			],
 			"routes": [
 				{
-					"location": "/",
+					"location": "/success",
 					"methods": [
 						"GET",
 						"POST",
@@ -28,15 +26,25 @@
 					"http_redir": "",
 					"root": "www/",
 					"dir_listing": true,
-					"index": "42lwatch.html"
+					"index": ""
+				},
+				{
+					"location": "/",
+					"methods": [
+						"GET",
+						"DELETE"
+					],
+					"http_redir": "",
+					"root": "www/",
+					"dir_listing": true,
+					"index": ""
 				}
 			]
 		},
 		{
 			"host": "localhost",
 			"port": 8181,
-			"server_names": [
-			],
+			"server_names": [],
 			"max_client_body_size": 4096,
 			"default_error_pages": [
 				[

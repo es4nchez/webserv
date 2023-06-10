@@ -62,6 +62,7 @@ class	Request
     void        	addQueryEnv(std::string str);
     std::string 	url_decode(const std::string& str);
     std::string 	methodToString(e_http_method method);
+		std::string		unset_last_slash(std::string const &str);
 
     // sendResponse.cpp
     void    		sendResponse(s_request *requestData, int fd, int success_code);
