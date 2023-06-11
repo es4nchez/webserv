@@ -28,12 +28,8 @@ std::string Request::listFilesInDirectory(const std::string &directoryPath)
                 entryName += "/";
                 closedir(entryDir);
             }
-            std::string tmp;
-            int pad = 0;
-            if (!r_route.location.empty() && r_route.location.at(r_route.location.size() - 1) == '/')
-                pad = -1;
-            tmp =  r_route.location.substr(0, r_route.location.size() + pad);
-            html += "<li><a href=\"" + tmp + "/" + entryName + "\">" + entryName + "</a></li>\n";
+            std::string tmp_location = unset_last_slash(r_route.location);
+            html += "<li><a href=\"" + tmp_location + "/" + entryName + "\">" + entryName + "</a></li>\n";
         }
     }
 
