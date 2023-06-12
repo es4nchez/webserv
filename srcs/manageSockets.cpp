@@ -52,10 +52,10 @@ int Webserv::socketBinding(void)
 
         sockaddr_in server_addr;
         server_addr.sin_family = AF_INET;
-        server_addr.sin_addr = ((struct sockaddr_in*) res->ai_addr)->sin_addr; // use IP address obtained from getaddrinfo
+        server_addr.sin_addr = ((struct sockaddr_in*) res->ai_addr)->sin_addr;
         server_addr.sin_port = htons(w_config[i].port);
 
-        freeaddrinfo(res); // free the linked-list
+        freeaddrinfo(res);
 
         if (bind(w_sockfd[i], (sockaddr*) &server_addr, sizeof(server_addr)) < 0)
         {

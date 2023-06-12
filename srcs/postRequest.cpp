@@ -3,8 +3,8 @@
 std::string     Request::parseBody(std::string request_body)
 {
     std::string::size_type data_start_pos = request_body.find("\r\n\r\n");
-    if (data_start_pos == std::string::npos) {
-        // Handle error: no blank line found
+    if (data_start_pos == std::string::npos)
+    {
         std::cerr << "Invalid multipart/form-data request body: no blank line found" << std::endl;
         return "";
     }
@@ -16,19 +16,22 @@ std::string     Request::parseBody(std::string request_body)
 std::string     Request::getFilename(std::string request_data)
  {
     std::string::size_type disposition_start_pos = request_data.find("Content-Disposition: ");
-    if (disposition_start_pos == std::string::npos) {
+    if (disposition_start_pos == std::string::npos)
+    {
         std::cerr << "Invalid multipart/form-data request body: no Content-Disposition header found" << std::endl;
         return "";
     }
 
     std::string::size_type filename_start_pos = request_data.find("filename=\"", disposition_start_pos);
-    if (filename_start_pos == std::string::npos) {
+    if (filename_start_pos == std::string::npos)
+    {
         std::cerr << "Invalid multipart/form-data request body: no filename found" << std::endl;
         return "";
     }
 
     std::string::size_type filename_end_pos = request_data.find("\"", filename_start_pos + 10);
-    if (filename_end_pos == std::string::npos) {
+    if (filename_end_pos == std::string::npos)
+    {
         std::cerr << "Invalid multipart/form-data request body: no end quote found for filename" << std::endl;
         return "";
     }
@@ -43,7 +46,7 @@ bool isBoundary(std::string const &request)
     return (content_type.find("boundary") != std::string::npos);
 }
 
-void Request::parsePostRequest(std::string request, int fd)
+void Request::parsePostRequest(std::string request)
 {
     if (!isBoundary(request))
     {
@@ -53,7 +56,7 @@ void Request::parsePostRequest(std::string request, int fd)
             r_error->send_error(413);
             return ;
         }
-        sendResponse(NULL, fd, 202);
+        sendResponse(NULL, 202);
     }
     else
     {
@@ -74,7 +77,7 @@ void Request::parsePostRequest(std::string request, int fd)
         if (file.good()) 
         {
             file.close();
-            sendResponse(NULL, fd, 201);
+            sendResponse(NULL, 201);
         }
     }
 }

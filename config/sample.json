@@ -1,8 +1,4 @@
 {
-	"test": [
-		"test",
-		"test"
-	],
 	"servers": [
 		{
 			"host": "localhost",
@@ -17,7 +13,7 @@
 			],
 			"routes": [
 				{
-					"location": "/success",
+					"location": "/",
 					"methods": [
 						"GET",
 						"POST",
@@ -29,9 +25,10 @@
 					"index": ""
 				},
 				{
-					"location": "/",
+					"location": "/success",
 					"methods": [
 						"GET",
+						"POST",
 						"DELETE"
 					],
 					"http_redir": "",
@@ -45,7 +42,7 @@
 			"host": "localhost",
 			"port": 8181,
 			"server_names": [],
-			"max_client_body_size": 4096,
+			"max_client_body_size": 1000000,
 			"default_error_pages": [
 				[
 					404,
@@ -66,14 +63,27 @@
 					"index": ""
 				},
 				{
-					"location": "/",
+					"location": "/calc.html",
 					"methods": [
 						"GET",
+						"POST",
 						"DELETE"
 					],
 					"http_redir": "",
 					"root": "www/",
-					"dir_listing": false,
+					"dir_listing": true,
+					"index": "error.html"
+				},
+				{
+					"location": "/",
+					"methods": [
+						"GET",
+						"POST",
+						"DELETE"
+					],
+					"http_redir": "",
+					"root": "www/",
+					"dir_listing": true,
 					"index": "42lwatch.html"
 				}
 			]

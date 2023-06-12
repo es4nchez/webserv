@@ -29,14 +29,12 @@ int main(int ac, char **av, char **envp)
 
     ws.w_client_addr.reserve(ws.w_config.size());
 
-    sockaddr test;;
-
+    sockaddr socket_address;;
     if (ws.socketBinding())
         return (1);
     std::cout << std::endl
               << "\033[1;32mWebserv launching... start logs :\033[0m" << std::endl
               << std::endl;
-
     while (true)
     {
         // wait for activity on the file descriptors using select()
@@ -47,26 +45,22 @@ int main(int ac, char **av, char **envp)
             std::cerr << "Error in select()" << std::endl;
             break;
         }
-
         // iterate over the file descriptors to check for activity
         for (unsigned int i = 0; i < ws.w_config.size(); i++)
         {
             if (FD_ISSET(ws.w_sockfd[i], &temp__fds))
             {
                 // accept the incoming connection
-                int sockfd = accept(ws.w_sockfd[i], &test, &ws.w_client_len[i]);
+                int sockfd = accept(ws.w_sockfd[i], &socket_address, &ws.w_client_len[i]);
                 if (sockfd < 0)
                 {
                     std::cerr << "\033[1;31mError accepting connection\033[0m" << std::endl;
                     continue;
                 }
-
-                std::string request = ws.receive(i, sockfd);
+                std::string request = ws.receive(i);
                 Request rt(sockfd, envp, ws.w_config[i]);
                 // handle the request
-                //std::cout << "MAX MAIN : " << ws.w_config[i].max_client_body_size << std::endl;
-                rt.handleRequest(request, i);
-
+                rt.handleRequest(request);
                 // close the connection
                 close(sockfd);
             }

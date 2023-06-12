@@ -1,7 +1,7 @@
 #include "request.hpp"
 #include "cgi.hpp"
 
-void Request::handleGET(s_request *requestData, int fd)
+void Request::handleGET(s_request *requestData)
 {
 
 	CGI cgi(r_client_sockfd, r_config, r_query_string);
@@ -9,7 +9,7 @@ void Request::handleGET(s_request *requestData, int fd)
 	std::string root = "";
 	std::string addr = "";
 	if (cgi.is_cgi_request(requestData->addr))
-		cgi.handle_cgi_request(r_client_sockfd, (r_route.root + requestData->addr), r_wenvp);
+		cgi.handle_cgi_request(r_client_sockfd, (r_route.root + requestData->addr));
 	else
 	{
 		if (requestData->addr[requestData->addr.size() - 1] == '/' && r_route.index.size() != 0)
@@ -17,27 +17,23 @@ void Request::handleGET(s_request *requestData, int fd)
 			root = r_route.root.substr(0, r_route.root.size() - 1);
 			addr = requestData->addr.substr(0, requestData->addr.size() - 1);
 			fullPath = root + addr;
-			sendIndex(fd);
+			sendIndex();
 			return;
 		}
 		else
-		{
-			//fullPath le meme bug avec // si termine avec root/
-			//std::string tmp_root = unset_last_slash(r_route.root);
 			fullPath = r_route.root + requestData->addr;
-		}
 		DIR *dir = opendir(fullPath.c_str());
 		if (dir != NULL && r_route.dir_listing)
 		{
+			directoryListing(requestData);
 			closedir(dir);
-			directoryListing(requestData, fd);
 		}
 		else
-			sendResponse(requestData, fd, 200);
+			sendResponse(requestData, 200);
 	}
 }
 
-void Request::handlePOST(std::string request, s_request *requestData, int fd)
+void Request::handlePOST(std::string request, s_request *requestData)
 {
 	std::string temp = request.substr(request.find("\r\n\r\n") + 4);
 	if (temp.size() > r_config.max_client_body_size)
@@ -47,14 +43,14 @@ void Request::handlePOST(std::string request, s_request *requestData, int fd)
 	}
 	CGI cgi(r_client_sockfd, r_config, r_query_string);
 	if (cgi.is_cgi_request(requestData->addr))
-		cgi.handle_cgi_request(r_client_sockfd, (r_route.root + requestData->addr), r_wenvp);
+		cgi.handle_cgi_request(r_client_sockfd, (r_route.root + requestData->addr));
 	else
-		parsePostRequest(request, fd);
+		parsePostRequest(request);
 }
 
-void Request::handleDELETE(s_request *requestData, int fd)
+void Request::handleDELETE(s_request *requestData)
 {
-	deleteRequest(requestData, fd);
+	deleteRequest(requestData);
 }
 
 bool Request::checkMethod(std::string methd)
@@ -68,22 +64,22 @@ bool Request::checkMethod(std::string methd)
 	return false;
 }
 
-void Request::mainParsing(std::string request, s_request *requestData, int fd)
+void Request::mainParsing(std::string request, s_request *requestData)
 {
 	std::cout << "Method: " << requestData->methd << std::endl;
 	std::cout << "Requested Address: " << requestData->addr << std::endl;
 
-	if (requestData->addr == "/exit")
-		exit(1);
+	// if (requestData->addr == "/exit")
+	// 	exit(1);
 
 	if (!checkMethod(requestData->methd))
 		r_error->send_error(405);
 	else if (!requestData->methd.compare("GET"))
-		handleGET(requestData, fd);
+		handleGET(requestData);
 	else if (!requestData->methd.compare("POST"))
-		handlePOST(request, requestData, fd);
+		handlePOST(request, requestData);
 	else if (!requestData->methd.compare("DELETE"))
-		handleDELETE(requestData, fd);
+		handleDELETE(requestData);
 	else
 		r_error->send_error(405);
 }

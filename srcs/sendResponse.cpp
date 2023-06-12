@@ -1,6 +1,6 @@
 #include "request.hpp"
 
-void Request::sendResponse(s_request *requestData, int fd, int success_code)
+void Request::sendResponse(s_request *requestData, int success_code)
 {
 		const std::string successCodes[] = {"200 OK", "201 Created", "202 Accepted"};
 		const std::string successPage[] = {"www/success/201.html", "www/success/202.html"};
@@ -15,7 +15,7 @@ void Request::sendResponse(s_request *requestData, int fd, int success_code)
         	std::ifstream   file(path.c_str());
 			if (isRedirect())
 			{
-				redirectURL(path, fd);
+				redirectURL();
 				return;
 			}
 			buff << file.rdbuf();
@@ -37,7 +37,6 @@ void Request::sendResponse(s_request *requestData, int fd, int success_code)
 				}
 			}
 		}
-        // Try to open the requested file, if it doesnt exist ( empty = 0), send 404
      	for (int i = 0; i < size; ++i) {
 			if (success_code == success[i]) {
 				base = "HTTP/1.1 " + successCodes[i] + "\n\n";
@@ -47,11 +46,8 @@ void Request::sendResponse(s_request *requestData, int fd, int success_code)
         ft_send(response, response.size());
 }
 
-
-// Generic index sending
-void Request::sendIndex(int fd)
+void Request::sendIndex()
 {
-	(void) fd;
 	std::string path = r_route.root + r_route.index;
 	std::ifstream   file(path.c_str());
 	std::stringstream   buff;

@@ -46,44 +46,43 @@ class	Request
     error                               *r_error;
 
 	// handleRequest.cpp
-    void    		handleRequest(std::string buffer, int fd);
+    void    		handleRequest(std::string buffer);
 	unsigned long	nbCommonLetters(std::string requestLocation, std::string routeLocation);
 	bool 			check_hostname(std::string address);
 
 	// parsingRequest.cpp
-    void    		mainParsing(std::string request, s_request *requestData, int fd);
-    void    		handleGET(s_request *requestData, int fd);
-    void    		handlePOST(std::string request, s_request *requestData, int fd);
-    void    		handleDELETE(s_request *requestData, int fd);
+    void    		mainParsing(std::string request, s_request *requestData);
+    void    		handleGET(s_request *requestData);
+    void    		handlePOST(std::string request, s_request *requestData);
+    void    		handleDELETE(s_request *requestData);
     bool    		checkMethod(std::string methd);
 
 	// parsingRequestUtils.cpp
     void        	getAddrMethodData(std:: string request, s_request *requestData);
-    void        	addQueryEnv(std::string str);
     std::string 	url_decode(const std::string& str);
     std::string 	methodToString(e_http_method method);
-		std::string		unset_last_slash(std::string const &str);
+	std::string		unset_last_slash(std::string const &str);
 
     // sendResponse.cpp
-    void    		sendResponse(s_request *requestData, int fd, int success_code);
-    void    		sendIndex(int fd);
+    void    		sendResponse(s_request *requestData, int success_code);
+    void    		sendIndex();
 	void 			ft_send(std::string response, int size);
 
     // postRequest.cpp
-    void            parsePostRequest(std::string request, int fd);
+    void            parsePostRequest(std::string request);
     std::string     parseBody(std::string request_body);
     std::string     getFilename(std::string request_data);
 
     // deleteRequest.cpp
-    void            deleteRequest(s_request *requestData, int fd);
+    void            deleteRequest(s_request *requestData);
 
 	// directoryListing.cpp
-    void        	directoryListing(s_request *requestData, int fd);
+    void        	directoryListing(s_request *requestData);
     std::string 	listFilesInDirectory(const std::string& directoryPath);
 
     // redirects.cpp
     bool        	isRedirect();
-    void        	redirectURL(std::string path, int fd);
+    void        	redirectURL();
 
 };
 

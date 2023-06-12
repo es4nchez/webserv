@@ -5,7 +5,7 @@ CGI::CGI(int fd, s_server r_config, std::string r_query_string)
 {
 	this->c_config = r_config;
 	this->c_error = new error(fd, c_config.default_error_pages);
-    this->c_test_env = r_query_string;
+    this->c_env_query = r_query_string;
     return;
 }
 
@@ -15,12 +15,17 @@ CGI::~CGI()
     return;
 }
 
-void CGI::handle_cgi_request(int sockfd, const std::string& cgi_path, char **_wenvp)
+void CGI::handle_cgi_request(int sockfd, const std::string& cgi_path)
 {
-    (void) _wenvp;
-    // int i = -1;
-    // while (_wenvp[++i])
-    //     std::cout << "env : " << _wenvp[i] << std::endl;
+    std::stringstream   buff;
+    std::ifstream   file(cgi_path.c_str());
+    buff << file.rdbuf();
+    if (!buff.str().size())
+    {
+        c_error->send_error(404);
+        return;
+    }
+
     int pipefd[2];
     if (pipe(pipefd) == -1) {
         std::cout << "Error creating pipe" << std::endl;
@@ -40,7 +45,7 @@ void CGI::handle_cgi_request(int sockfd, const std::string& cgi_path, char **_we
         close(pipefd[0]);
         close(pipefd[1]);
 
-        char* args[] = { const_cast<char*>(PYTHON), const_cast<char*>(cgi_path.c_str()), const_cast<char*>(c_test_env.c_str()), NULL};
+        char* args[] = { const_cast<char*>(PYTHON), const_cast<char*>(cgi_path.c_str()), const_cast<char*>(c_env_query.c_str()), NULL};
         execve(PYTHON, args, NULL);
         std::cout << "Error executing CGI program" << std::endl;
         exit(EXIT_FAILURE);
@@ -84,13 +89,6 @@ void CGI::handle_cgi_request(int sockfd, const std::string& cgi_path, char **_we
 	ft_write(sockfd, status.c_str(), status.size());
     ft_write(sockfd, tmp, tmp.size());
     close(pipefd[0]);
-
-    // if (WIFEXITED(Stat)) {
-    //     printf("Child exited, status=%d\n", WEXITSTATUS(Stat));
-    // }
-    // else if (WIFSIGNALED(Stat)) {
-    //     printf("Child was terminated with a status of: %d\n", WTERMSIG(Stat));
-    // }
 }
 
 bool CGI::is_cgi_request(const std::string& request_path)
@@ -100,8 +98,6 @@ bool CGI::is_cgi_request(const std::string& request_path)
 
     std::vector<std::string> cgi_extensions;
     cgi_extensions.push_back(".py");
-    cgi_extensions.push_back(".cgi");
-
 
     size_t dot_pos = request_path.find_last_of('.');
     if (dot_pos == std::string::npos)

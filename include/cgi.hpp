@@ -20,6 +20,7 @@
 #include "error.hpp"
 #include "request.hpp"
 #include "server_conf.hpp"
+#include <signal.h>
 
 class CGI
 {
@@ -31,9 +32,9 @@ class CGI
 	error                               *c_error;
 	s_server                            c_config;
 
-    std::string                         c_test_env;
+    std::string                         c_env_query;
 
-    void handle_cgi_request(int sockfd, const std::string& query_string, char **_wenvp);
+    void handle_cgi_request(int sockfd, const std::string& query_string);
     bool is_cgi_request(const std::string& request_path);
 	bool ft_write(int fd, std::string string, int size);
 

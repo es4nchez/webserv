@@ -27,12 +27,11 @@ unsigned int count_same_char(std::string const &a, std::string const &b)
     return (i);
 }
 
-void Request::handleRequest(std::string buffer, int fd)
+void Request::handleRequest(std::string buffer)
 {
     s_request requestData;
     std::string::size_type maxCommonLetters = 0;
     std::string::size_type maxDifferentLetters = 0;
-    // std::string::size_type n;
 
     getAddrMethodData(buffer, &requestData);
     if (!check_hostname(buffer))
@@ -56,7 +55,7 @@ void Request::handleRequest(std::string buffer, int fd)
             r_route = r_config.routes[i];
         }
     }
-    mainParsing(buffer, &requestData, fd);
+    mainParsing(buffer, &requestData);
 }
 
 bool Request::check_hostname(std::string address)

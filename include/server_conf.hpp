@@ -16,21 +16,21 @@ enum e_http_method
 
 struct s_route
 {
-	std::string location; //"/*/?"
+	std::string location;
 	std::vector<enum e_http_method> methods;
-	std::string http_redir; //"http://*.[a-z]*"
-	std::string root; //word
+	std::string http_redir;
+	std::string root;
 	bool dir_listing;
-	std::string index; //fichier
+	std::string index;
 } typedef t_route;
 
 struct s_server
 {
-	std::string host; //"dsadsadas" notdigit
-	unsigned int port; //list
-	std::vector<std::string> server_names; //"dsaadsa14512"
+	std::string host;
+	unsigned int port;
+	std::vector<std::string> server_names;
 	unsigned int max_client_body_size;
-	std::map<int, std::string> default_error_pages; //"fichier"
+	std::map<int, std::string> default_error_pages;
 	std::vector<t_route> routes;
 } typedef t_server;
 

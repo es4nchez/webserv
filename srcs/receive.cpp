@@ -3,8 +3,8 @@
 std::string Webserv::getRequestMethod(const std::string& headers)
 {
     std::string::size_type space_pos = headers.find(' ');
-    if (space_pos == std::string::npos) {
-        // Throw an error or handle this case as you see fit
+    if (space_pos == std::string::npos)
+    {
         std::cerr << "Invalid HTTP request line" << std::endl;
         return "";
     }
@@ -14,17 +14,12 @@ std::string Webserv::getRequestMethod(const std::string& headers)
 int Webserv::getContentLengthFromHeaders(const std::string& headers)
 {
     std::string::size_type content_length_pos = headers.find("Content-Length: ");
-    if (content_length_pos == std::string::npos) {
-        // No Content-Length header found
+    if (content_length_pos == std::string::npos)
         return -1;
-    }
     
     std::string::size_type end_of_line_pos = headers.find("\r\n", content_length_pos);
-    if (end_of_line_pos == std::string::npos) {
-        // Invalid HTTP headers
-        // std::cerr << "Invalid HTTP headers : " << headers << std::endl;
+    if (end_of_line_pos == std::string::npos)
         return -1;
-    }
 
     std::string content_length_str = headers.substr(content_length_pos + 16, end_of_line_pos - content_length_pos - 16);
     std::istringstream iss(content_length_str);
@@ -34,9 +29,8 @@ int Webserv::getContentLengthFromHeaders(const std::string& headers)
 }
 
 
-std::string Webserv::receive(int i, int sockfd)
+std::string Webserv::receive(int sockfd)
 {
-    (void) i;
     std::string buffer;
     while (true)
     {;
@@ -50,16 +44,13 @@ std::string Webserv::receive(int i, int sockfd)
         }
         buffer.append(temp_buffer, bytes_received);
 
-        // Check if we've received the end of the HTTP headers
         std::string::size_type header_end = buffer.find("\r\n\r\n");
         if (header_end != std::string::npos)
         {
-            // Parse headers
             std::string headers = buffer.substr(0, header_end);
             std::string request_method = getRequestMethod(headers);
             int content_length = getContentLengthFromHeaders(headers);
 
-            // Check if there's a request body and if we've received it all
             if ((request_method == "POST") && content_length >= 0)
             {
                 if (buffer.size() >= header_end + 4 + content_length)

@@ -29,9 +29,6 @@
 // CGI
 #define PYTHON "/usr/bin/python3"
 
-// For dev
-#include <signal.h>
-
 //parser
 #include "server_conf.hpp"
 
@@ -76,7 +73,7 @@ class Webserv
     int     		args(int ac, char **av, char **envp);
 
     // receive.cpp
-    std::string 	receive(int i, int sockfd);
+    std::string 	receive(int sockfd);
     std::string 	getRequestMethod(const std::string& headers);
     int         	getContentLengthFromHeaders(const std::string& headers);
 

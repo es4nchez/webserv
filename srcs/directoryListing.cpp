@@ -17,10 +17,8 @@ std::string Request::listFilesInDirectory(const std::string &directoryPath)
     {
         std::string entryName = std::string(entry->d_name);
 
-        // Skip the special entries "." and "..".
         if (entryName != "." && entryName != "..")
         {
-            // Check if the entry is a directory.
             std::string tmp_location = unset_last_slash(r_route.location);
             std::string fullPath = directoryPath + "/" + entryName;
             DIR *entryDir = opendir(fullPath.c_str());
@@ -39,14 +37,10 @@ std::string Request::listFilesInDirectory(const std::string &directoryPath)
     return html;
 }
 
-void Request::directoryListing(s_request *requestData, int fd)
+void Request::directoryListing(s_request *requestData)
 {
-    (void)fd;
     std::string dirPath = r_route.root + requestData->addr.substr(1, requestData->addr.size());
-
     std::string list = listFilesInDirectory(dirPath);
-    // std::cout << response << std::endl;
-
     std::string base = "HTTP/1.1 200 OK\n\n";
     std::string response = base + list;
 
