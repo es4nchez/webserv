@@ -74,7 +74,8 @@ void CGI::handle_cgi_request(int sockfd, const std::string& cgi_path, char **_we
             printf("CGI execution time exceeded the limit. Terminating process.\n");
             kill(pid, SIGKILL);
 			c_error->send_error(508);
-            break;
+            close(pipefd[0]);
+            return;
         }
 
         wpid = waitpid(pid, &Stat, WNOHANG);

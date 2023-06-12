@@ -64,6 +64,7 @@ int main(int ac, char **av, char **envp)
                 std::string request = ws.receive(i, sockfd);
                 Request rt(sockfd, envp, ws.w_config[i]);
                 // handle the request
+                //std::cout << "MAX MAIN : " << ws.w_config[i].max_client_body_size << std::endl;
                 rt.handleRequest(request, i);
 
                 // close the connection

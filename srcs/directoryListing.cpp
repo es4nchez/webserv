@@ -21,6 +21,7 @@ std::string Request::listFilesInDirectory(const std::string &directoryPath)
         if (entryName != "." && entryName != "..")
         {
             // Check if the entry is a directory.
+            std::string tmp_location = unset_last_slash(r_route.location);
             std::string fullPath = directoryPath + "/" + entryName;
             DIR *entryDir = opendir(fullPath.c_str());
             if (entryDir != NULL)
@@ -28,7 +29,6 @@ std::string Request::listFilesInDirectory(const std::string &directoryPath)
                 entryName += "/";
                 closedir(entryDir);
             }
-            std::string tmp_location = unset_last_slash(r_route.location);
             html += "<li><a href=\"" + tmp_location + "/" + entryName + "\">" + entryName + "</a></li>\n";
         }
     }

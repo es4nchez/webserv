@@ -1,14 +1,19 @@
 #include "request.hpp"
 
-unsigned long Request::nbCommonLetters(std::string requestLocation, std::string routeLocation)
+unsigned int count_different_char(std::string const &a, std::string const &b)
 {
-    unsigned long i = 0;
-    std::cout << "requestLocation : " << requestLocation << "\n"
-              << "routeLocation : " << routeLocation << std::endl;
-    while (requestLocation[i] == routeLocation[i] && i < requestLocation.size())
-        i++;
-    std::cout << "nb fois : " << i << std::endl;
-    return (i);
+    unsigned int i = 0;
+    unsigned int diff_char = 0;
+
+     for (; a[i] && b[i] && a[i] == b[i]; ++i) {}
+
+    for (; a[i] && b[i] && a[i] != b[i] && i < a.size(); ++i)
+    {
+        diff_char++;
+    }
+    if (a.size() > b.size())
+        diff_char += (a.size() - b.size());
+    return (diff_char);
 }
 
 unsigned int count_same_char(std::string const &a, std::string const &b)
@@ -26,6 +31,7 @@ void Request::handleRequest(std::string buffer, int fd)
 {
     s_request requestData;
     std::string::size_type maxCommonLetters = 0;
+    std::string::size_type maxDifferentLetters = 0;
     // std::string::size_type n;
 
     getAddrMethodData(buffer, &requestData);
@@ -37,6 +43,16 @@ void Request::handleRequest(std::string buffer, int fd)
         if (tmp_n != 0 && tmp_n > maxCommonLetters)
         {
             maxCommonLetters = tmp_n;
+            r_route = r_config.routes[i];
+        }
+    }
+    for (unsigned long i = 0; i < r_config.routes.size(); i++)
+    {
+        unsigned int tmp_n = count_same_char(r_config.routes[i].location, requestData.addr);
+        unsigned int tmp_d = count_different_char(r_config.routes[i].location, requestData.addr);
+        if (tmp_d <= maxDifferentLetters && tmp_n == maxCommonLetters )
+        {
+            maxDifferentLetters = tmp_d;
             r_route = r_config.routes[i];
         }
     }

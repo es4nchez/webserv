@@ -60,7 +60,7 @@ void Request::handleDELETE(s_request *requestData, int fd)
 bool Request::checkMethod(std::string methd)
 {
 	for (std::vector<e_http_method>::const_iterator it = r_route.methods.begin();
-			 it != r_route.methods.end(); ++it)
+			 it != r_route.methods.end(); it++)
 	{
 		if (methodToString(*it) == methd)
 			return true;
@@ -76,11 +76,6 @@ void Request::mainParsing(std::string request, s_request *requestData, int fd)
 	if (requestData->addr == "/exit")
 		exit(1);
 
-	// Print the Data map
-	// for (std::map<std::string, std::string>::iterator it = requestData->data.begin(); it != requestData->data.end(); ++it)
-	//     std::cout << it->first << " = " << it->second << std::endl;
-
-	// Handle different request types
 	if (!checkMethod(requestData->methd))
 		r_error->send_error(405);
 	else if (!requestData->methd.compare("GET"))
