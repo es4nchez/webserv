@@ -63,7 +63,6 @@ bool parse_default_error_pages(ParserJSON const &json,
 
 //parser_conf/checkServerConf.cpp
 bool checkServerConf(t_server const &server);
-bool checkHost(std::string const &str);
 bool checkPort(unsigned int const &port);
 
 
