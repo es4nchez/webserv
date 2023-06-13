@@ -4,12 +4,6 @@
 
 #include "server_conf.hpp"
 
-bool checkHost(std::string const &str)
-{
-	(void) str;
-	return (false);
-}
-
 bool checkPort(unsigned int const &port)
 {
 	if (1 <= port && port <= 65535)
