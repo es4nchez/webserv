@@ -10,6 +10,7 @@ bouh_txt = "/Users/esanchez/Projects/webserv/www/upload/bouh.txt"
 
 class TestWebserver(unittest.TestCase):
     BASE_URL = 'http://localhost:8080'
+    BASE_URL1 = 'http://localhost:8181'
 
     def test_get(self):
         response = requests.get(f'{self.BASE_URL}')
@@ -31,9 +32,14 @@ class TestWebserver(unittest.TestCase):
         response = requests.get(f'{self.BASE_URL}{sleep_cgi}')
         self.assertEqual(response.status_code, 508)
 
-    def test_post(self):
+    def test_post_too_big(self):
         data = {"name": "eduardo"}
         response = requests.post(f'{self.BASE_URL}{post_endpoint}', json=data)
+        self.assertEqual(response.status_code, 413)
+
+    def test_post(self):
+        data = {"name": "eduardo"}
+        response = requests.post(f'{self.BASE_URL1}{post_endpoint}', json=data)
         self.assertEqual(response.status_code, 200)
 
     def test_delete(self):

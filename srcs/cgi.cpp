@@ -1,5 +1,6 @@
 #include "cgi.hpp"
 #include <sys/wait.h>
+#include <ctime>
 
 CGI::CGI(int fd, s_server r_config, std::string r_query_string)
 {
@@ -56,15 +57,15 @@ void CGI::handle_cgi_request(int sockfd, const std::string& cgi_path)
     fcntl(pipefd[0], F_SETFL, O_NONBLOCK);
 
     int wpid, Stat;
-    time_t start_time = time(NULL);
+    std::time_t start_time = std::time(NULL);
     const int timeout = 5;
 	int bytes_read = 1;
     std::string tmp;
 
     wpid = waitpid(pid, &Stat, WNOHANG);
-    while (wpid == 0 && (time(NULL) - start_time) <= timeout && bytes_read) 
+    while (wpid == 0 && (std::time(NULL) - start_time) <= timeout && bytes_read) 
 	{
-        time_t current_time = time(NULL);
+        std::time_t current_time = std::time(NULL);
         if (current_time - start_time < timeout) 
 		{
             char buffer[1024];
@@ -76,7 +77,7 @@ void CGI::handle_cgi_request(int sockfd, const std::string& cgi_path)
         }
         else 
 		{
-            printf("CGI execution time exceeded the limit. Terminating process.\n");
+            std::cout << "CGI execution time exceeded the limit. Terminating process." << std::endl;
             kill(pid, SIGKILL);
 			c_error->send_error(508);
             close(pipefd[0]);
