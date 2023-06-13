@@ -29,7 +29,7 @@ int Webserv::socketBinding(void)
         if (setsockopt(w_sockfd[i], SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int)) < 0)
         {
             perror("setsockopt(SO_REUSEADDR) failed");
-						//return 1 ?
+            return 1;
         }
         
         // This sets up the server address structure, server_addr, which will be used to bind the socket to a specific port. 
@@ -60,7 +60,7 @@ int Webserv::socketBinding(void)
         if (bind(w_sockfd[i], (sockaddr*) &server_addr, sizeof(server_addr)) < 0)
         {
             std::cerr << "Error binding socket : " << w_sockfd[i] << std::endl;
-            return (1);
+            return 1;
         }
         // std::cout << "Socket '" << w_sockfd[i] << "' binded" << " to port " << w_ports[i] << std::endl;
 
