@@ -57,7 +57,7 @@ int main(int ac, char **av, char **envp)
                     std::cerr << "\033[1;31mError accepting connection\033[0m" << std::endl;
                     continue;
                 }
-                std::string request = ws.receive(i);
+                std::string request = ws.receive(sockfd);
                 Request rt(sockfd, envp, ws.w_config[i]);
                 // handle the request
                 rt.handleRequest(request);
