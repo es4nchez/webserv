@@ -6,10 +6,6 @@
 			"server_names": [],
 			"max_client_body_size": 0,
 			"default_error_pages": [
-				[
-					404,
-					"www/error.html"
-				]
 			],
 			"routes": [
 				{
@@ -22,19 +18,7 @@
 					"http_redir": "",
 					"root": "www/",
 					"dir_listing": true,
-					"index": ""
-				},
-				{
-					"location": "/success",
-					"methods": [
-						"GET",
-						"POST",
-						"DELETE"
-					],
-					"http_redir": "",
-					"root": "www/",
-					"dir_listing": true,
-					"index": ""
+					"index": "42lwatch.html"
 				}
 			]
 		},
@@ -61,18 +45,6 @@
 					"root": "www/",
 					"dir_listing": true,
 					"index": ""
-				},
-				{
-					"location": "/calc.html",
-					"methods": [
-						"GET",
-						"POST",
-						"DELETE"
-					],
-					"http_redir": "",
-					"root": "www/",
-					"dir_listing": true,
-					"index": "error.html"
 				},
 				{
 					"location": "/",

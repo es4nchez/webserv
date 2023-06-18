@@ -35,12 +35,12 @@ class TestWebserver(unittest.TestCase):
     def test_post_too_big(self):
         data = {"name": "eduardo"}
         response = requests.post(f'{self.BASE_URL}{post_endpoint}', json=data)
-        self.assertEqual(response.status_code, 413)
+        self.assertEqual(response.status_code, 200)
 
     def test_post(self):
-        data = {"name": "eduardo"}
-        response = requests.post(f'{self.BASE_URL1}{post_endpoint}', json=data)
-        self.assertEqual(response.status_code, 200)
+        data = {"name": "aaaaaaaaaaaaaaaaaaaaaaaaaaa"}
+        response = requests.post(f'{self.BASE_URL}{post_endpoint}', json=data)
+        self.assertEqual(response.status_code, 413)
 
     def test_delete(self):
         response = requests.delete(f'{self.BASE_URL}/upload/bouh.txt')

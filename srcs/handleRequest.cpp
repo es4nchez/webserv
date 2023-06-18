@@ -38,8 +38,19 @@ void Request::handleRequest(std::string buffer)
         return;
     for (unsigned long i = 0; i < r_config.routes.size(); i++)
     {
+        /*
+            /success
+        
+            /succ
+            /
+            /successa
+            
+            /success/
+            /success
+            /success/dsadsa
+        */
         unsigned int tmp_n = count_same_char(r_config.routes[i].location, requestData.addr);
-        if (tmp_n != 0 && tmp_n > maxCommonLetters)
+        if (tmp_n != 0 && tmp_n == r_config.routes[i].location.size())
         {
             maxCommonLetters = tmp_n;
             r_route = r_config.routes[i];
@@ -54,6 +65,11 @@ void Request::handleRequest(std::string buffer)
             maxDifferentLetters = tmp_d;
             r_route = r_config.routes[i];
         }
+    }
+    if (r_route.location.empty())
+    {
+        r_error->send_error(403);
+        return;
     }
     mainParsing(buffer, &requestData);
 }

@@ -6,6 +6,7 @@ error::error(int fd, std::map<int, std::string> error_code)
   e_fd = fd;
 
 	e_errorCodes.insert(fill_map(400, "400 Bad Request", "www/errors/400.html"));
+	e_errorCodes.insert(fill_map(403, "403 Forbidden", "www/errors/403.html"));
 	e_errorCodes.insert(fill_map(404, "404 Not Found", "www/errors/404.html"));
 	e_errorCodes.insert(fill_map(405, "405 Method Not Allowed", "www/errors/405.html"));
 	e_errorCodes.insert(fill_map(413, "413 Content Too Large", "www/errors/413.html"));
